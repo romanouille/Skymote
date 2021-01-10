@@ -6,10 +6,9 @@ import time
 import math
 
 class Checker(threading.Thread):
-	def __init__(self, list:list, type:int):
+	def __init__(self, list:list):
 		threading.Thread.__init__(self)
 		self.list = list
-		self.type = type
 	
 	def run(self):
 		for proxy in self.list:
@@ -26,64 +25,37 @@ class Checker(threading.Thread):
 				proxyData[0] = proxy
 				proxyData[1] = 3128
 			
-			for i in range(0, 2):
-				client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-				client.settimeout(5)
-				try:
-					client.connect((str(proxyData[0]), int(proxyData[1])))
-				except:
-					break
+			client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+			client.settimeout(5)
+			try:
+				client.connect((str(proxyData[0]), int(proxyData[1])))
+			except:
+				continue
+			
+			uri = "HEAD /?a={a}&b={b}&c={c} HTTP/1.0\r\nHost: 193.251.51.117\r\nCookie: tk=2afa6130500e10ce3b9ce7eeed4794083ae5d4ac\r\n\r\n".format(a=proxyData[0], b=int(proxyData[1])*1337, c=time.time())
+			client.send(b"\x05\x01\x00")
+			try:
+				rep = client.recv(32)
+			except:
+				continue
+			
+			if b"\x05\00" not in rep:
+				continue
+			
+			client.send(b"\x05\x01\x00\x03\x0e193.251.51.117\x00\x50")
+			try:
+				rep = client.recv(32)
+			except:
+				continue
+			
+			client.send(bytes(uri, "utf-8"))
+			try:
+				rep = client.recv(1024)
 				
-				uri = "HEAD /?a={a}&b={b}&c={c}&d={d}&e={e} HTTP/1.0\r\nHost: 193.251.51.117\r\nCookie: tk=2afa6130500e10ce3b9ce7eeed4794083ae5d4ac\r\n\r\n".format(a=proxyData[0], b=int(proxyData[1])*1337, c=self.type, d=i, e=time.time())
-				
-				if self.type == 0:
-					if i == 0:
-						client.send(bytes(uri, "utf-8"))
-						try:
-							rep = client.recv(1024)
-							
-						except:
-							break
-					elif i == 1:
-						client.send(b"CONNECT 193.251.51.117 HTTP/1.0\r\n\r\n")
-						try:
-							rep = client.recv(1024)
-						except:
-							break
-						
-						if "200 OK" in str(rep):
-							client.send(bytes(uri, "utf-8"))
-							try:
-								rep = client.recv(1024)
-								
-							except:
-								break
-				elif self.type == 1:
-					client.send(b"\x05\x01\x00")
-					try:
-						rep = client.recv(32)
-					except:
-						break
-					
-					if b"\x05\00" not in rep:
-						break
-					
-					client.send(b"\x05\x01\x00\x03\x0e193.251.51.117\x00\x50")
-					try:
-						rep = client.recv(32)
-					except:
-						break
-					
-					client.send(bytes(uri, "utf-8"))
-					try:
-						rep = client.recv(1024)
-						
-					except:
-						break
-				
-				if self.type == 1:
-					client.close()
-					break
+			except:
+				continue
+			
+			client.close()
 
 def partition(list:list, parts:int) -> list:
 	length = len(list)
@@ -102,7 +74,7 @@ def partition(list:list, parts:int) -> list:
 		result[i] = [None] * size
 		for j in range(0, size):
 			if nb >= finalLength:
-				break
+				continue
 			
 			result[i][j] = finalList[nb]
 			nb += 1
@@ -118,7 +90,7 @@ def partition(list:list, parts:int) -> list:
 
 threads = []
 nb = 0;
-files = ["http.txt", "socks5.txt"]
+files = ["socks5.txt"]
 
 for id, file in enumerate(files):
 	print("Appel calcul fichier ID {}".format(id))
@@ -131,7 +103,7 @@ for id, file in enumerate(files):
 		if list == None:
 			continue
 		
-		thread = Checker(list, id)
+		thread = Checker(list)
 		threads.append(thread)
 		nb += 1
 		print("Thread {}".format(nb))

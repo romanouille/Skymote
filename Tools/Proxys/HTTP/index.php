@@ -1,6 +1,9 @@
 <?php
 header("Content-Type: text/plain;chaset=utf-8");
-chdir("../");
+chdir("../../../");
+$devMode = false;
+
+require "Core/Init.php";
 
 $serverIp = "193.251.51.117";
 $token = "2afa6130500e10ce3b9ce7eeed4794083ae5d4ac";
@@ -57,69 +60,40 @@ if (!isset($_GET["c"]) || !is_string($_GET["c"])) {
 	stop("n 3");
 }
 
-if (!isset($_GET["d"]) || !is_string($_GET["d"])) {
-	stop("n 4");
-}
-
-if (!isset($_GET["e"]) || !is_string($_GET["e"])) {
-	stop("n 5");
-}
-
 foreach ($_SERVER as $key=>$value) {
 	if (strstr($key, $serverIp) || strstr($value, $serverIp)) {
-		stop("n 6");
+		stop("n 4");
 	}
 }
 
 $ip = $_GET["a"];
 $port = $_GET["b"]/1337;
-$type = $_GET["c"];
-$mode = $_GET["d"];
 $filename = "$ip-$port";
 
 if ($ip != $_SERVER["REMOTE_ADDR"]) {
-	stop("n 7");
+	stop("n 5");
 }
 
 
 http_response_code(200);
 
 
+$query = $db->prepare("SELECT COUNT(*) AS nb FROM proxys WHERE ip = :ip AND port = :port");
+$query->bindValue(":ip", $ip, PDO::PARAM_STR);
+$query->bindValue(":port", $port, PDO::PARAM_INT);
+$query->execute();
+$data = $query->fetch();
 
-if (!file_exists("db/")) {
-	mkdir("db");
-}
-
-if (!file_exists("db/$type/")) {
-	mkdir("db/$type");
-}
-
-if (file_exists("db/$type/$filename")) {
-	$data = file_get_contents("db/$type/$filename");
-	
-	if ($data == 0) {
-		file_put_contents("db/$type/$filename", $type == 0 ? 1 : 2);
-		exit("Success 1");
-	} elseif ($data == 1) {
-		file_put_contents("db/$type/$filename", 2);
-		exit("Success 2");
-	} elseif ($data == 2) {
-		unlink("db/$type/$filename");
-		exit("Success 3");
-	}
+if ($data["nb"] == 0) {
+	$query = $db->prepare("INSERT INTO proxys(ip, port, timestamp) VALUES(:ip, :port, ".time().")");
+	$query->bindValue(":ip", $ip, PDO::PARAM_STR);
+	$query->bindValue(":port", $port, PDO::PARAM_INT);
+	$query->execute();
 } else {
-	if ($type == 0) {
-		if ($mode == 1) {
-			$result = 3;
-		} else {
-			$result = 1;
-		}
-	} else {
-		$result = 2;
-	}
-	
-	file_put_contents("db/$type/$filename", $result);
-	exit("Success 4");
+	$query = $db->prepare("UPDATE proxys SET timestamp = ".time()." WHERE ip = :ip AND port = :port");
+	$query->bindValue(":ip", $ip, PDO::PARAM_STR);
+	$query->bindValue(":port", $port, PDO::PARAM_INT);
+	$query->execute();
 }
 
 exit("End");
