@@ -6,3 +6,11 @@ $db = new PDO("pgsql:dbname={$config["db"]["db_name"]};host={$config["db"]["db_s
 if ($devMode) {
     $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 }
+
+$rirList = [
+	"AFRINIC",
+	"APNIC",
+	"ARIN",
+	"LACNIC",
+	"RIPENCC"
+];

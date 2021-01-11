@@ -7,6 +7,7 @@
 		<link rel="stylesheet" href="https://cdn.metroui.org.ua/v4/css/metro-all.min.css">
 		<link rel="preconnect" href="https://fonts.gstatic.com">
 		<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400&display=swap" rel="stylesheet">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css" integrity="sha512-Cv93isQdFwaKBV+Z4X8kaVBYWHST58Xb/jVOcV9aRsGSArZsgAnFIhMpDoMDcFNoUtday1hdjn0nGp3+KZyyFw==" crossorigin="anonymous">
 		<style>
 * {
 	font-family:"Open Sans", sans-serif
@@ -50,7 +51,7 @@ header #right {
 	margin-bottom:50px
 }
 
-.home .grid {
+.home .buttons {
 	margin-top:100px
 }
 
@@ -94,6 +95,8 @@ header #right {
 	margin-top:20px
 }
 		</style>
+		
+		<script src="https://www.google.com/recaptcha/api.js" async defer></script>
 	</head>
 	
 	<body>
@@ -115,9 +118,9 @@ header #right {
 			<div class="app-bar-wrapper">
 				<div class="container pos-relative app-bar" data-role="appbar" data-expand-point="sm">
 					<ul class="app-bar-menu">
+						<li><a href="#" title="GeoIP">GeoIP</a>
 						<li><a href="#" title="Hébergement web">Hébergement web</a>
-						<li><a href="#" title="Hébergement web">Hébergement web</a>
-						<li><a href="#" title="Hébergement web">Hébergement web</a>
+						<li><a href="#" title="VPS">VPS</a>
 					</ul>
 				</div>
 			</div>
