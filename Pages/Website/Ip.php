@@ -17,7 +17,7 @@ require "Pages/Website/Layout/Start.php";
 			
 			<tr>
 				<td>Pays
-				<td><?=Locale::getDisplayRegion("-{$data["lir"]["country"]}")?> <span class="flag-icon flag-icon-<?=$data["lir"]["country"]?>"></span>
+				<td><?=Locale::getDisplayRegion("-{$data["lir"]["country"]}", "fr")?> <span class="flag-icon flag-icon-<?=$data["lir"]["country"]?>"></span>
 			
 			<tr>
 				<td>Version
@@ -29,11 +29,11 @@ require "Pages/Website/Layout/Start.php";
 			
 			<tr>
 				<td>Pays du bloc
-				<td><?=Locale::getDisplayRegion("-{$data["block"]["country"]}")?> <span class="flag-icon flag-icon-<?=$data["block"]["country"]?>"></span>
+				<td><?=Locale::getDisplayRegion("-{$data["block"]["country"]}", "fr")?> <span class="flag-icon flag-icon-<?=$data["block"]["country"]?>"></span>
 			
 			<tr>
 				<td>Registre Internet local
-				<td>AS<?=$data["block"]["lir"]?>
+				<td><?=$data["block"]["lir"] > 0 ? "AS{$data["block"]["lir"]}" : "*"?>
 			
 			<tr>
 				<td>Création du bloc
@@ -70,10 +70,10 @@ if ($data["block"]["rir"] == 4 && !empty($data["allocations"])) {
 			<tr>
 				<td>IPv<?=$value["version"]?>
 				<td><?=$value["block"]?> (<a href="/ip/<?=$value["block_start"]?>" title="<?=$value["block_start"]?>"><?=$value["block_start"]?></a> - <a href="/ip/<?=$value["block_end"]?>" title="<?=$value["block_end"]?>"><?=$value["block_end"]?></a>)
-				<td><?=$value["org"]?>
+				<td><a href="/org/<?=$value["org"]?>" title="<?=$value["org"]?>"><?=$value["org"]?></a>
 				<td><?=htmlspecialchars($value["netname"])?>
-				<td><?=htmlspecialchars($value["description"])?>
-				<td><?=htmlspecialchars($value["remarks"])?>
+				<td><pre><?=htmlspecialchars($value["description"])?></pre>
+				<td><pre><?=htmlspecialchars($value["remarks"])?></pre>
 				<td><?=$value["status"]?>
 				<td><?=date("d/m/Y H:i:s", $value["created"])?>
 				<td><?=date("d/m/Y H:i:s", $value["modified"])?>

@@ -27,7 +27,7 @@ if (!empty($data["as"])) {
 ?>
 			<tr>
 				<td><?=htmlspecialchars($value["name"])?>
-				<td><?=Locale::getDisplayRegion("-{$value["country"]}")?>
+				<td><?=Locale::getDisplayRegion("-{$value["country"]}")?> <span class="flag-icon flag-icon-<?=$value["country"]?>"></span>
 <?php
 	}
 ?>
@@ -72,7 +72,7 @@ if (!empty($data["allocations"])) {
 				<td><?=$value["version"]?>
 				<td><?=$value["block"]?> (<a href="/ip/<?=$value["block_start"]?>" title="<?=$value["block_start"]?>"><?=$value["block_start"]?></a> - <a href="/ip/<?=$value["block_end"]?>" title="<?=$value["block_end"]?>"><?=$value["block_end"]?></a>
 				<td><a href="/org/<?=$value["org"]?>" title="<?=$value["org"]?>"><?=$value["org"]?></a>
-				<td><?=Locale::getDisplayRegion("-{$value["country"]}")?>
+				<td><?=Locale::getDisplayRegion("-{$value["country"]}")?> <span class="flag-icon flag-icon-<?=$value["country"]?>"></span>
 				<td><?=htmlspecialchars($value["netname"])?>
 				<td><pre><?=htmlspecialchars($value["description"])?></pre>
 				<td><pre><?=htmlspecialchars($value["remarks"])?></pre>

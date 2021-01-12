@@ -1,7 +1,7 @@
 <?php
 ini_set("memory_limit", -1);
 
-$devMode = !isset($_SERVER["REMOTE_ADDR"]) || in_array($_SERVER["REMOTE_ADDR"], ["127.0.0.1"]);
+$devMode = !isset($_SERVER["REMOTE_ADDR"]) || in_array($_SERVER["REMOTE_ADDR"], ["127.0.0.1", "192.168.2.25"]);
 
 if ($devMode) {
 	error_reporting(-1);
@@ -17,6 +17,7 @@ ignore_user_abort(true);
 set_include_path("../");
 chdir("../");
 
+require "Core/Cache.class.php";
 require "Core/Functions.php";
 require "Core/Routes.php";
 

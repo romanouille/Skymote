@@ -11,7 +11,7 @@ require "Pages/Website/Layout/Start.php";
 	
 	<div class="grid">
 		<div class="row">
-			<div class="cell-3">
+			<div class="cell-lg-3 cell-12">
 				<form method="get">
 					<input type="text" name="ip" value="<?=$ip?>" placeholder="Adresse IP" data-role="input"><br>
 					<input type="text" name="port" value="<?=$port?>" placeholder="Port" data-role="input"><br>
@@ -46,7 +46,7 @@ foreach ($data as $value) {
 				<td><?=$value["pong"]?>ms
 				<td><a href="/ip/<?=$value["sourceIp"]?>" title="<?=$value["sourceIp"]?>"><?=$value["sourceIp"]?></a>
 				<td><?=$value["ptr"]?>
-				<td><?=$value["countryCode"] != "*" ? Locale::getDisplayRegion("-{$value["countryCode"]}") : "*"?> <span class="flag-icon flag-icon-<?=$value["countryCode"]?>"></span>
+				<td><?=$value["countryCode"] != "*" ? Locale::getDisplayRegion("-{$value["countryCode"]}", "fr") : "*"?> <span class="flag-icon flag-icon-<?=$value["countryCode"]?>"></span>
 				<td><?=htmlspecialchars($value["isp"])?>
 <?php
 }

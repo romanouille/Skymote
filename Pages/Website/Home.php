@@ -3,12 +3,12 @@ require "Pages/Website/Layout/Start.php";
 ?>
 <div class="home">
 	<h1>Skymote</h1>
-	<h2>Texte</h2>
+	<h2>Accédez aux informations sur une IP</h2>
 	
 	<form method="get" action="/search">
 		<div class="grid">
 			<div class="row">
-				<div class="cell-2 offset-5">
+				<div class="cell-lg-2 cell-12 offset-5">
 					<input type="text" name="text" data-role="input" placeholder="IPv4/v6, FAI, ...">
 				</div>
 			</div>
@@ -16,7 +16,7 @@ require "Pages/Website/Layout/Start.php";
 		<input class="button success" type="submit" value="Rechercher">
 	</form>
 	
-	<div class="grid flex-align-center buttons">
+	<!--<div class="grid flex-align-center buttons">
 		<div class="row">
 			<div class="cell-lg-4 cell-12">
 				<div class="tile-large bg-red" data-role="tile" data-role-tile="true">
@@ -39,7 +39,7 @@ require "Pages/Website/Layout/Start.php";
 				</div>
 			</div>
 		</div>
-	</div>
+	</div>-->
 </div>
 <?php
 require "Pages/Website/Layout/End.php";

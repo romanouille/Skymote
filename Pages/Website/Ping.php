@@ -10,7 +10,7 @@ require "Pages/Website/Layout/Start.php";
 	<h1>Ping <b><?=strtoupper($protocol)?> <?=$ip?><?=$protocol != "icmp" ? " :$port" : ""?></b></h1>
 	<div class="grid">
 		<div class="row">
-			<div class="cell-3">
+			<div class="cell-lg-3 cell-12">
 				<form method="get">
 					<input type="text" name="ip" value="<?=$ip?>" placeholder="Adresse IP" data-role="input"><br>
 					<input type="text" name="port" value="<?=$port?>" placeholder="Port" data-role="input"><br>

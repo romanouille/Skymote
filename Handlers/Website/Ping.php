@@ -22,11 +22,26 @@ if ($ip != $match[0]) {
 }
 
 if ($protocol == "tcp") {
-	$data = GeoIP::tcpPing($ip, $port);
+	if (Cache::exists("ping-tcp-$ip-$port")) {
+		$data = json_decode(Cache::read("ping-tcp-$ip-$port"), true);
+	} else {
+		$data = GeoIP::tcpPing($ip, $port);
+		Cache::write("ping-tcp-$ip-$port", json_encode($data));
+	}
 } elseif ($protocol == "udp") {
-	$data = GeoIP::udpPing($ip, $port);
+	if (Cache::exists("ping-udp-$ip-$port")) {
+		$data = json_decode(Cache::read("ping-udp-$ip-$port"), true);
+	} else {
+		$data = GeoIP::udpPing($ip, $port);
+		Cache::write("ping-udp-$ip-$port", json_encode($data));
+	}
 } elseif ($protocol == "icmp") {
-	$data = GeoIP::icmpPing($ip);
+	if (Cache::exists("ping-icmp-$ip-$port")) {
+		$data = json_decode(Cache::read("ping-icmp-$ip-$port"), true);
+	} else {
+		$data = GeoIP::icmpPing($ip);
+		Cache::write("ping-icmp-$ip-$port", json_encode($data));
+	}
 }
 
 require "Pages/Website/Ping.php";

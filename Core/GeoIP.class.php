@@ -651,13 +651,204 @@ class GeoIP {
 		$query->bindValue(":org", $org, PDO::PARAM_STR);
 		$query->execute();
 		$data = $query->fetch();
+		if (empty($data)) {
+			return [];
+		}
 		
 		$result = [
 			"name" => (string)trim($data["name"]),
 			"is_lir" => (bool)$data["is_lir"],
 			"created" => (int)$data["created"],
-			"modified" => (int)$data["modified"]
+			"modified" => (int)$data["modified"],
+			"allocations" => []
 		];
+		
+		
+		$query = $db->prepare("SELECT version, block, block_start, block_end, country, netname, description, remarks, status, created, modified FROM dump_ripe_allocations_$table WHERE org = :org ORDER BY modified DESC LIMIT 100");
+		$query->bindValue(":org", $org, PDO::PARAM_STR);
+		$query->execute();
+		$data = $query->fetchAll();
+		
+		foreach ($data as $value) {
+			$result["allocations"][] = [
+				"version" => (int)$value["version"],
+				"block" => (string)trim($value["block"]),
+				"block_start" => (string)trim($value["block_start"]),
+				"block_end" => (string)trim($value["block_end"]),
+				"country" => (string)trim($value["country"]),
+				"netname" => (string)trim($value["netname"]),
+				"description" => (string)trim($value["description"]),
+				"remarks" => (string)trim($value["remarks"]),
+				"status" => (string)trim($value["status"]),
+				"created" => (int)$value["created"],
+				"modified" => (int)$value["modified"]
+			];
+		}
+		
+		return $result;
+	}
+	
+	public static function getRecentsAllocations() : array {
+		global $db;
+		
+		$result = [
+			"allocations" => [],
+			"blocks" => [],
+			"as" => [],
+			"ripeAs" => [],
+			"organisations" => [],
+			"routes" => []
+		];
+		
+		$table = self::getTable();
+		$query = $db->prepare("SELECT version, block, block_start, block_end, org, country, netname, description, remarks, status, created, modified FROM dump_ripe_allocations_$table ORDER BY created DESC LIMIT 100");
+		$query->execute();
+		$data = $query->fetchAll();
+		
+		foreach ($data as $value) {
+			$result["allocations"][] = [
+				"version" => (int)$value["version"],
+				"block" => (string)trim($value["block"]),
+				"block_start" => (string)trim($value["block_start"]),
+				"block_end" => (string)trim($value["block_end"]),
+				"org" => (string)trim($value["org"]),
+				"country" => (string)trim($value["country"]),
+				"netname" => (string)trim($value["netname"]),
+				"description" => (string)trim($value["description"]),
+				"remarks" => (string)trim($value["remarks"]),
+				"status" => (string)trim($value["status"]),
+				"created" => (int)$value["created"],
+				"modified" => (int)$value["modified"]
+			];
+		}
+		
+		
+		$query = $db->prepare("SELECT version, block, block_start, block_end, country, lir, created, rir FROM dump_blocks_$table ORDER BY created DESC, id DESC LIMIT 100");
+		$query->execute();
+		$data = $query->fetchAll();
+		
+		foreach ($data as $value) {
+			$result["blocks"][] = [
+				"version" => (int)$value["version"],
+				"block" => (string)trim($value["block"]),
+				"block_start" => (string)trim($value["block_start"]),
+				"block_end" => (string)trim($value["block_end"]),
+				"country" => (string)trim($value["country"]),
+				"lir" => (int)$value["lir"],
+				"created" => (int)$value["created"],
+				"rir" => (int)$value["rir"]
+			];
+		}
+		
+		
+		$query = $db->prepare("SELECT id, rir, created FROM dump_lir_$table ORDER BY created DESC, id DESC LIMIT 100");
+		$query->execute();
+		$data = $query->fetchAll();
+		
+		foreach ($data as $value) {
+			$result["as"][] = [
+				"id" => (int)$value["id"],
+				"rir" => (int)$value["rir"],
+				"created" => (int)$value["created"]
+			];
+		}
+		
+		
+		$query = $db->prepare("SELECT id, org, sponsoring_org, description, remarks, created, modified FROM dump_ripe_as_$table ORDER BY created DESC, id DESC LIMIT 100");
+		$query->execute();
+		$data = $query->fetchAll();
+		
+		foreach ($data as $value) {
+			$result["ripeAs"][] = [
+				"id" => (int)$value["id"],
+				"org" => (string)trim($value["org"]),
+				"sponsoring_org" => (string)trim($value["sponsoring_org"]),
+				"description" => (string)trim($value["description"]),
+				"remarks" => (string)trim($value["remarks"]),
+				"created" => (int)$value["created"],
+				"modified" => (int)$value["modified"]
+			];
+		}
+		
+		
+		$query = $db->prepare("SELECT org, name, is_lir, created, modified FROM dump_ripe_organisations_$table ORDER BY created DESC, id DESC LIMIT 100");
+		$query->execute();
+		$data = $query->fetchAll();
+		
+		foreach ($data as $value) {
+			$result["organisations"][] = [
+				"org" => (string)trim($value["org"]),
+				"name" => (string)trim($value["name"]),
+				"is_lir" => (bool)$value["is_lir"],
+				"created" => (int)$value["created"],
+				"modified" => (int)$value["modified"]
+			];
+		}
+		
+		
+		$query = $db->prepare("SELECT version, block, block_start, block_end, description, origin, created, modified FROM dump_ripe_routes_$table ORDER BY created DESC, id DESC LIMIT 100");
+		$query->execute();
+		$data = $query->fetchAll();
+		
+		foreach ($data as $value) {
+			$result["routes"][] = [
+				"version" => (int)$value["version"],
+				"block" => (string)trim($value["block"]),
+				"block_start" => (string)trim($value["block_start"]),
+				"block_end" => (string)trim($value["block_end"]),
+				"description" => (string)trim($value["description"]),
+				"origin" => (int)$value["origin"],
+				"created" => (int)$value["created"],
+				"modified" => (int)$value["modified"]
+			];
+		}
+		
+		return $result;
+	}
+	
+	public static function getIspList(string $countryCode) : array {
+		global $db;
+		
+		$result = [];
+		$table = self::getTable();
+		$query = $db->prepare("SELECT id, name FROM dump_as_$table WHERE country = :country ORDER BY name ASC");
+		$query->bindValue(":country", $countryCode, PDO::PARAM_STR);
+		$query->execute();
+		$data = $query->fetchAll();
+		
+		foreach ($data as $value) {
+			$result[] = [
+				"id" => (int)$value["id"],
+				"name" => trim($value["name"])
+			];
+		}
+		
+		return $result;
+	}
+	
+	public static function getProxysList() : array {
+		global $db;
+		
+		$result = [];
+		$query = $db->prepare("SELECT ip, port, timestamp FROM proxys ORDER BY timestamp DESC");
+		$query->execute();
+		$data = $query->fetchAll();
+		
+		foreach ($data as $value) {
+			$ipData = self::getIpData($value["ip"]);
+			
+			if ($ipData["lir"]["country"] == "ZZ" && isset($ipData["block"]["country"])) {
+				$ipData["lir"]["country"] = $ipData["block"]["country"];
+			}
+			
+			$result[] = [
+				"ip" => (string)trim($value["ip"]),
+				"port" => (int)$value["port"],
+				"timestamp" => (int)$value["timestamp"],
+				"country" => isset($ipData["lir"]["country"]) ? trim($ipData["lir"]["country"]) : "zz",
+				"isp" => isset($ipData["lir"]["name"]) ? trim($ipData["lir"]["name"]) : ""
+			];
+		}
 		
 		return $result;
 	}

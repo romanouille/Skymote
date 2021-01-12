@@ -21,6 +21,11 @@ if ($ip != $match[0]) {
 	exit;
 }
 
-$data = GeoIP::traceroute($ip, $port, $protocol);
+if (Cache::exists("traceroute-$ip-$port-$protocol")) {
+	$data = json_decode(Cache::read("traceroute-$ip-$port-$protocol"), true);
+} else {
+	$data = GeoIP::traceroute($ip, $port, $protocol);
+	Cache::write("traceroute-$ip-$port-$protocol", json_encode($data));
+}
 
 require "Pages/Website/Traceroute.php";
