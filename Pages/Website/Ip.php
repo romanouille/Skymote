@@ -4,7 +4,7 @@ require "Pages/Website/Layout/Start.php";
 <div class="container page">
 	<ul class="breadcrumbs">
 		<li class="page-item"><a href="#" class="page-link">Skymote</a>
-		<li class="page-item"><a href="#" class="page-link">Adresse IP <?=$ip?></a>
+		<li class="page-item"><a href="#" class="page-link"><?=$pageTitle?></a>
 	</ul>
 	
 	<h1>Adresse IP <b><?=$ip?></b></h1>
@@ -13,7 +13,7 @@ require "Pages/Website/Layout/Start.php";
 		<tbody>
 			<tr>
 				<td>Fournisseur d'accès Internet
-				<td><?=htmlspecialchars($data["lir"]["name"])?>
+				<td><?=$data["block"]["lir"] > 0 ? "<a href=\"/isp/{$data["block"]["lir"]}-".slug($data["lir"]["name"])."\" title=\"".htmlspecialchars($data["lir"]["name"])."\">".htmlspecialchars($data["lir"]["name"])."</a>" : "*"?>
 			
 			<tr>
 				<td>Pays
@@ -32,7 +32,7 @@ require "Pages/Website/Layout/Start.php";
 				<td><?=Locale::getDisplayRegion("-{$data["block"]["country"]}", "fr")?> <span class="flag-icon flag-icon-<?=$data["block"]["country"]?>"></span>
 			
 			<tr>
-				<td>Registre Internet local
+				<td>Autonomous System (approximatif)
 				<td><?=$data["block"]["lir"] > 0 ? "AS{$data["block"]["lir"]}" : "*"?>
 			
 			<tr>
@@ -55,6 +55,7 @@ if ($data["block"]["rir"] == 4 && !empty($data["allocations"])) {
 			<th>Version
 			<th>Bloc
 			<th>Organisation
+			<th>Pays
 			<th>Netname
 			<th>Description
 			<th>Remarques
@@ -71,6 +72,7 @@ if ($data["block"]["rir"] == 4 && !empty($data["allocations"])) {
 				<td>IPv<?=$value["version"]?>
 				<td><?=$value["block"]?> (<a href="/ip/<?=$value["block_start"]?>" title="<?=$value["block_start"]?>"><?=$value["block_start"]?></a> - <a href="/ip/<?=$value["block_end"]?>" title="<?=$value["block_end"]?>"><?=$value["block_end"]?></a>)
 				<td><a href="/org/<?=$value["org"]?>" title="<?=$value["org"]?>"><?=$value["org"]?></a>
+				<td><?=Locale::getDisplayRegion("-{$value["country"]}", "fr")?> <span class="flag-icon flag-icon-<?=$value["country"]?>"></span>
 				<td><?=htmlspecialchars($value["netname"])?>
 				<td><pre><?=htmlspecialchars($value["description"])?></pre>
 				<td><pre><?=htmlspecialchars($value["remarks"])?></pre>
@@ -86,14 +88,14 @@ if ($data["block"]["rir"] == 4 && !empty($data["allocations"])) {
 }
 ?>
 <br><br>
-<a href="/tools/ping?ip=<?=$ip?>&port=80&protocol=tcp" title="Ping TCP" class="button success">Ping TCP</a>&nbsp;
-<a href="/tools/ping?ip=<?=$ip?>&port=80&protocol=udp" title="Ping UDP" class="button success">Ping UDP</a>&nbsp;
+<!--<a href="/tools/ping?ip=<?=$ip?>&port=80&protocol=tcp" title="Ping TCP" class="button success">Ping TCP</a>&nbsp;-->
 <a href="/tools/ping?ip=<?=$ip?>&port=80&protocol=icmp" title="Ping ICMP" class="button success">Ping ICMP</a>
+<a href="/tools/ping?ip=<?=$ip?>&port=80&protocol=udp" title="Ping UDP" class="button success">Ping UDP</a>&nbsp;
 <br><br>
 
-<a href="/tools/traceroute?ip=<?=$ip?>&port=80&protocol=tcp" title="Ping TCP" class="button success">Traceroute TCP</a>&nbsp;
-<a href="/tools/traceroute?ip=<?=$ip?>&port=80&protocol=udp" title="Ping TCP" class="button success">Traceroute UDP</a>&nbsp;
+<!--<a href="/tools/traceroute?ip=<?=$ip?>&port=80&protocol=tcp" title="Ping TCP" class="button success">Traceroute TCP</a>&nbsp;-->
 <a href="/tools/traceroute?ip=<?=$ip?>&port=80&protocol=icmp" title="Ping TCP" class="button success">Traceroute ICMP</a>
+<a href="/tools/traceroute?ip=<?=$ip?>&port=80&protocol=udp" title="Ping TCP" class="button success">Traceroute UDP</a>&nbsp;
 </div>
 <?php
 require "Pages/Website/Layout/End.php";

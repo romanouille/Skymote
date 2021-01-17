@@ -4,7 +4,7 @@ require "Pages/Website/Layout/Start.php";
 <div class="container page">
 	<ul class="breadcrumbs">
 		<li class="page-item"><a href="#" class="page-link">Skymote</a>
-		<li class="page-item"><a href="#" class="page-link">Liste des FAI par pays</a>
+		<li class="page-item"><a href="#" class="page-link"><?=$pageTitle?></a>
 	</ul>
 	
 	<h1>Liste des FAI par pays</h1>
@@ -33,26 +33,49 @@ foreach ($countries as $countryCode) {
 	
 <?php
 if (isset($data)) {
+	if (!empty($data)) {
 ?>
 	<table class="table striped">
 		<thead>
 			<tr>
-				<th>AS
+				<th>Autonomous System (approximatif)
 				<th>Nom
 		</thead>
 		
 		<tbody>
 <?php
-	foreach ($data as $value) {
+		foreach ($data as $value) {
 ?>
 			<tr>
 				<td>AS<?=$value["id"]?>
-				<td><?=htmlspecialchars($value["name"])?>
+				<td><a href="/isp/<?=$value["id"]?>-<?=slug($value["name"])?>" title="<?=htmlspecialchars($value["name"])?>"><?=htmlspecialchars($value["name"])?></a>
 <?php
-	}
+		}
 ?>
 		</tbody>
 	</table>
+<?php
+	} else {
+?>
+	<div class="remark alert">
+		Il n'y a aucun fournisseur d'accès Internet dans ce pays.
+	</div>
+<?php
+	}
+} else {
+?>
+	<div class="isp-list">
+<?php
+	foreach ($countries as $id=>$countryCode) {
+		if ($id > 0) {
+			echo " - ";
+		}
+?>
+	<a href="/isp-list?country=<?=$countryCode?>" title="<?=Locale::getDisplayRegion("-$countryCode")?>"><?=Locale::getDisplayRegion("-$countryCode", "fr")?></a>
+<?php
+	}
+?>
+	</div>
 <?php
 }
 ?>

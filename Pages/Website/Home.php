@@ -9,7 +9,7 @@ require "Pages/Website/Layout/Start.php";
 		<div class="grid">
 			<div class="row">
 				<div class="cell-lg-2 cell-12 offset-5">
-					<input type="text" name="text" data-role="input" placeholder="IPv4/v6, FAI, ...">
+					<input type="text" name="text" data-role="input" placeholder="IPv4/v6, FAI, ..." value="<?=$_SERVER["REMOTE_ADDR"]?>">
 				</div>
 			</div>
 		</div>

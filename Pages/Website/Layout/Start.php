@@ -1,9 +1,15 @@
 <!DOCTYPE html>
 <html lang="fr">
 	<head>
-		<title>Skymote</title>
+		<title><?=htmlspecialchars($pageTitle)?> - Skymote</title>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+		<meta name="description" content="<?=htmlspecialchars($pageDescription)?>">
+		<meta property="og:type" content="website">
+		<meta property="og:url" content="https://skymote.net<?=$_SERVER["REQUEST_URI"]?>">
+		<meta property="og:title" content="<?=htmlspecialchars($pageTitle)?> - Skymote">
+		<meta property="og:description" content="<?=htmlspecialchars($pageDescription)?>">
+		<meta property="og:image" content="https://skymote.net/logo.png">
 		<link rel="stylesheet" href="https://cdn.metroui.org.ua/v4/css/metro-all.min.css">
 		<link rel="preconnect" href="https://fonts.gstatic.com">
 		<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400&display=swap" rel="stylesheet">
@@ -83,7 +89,8 @@ header #right {
 	background:linear-gradient(180deg, #1e2226 0%, black 67%);
 	margin-top:50px;
 	padding:10px;
-	color:#838592
+	color:#838592;
+	text-align:center
 }
 
 .footer .grid {
@@ -93,6 +100,11 @@ header #right {
 .page {
 	min-height:800px;
 	margin-top:20px
+}
+
+.isp-list {
+	margin-top:50px;
+	font-size:10px
 }
 		</style>
 		
@@ -118,10 +130,12 @@ header #right {
 			<div class="app-bar-wrapper">
 				<div class="container pos-relative app-bar" data-role="appbar" data-expand-point="sm">
 					<ul class="app-bar-menu">
-						<li><a href="/" title="Index">Index</a>
+						<li><a href="/" title="Accueil">Accueil</a>
 						<li><a href="/isp-list" title="Liste des FAI par pays">Liste des FAI par pays</a>
 						<li><a href="/recent-allocations" title="Récentes allocations">Récentes allocations</a>
 						<li><a href="/proxys" title="Proxys Socks5">Proxys Socks5</a>
+						<li><a href="/tools/ping" title="Ping">Ping</a>
+						<li><a href="/tools/traceroute" title="Traceroute">Traceroute</a>
 					</ul>
 				</div>
 			</div>

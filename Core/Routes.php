@@ -28,6 +28,14 @@ $routes = [
 		"handler" => "Website/Traceroute.php"
 	],
 	
+	"#^\/tools\/ping$#" => [
+		"handler" => "Website/Ping.php"
+	],
+	
+	"#^\/tools\/traceroute$#" => [
+		"handler" => "Website/Traceroute.php"
+	],
+	
 	"#^\/org\/(.*)$#" => [
 		"handler" => "Website/Org.php"
 	],
@@ -42,6 +50,10 @@ $routes = [
 	
 	"#^\/isp-list\?country=(.+)$#" => [
 		"handler" => "Website/Isp_list.php"
+	],
+	
+	"#^\/isp\/([0-9]+)-(.+)$#" => [
+		"handler" => "Website/Isp.php"
 	],
 	
 	"#^\/proxys$#" => [

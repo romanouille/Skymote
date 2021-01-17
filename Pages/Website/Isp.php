@@ -7,32 +7,23 @@ require "Pages/Website/Layout/Start.php";
 		<li class="page-item"><a href="#" class="page-link"><?=$pageTitle?></a>
 	</ul>
 	
-	<h1>Organisation <b><?=$match[0]?></b></h1>
-	
+	<h1><?=htmlspecialchars($data["name"])?></h1>
 	<table class="table striped">
 		<tbody>
 			<tr>
-				<td>Nom
-				<td><?=htmlspecialchars($data["name"])?>
-				
+				<td>Pays
+				<td><?=Locale::getDisplayRegion("-{$data["country"]}", "fr")?> <span class="flag-icon flag-icon-<?=$data["country"]?>"></span>
+			
 			<tr>
-				<td>LIR
-				<td><?=$data["is_lir"] ? "<span class=\"mif-checkmark\"></span>" : "<span class=\"mif-cross\"></span>"?>
-				
-			<tr>
-				<td>Création
-				<td><?=date("d/m/Y H:i:s", $data["created"])?>
-				
-			<tr>
-				<td>Dernière modification
-				<td><?=date("d/m/Y H:i:s", $data["modified"])?>
+				<td>Autonomous System (approximatif)
+				<td>AS<?=$ispId?>
 		</tbody>
 	</table>
+	<br><br>
 	
-	<h2>Allocations</h2>
-	
+	<h2>Blocs IP</h2>
 <?php
-if (!empty($data["allocations"])) {
+if (!empty($data["blocks"])) {
 ?>
 	<table class="table striped">
 		<thead>
@@ -40,28 +31,20 @@ if (!empty($data["allocations"])) {
 				<th>Version
 				<th>Bloc
 				<th>Pays
-				<th>Netname
-				<th>Description
-				<th>Remarques
-				<th>Statut
 				<th>Création
-				<th>Dernière modification
+				<th>RIR
 		</thead>
 		
 		<tbody>
 <?php
-	foreach ($data["allocations"] as $value) {
+	foreach ($data["blocks"] as $value) {
 ?>
 			<tr>
 				<td>IPv<?=$value["version"]?>
 				<td><?=$value["block"]?> (<a href="/ip/<?=$value["block_start"]?>" title="<?=$value["block_start"]?>"><?=$value["block_start"]?></a> - <a href="/ip/<?=$value["block_end"]?>" title="<?=$value["block_end"]?>"><?=$value["block_end"]?></a>)
 				<td><?=Locale::getDisplayRegion("-{$value["country"]}", "fr")?> <span class="flag-icon flag-icon-<?=$value["country"]?>"></span>
-				<td><?=htmlspecialchars($value["netname"])?>
-				<td><pre><?=htmlspecialchars($value["description"])?></pre>
-				<td><pre><?=htmlspecialchars($value["remarks"])?></pre>
-				<td><?=$value["status"]?>
 				<td><?=date("d/m/Y H:i:s", $value["created"])?>
-				<td><?=date("d/m/Y H:i:s", $value["modified"])?>
+				<td><?=$rirList[$value["rir"]]?>
 <?php
 	}
 ?>
@@ -71,7 +54,7 @@ if (!empty($data["allocations"])) {
 } else {
 ?>
 	<div class="remark alert">
-		Cette organisation ne possède aucune allocation.
+		Ce fournisseur d'accès Internet ne possède aucun bloc IP.
 	</div>
 <?php
 }

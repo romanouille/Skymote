@@ -7,7 +7,9 @@ if ($devMode) {
     $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 }
 
-Cache::purge();
+if (php_sapi_name() != "cli") {
+	Cache::purge();
+}
 
 $rirList = [
 	"AFRINIC",

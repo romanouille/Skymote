@@ -4,13 +4,13 @@ require "Pages/Website/Layout/Start.php";
 <div class="container page">
 	<ul class="breadcrumbs">
 		<li class="page-item"><a href="#" class="page-link">Skymote</a>
-		<li class="page-item"><a href="#" class="page-link">Rechercher "<?=htmlspecialchars($match[0])?>"</a>
+		<li class="page-item"><a href="#" class="page-link"><?=$pageTitle?></a>
 	</ul>
 	
 	<h1>Résultats de la recherche pour <b><?=htmlspecialchars($match[0])?></b></h1>
 	<br>
 	
-	<h2>AS</h2>
+	<h2>Fournisseurs d'accès Internet</h2>
 <?php
 if (!empty($data["as"])) {
 ?>
@@ -26,7 +26,7 @@ if (!empty($data["as"])) {
 	foreach ($data["as"] as $value) {
 ?>
 			<tr>
-				<td><?=htmlspecialchars($value["name"])?>
+				<td><a href="/isp/<?=$value["id"]?>-<?=slug($value["name"])?>" title="<?=htmlspecialchars($value["name"])?>"><?=htmlspecialchars($value["name"])?></a>
 				<td><?=Locale::getDisplayRegion("-{$value["country"]}")?> <span class="flag-icon flag-icon-<?=$value["country"]?>"></span>
 <?php
 	}

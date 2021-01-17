@@ -4,7 +4,7 @@ require "Pages/Website/Layout/Start.php";
 <div class="container page">
 	<ul class="breadcrumbs">
 		<li class="page-item"><a href="#" class="page-link">Skymote</a>
-		<li class="page-item"><a href="#" class="page-link">Récentes allocations</a>
+		<li class="page-item"><a href="#" class="page-link"><?=$pageTitle?></a>
 	</ul>
 	
 	<h1>Récentes allocations</h1>
@@ -54,7 +54,7 @@ foreach ($data["allocations"] as $value) {
 				<th>Version
 				<th>Bloc
 				<th>Pays
-				<th>LIR
+				<th>AS
 				<th>Création
 				<th>RIR
 		</thead>
@@ -77,7 +77,7 @@ foreach ($data["blocks"] as $value) {
 	</table>
 	<br><br>
 	
-	<h2>AS</h2>
+	<h2>Autonomous System</h2>
 	<table class="table striped">
 		<thead>
 			<tr>
@@ -101,7 +101,7 @@ foreach ($data["as"] as $value) {
 	</table>
 	<br><br>
 	
-	<h2>AS RIPE</h2>
+	<h2>Autonomous System RIPE</h2>
 	<table class="table striped">
 		<thead>
 			<tr>
@@ -181,7 +181,7 @@ foreach ($data["routes"] as $value) {
 				<td>IPv<?=$value["version"]?>
 				<td><?=$value["block"]?> (<a href="/ip/<?=$value["block_start"]?>" title="<?=$value["block_start"]?>"><?=$value["block_start"]?></a> - <a href="/ip/<?=$value["block_end"]?>" title="<?=$value["block_end"]?>"><?=$value["block_end"]?></a>)
 				<td><pre><?=htmlspecialchars($value["description"])?></pre>
-				<td>AS<?=$value["origin"]?>
+				<td><?=$value["origin"] > 0 ? "AS{$value["origin"]}" : "*"?>
 				<td><?=date("d/m/Y H:i:s", $value["created"])?>
 				<td><?=date("d/m/Y H:i:s", $value["modified"])?>
 <?php

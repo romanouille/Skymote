@@ -32,7 +32,7 @@ class Checker(threading.Thread):
 			except:
 				continue
 			
-			uri = "HEAD /?a={a}&b={b}&c={c} HTTP/1.0\r\nHost: 193.251.51.117\r\nCookie: tk=2afa6130500e10ce3b9ce7eeed4794083ae5d4ac\r\n\r\n".format(a=proxyData[0], b=int(proxyData[1])*1337, c=time.time())
+			uri = "HEAD /?a={a}&b={b}&c={c} HTTP/1.0\r\nHost: 151.127.2.122\r\nCookie: tk=2afa6130500e10ce3b9ce7eeed4794083ae5d4ac\r\n\r\n".format(a=proxyData[0], b=int(proxyData[1])*1337, c=time.time())
 			client.send(b"\x05\x01\x00")
 			try:
 				rep = client.recv(32)
@@ -42,7 +42,7 @@ class Checker(threading.Thread):
 			if b"\x05\00" not in rep:
 				continue
 			
-			client.send(b"\x05\x01\x00\x03\x0e193.251.51.117\x00\x50")
+			client.send(b"\x05\x01\x00\x03\x0d151.127.2.122\x00\x50")
 			try:
 				rep = client.recv(32)
 			except:
@@ -83,10 +83,10 @@ def partition(list:list, parts:int) -> list:
 
 
 
-#client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-#client.connect(("193.251.51.117", 80))
-#client.send(b"GET /?purge-opx234 HTTP/1.0\r\nHost: 193.251.51.117\r\n\r\n");
-#client.close()
+client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+client.connect(("151.127.2.122", 80))
+client.send(b"GET /?purge-opx234 HTTP/1.0\r\nHost: 151.127.2.122\r\n\r\n");
+client.close()
 
 threads = []
 nb = 0;

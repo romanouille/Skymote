@@ -233,7 +233,6 @@ class GeoIP {
 		$data = explode("\n", $command);
 		$result = [];
 		$lastTime = 0;
-		$append = false;
 		
 		foreach ($data as $id=>$value) {
 			if (empty(trim($value))) {
@@ -247,11 +246,6 @@ class GeoIP {
 				$lastTime = str_replace("s", "", str_replace("(", "", str_replace(")", "", $value[1])));
 				continue;
 			} elseif ($value[0] != "RCVD") {
-				continue;
-			}
-			
-			if (!$append) {
-				$append = true;
 				continue;
 			}
 			
@@ -292,7 +286,6 @@ class GeoIP {
 		$data = explode("\n", shell_exec($command));
 		$result = [];
 		$lastTime = 0;
-		$append = false;
 		
 		foreach ($data as $value) {
 			if (empty(trim($value))) {
@@ -305,11 +298,6 @@ class GeoIP {
 				$lastTime = str_replace("s", "", str_replace("(", "", str_replace(")", "", $value[1])));
 				continue;
 			} elseif ($value[0] != "RCVD") {
-				continue;
-			}
-			
-			if (!$append) {
-				$append = true;
 				continue;
 			}
 			
@@ -348,7 +336,6 @@ class GeoIP {
 		$data = explode("\n", shell_exec($command));
 		$result = [];
 		$lastTime = 0;
-		$append = false;
 		
 		foreach ($data as $value) {
 			if (empty(trim($value))) {
@@ -361,11 +348,6 @@ class GeoIP {
 				$lastTime = str_replace("s", "", str_replace("(", "", str_replace(")", "", $value[1])));
 				continue;
 			} elseif ($value[0] != "RCVD") {
-				continue;
-			}
-			
-			if (!$append) {
-				$append = true;
 				continue;
 			}
 			
@@ -443,7 +425,7 @@ class GeoIP {
 				"pong" => $value[2],
 				"sourceIp" => $value[4],
 				"ptr" => gethostbyaddr($value[4]),
-				"countryCode" => isset($ipData["lir"]["country"]) ? $ipData["lir"]["country"] : "*",
+				"countryCode" => isset($ipData["lir"]["country"]) && $ipData["lir"]["country"] != "ZZ" ? $ipData["lir"]["country"] : (isset($ipData["block"]["country"]) ? $ipData["block"]["country"] : "*"),
 				"isp" => isset($ipData["lir"]["name"]) ? $ipData["lir"]["name"] : "*"
 			];
 		}
@@ -527,6 +509,7 @@ class GeoIP {
 					"block_start" => (string)$value["block_start"],
 					"block_end" => (string)$value["block_end"],
 					"org" => (string)$value["org"],
+					"country" => (string)$value["country"],
 					"netname" => (string)$value["netname"],
 					"description" => (string)$value["description"],
 					"remarks" => (string)$value["remarks"],
@@ -552,13 +535,14 @@ class GeoIP {
 			"routes" => []
 		];
 		
-		$query = $db->prepare("SELECT name, country FROM dump_as_$table WHERE name ILIKE :name LIMIT 100");
+		$query = $db->prepare("SELECT id, name, country FROM dump_as_$table WHERE name ILIKE :name LIMIT 100");
 		$query->bindValue(":name", "%$text%", PDO::PARAM_STR);
 		$query->execute();
 		$data = $query->fetchAll();
 		
 		foreach ($data as $value) {
 			$result["as"][] = [
+				"id" => (int)$value["id"],
 				"name" => (string)trim($value["name"]),
 				"country" => (string)trim($value["country"])
 			];
@@ -847,6 +831,51 @@ class GeoIP {
 				"timestamp" => (int)$value["timestamp"],
 				"country" => isset($ipData["lir"]["country"]) ? trim($ipData["lir"]["country"]) : "zz",
 				"isp" => isset($ipData["lir"]["name"]) ? trim($ipData["lir"]["name"]) : ""
+			];
+		}
+		
+		return $result;
+	}
+	
+	public static function getIspData(int $id) : array {
+		global $db;
+		
+		$result = [
+			"name" => "",
+			"country" => "",
+			"blocks" => []
+		];
+		$table = self::getTable();
+		$query = $db->prepare("SELECT name, country FROM dump_as_$table WHERE id = :id");
+		$query->bindValue(":id", $id, PDO::PARAM_INT);
+		$query->execute();
+		$data = $query->fetch();
+		
+		if (empty($data)) {
+			return [];
+		}
+		
+		$result = [
+			"name" => (string)trim($data["name"]),
+			"country" => (string)trim($data["country"]),
+			"blocks" => []
+		];
+		
+		
+		$query = $db->prepare("SELECT version, block, block_start, block_end, country, created, rir FROM dump_blocks_$table WHERE lir = :lir ORDER BY block ASC");
+		$query->bindValue(":lir", $id, PDO::PARAM_INT);
+		$query->execute();
+		$data = $query->fetchAll();
+		
+		foreach ($data as $value) {
+			$result["blocks"][] = [
+				"version" => (int)$value["version"],
+				"block" => (string)trim($value["block"]),
+				"block_start" => (string)trim($value["block_start"]),
+				"block_end" => (string)trim($value["block_end"]),
+				"country" => (string)trim($value["country"]),
+				"created" => (int)$value["created"],
+				"rir" => (int)$value["rir"]
 			];
 		}
 		

@@ -1,17 +1,18 @@
 <?php
 ini_set("memory_limit", "128M");
-$dev = false;
+$devMode = true;
 
 set_include_path("../");
 chdir("../");
 
 $tempDir = sys_get_temp_dir();
 
+require "Core/Cache.class.php";
 require "Core/Functions.php";
-require "Core/Apokaliz.class.php";
+require "Core/GeoIP.class.php";
 require "Core/Init.php";
 
-$table = $table == 0 ? 1 : 0;
+$table = GeoIP::getTable() == 0 ? 1 : 0;
 $oldTable = $table == 0 ? 1 : 0;
 
 logs("New table : $table");
@@ -46,10 +47,10 @@ $db->exec("ALTER SEQUENCE dump_ripe_routes_{$table}_id_seq RESTART WITH 1");
  **********/
 
 logs("-> AS");
-download("https://ftp.ripe.net/ripe/asnames/asn.txt", "$tempDir/apokaliz-as");
+download("https://ftp.ripe.net/ripe/asnames/asn.txt", "$tempDir/GeoIP-as");
 
 logs("Parsing");
-$fp = fopen("$tempDir/apokaliz-as", "r");
+$fp = fopen("$tempDir/GeoIP-as", "r");
 
 //$as = [];
 
@@ -81,7 +82,7 @@ while (($line = fgets($fp))) {
 
 fclose($fp);
 
-unlink("$tempDir/apokaliz-as");
+unlink("$tempDir/GeoIP-as");
 unset($fp, $line, $asId, $asCountry, $name, $query);
 logs("--------------------");
 
@@ -91,15 +92,15 @@ logs("--------------------");
  **********/
 
 logs("-> AS RIPE");
-download("https://ftp.ripe.net/ripe/dbase/split/ripe.db.aut-num.gz", "$tempDir/apokaliz-ripe-as.gz");
+download("https://ftp.ripe.net/ripe/dbase/split/ripe.db.aut-num.gz", "$tempDir/GeoIP-ripe-as.gz");
 
 logs("Uncompressing");
-shell_exec("gzip -f -d $tempDir/apokaliz-ripe-as.gz");
+shell_exec("gzip -f -d $tempDir/GeoIP-ripe-as.gz");
 
 logs("Parsing");
 $lastAS = "";
 
-$fp = fopen("$tempDir/apokaliz-ripe-as", "r");
+$fp = fopen("$tempDir/GeoIP-ripe-as", "r");
 
 while ($line = fgets($fp)) {
 	$data = explode(": ", trim($line), 2);
@@ -175,7 +176,7 @@ while ($line = fgets($fp)) {
 
 fclose($fp);
 
-unlink("$tempDir/apokaliz-ripe-as");
+unlink("$tempDir/GeoIP-ripe-as");
 unset($lastAS, $fp, $line, $data, $result, $query);
 logs("--------------------");
 
@@ -188,12 +189,12 @@ $rirHash = [];
 
 foreach ($rirList as $rirId=>$rir) {
 	logs("-> RIR $rir");
-	download("https://ftp.ripe.net/pub/stats/$rir/delegated-$rir-extended-latest", "$tempDir/apokaliz-$rir");
+	download("https://ftp.ripe.net/pub/stats/$rir/delegated-$rir-extended-latest", "$tempDir/GeoIP-$rir");
 	
 	logs("Parsing");
 	
 	for ($i = 1; $i <= 2; $i++) {
-		$fp = fopen("$tempDir/apokaliz-$rir", "r");
+		$fp = fopen("$tempDir/GeoIP-$rir", "r");
 		while (($line = fgets($fp))) {
 			$line = explode("|", $line);
 			if (!isset($line[0])) {
@@ -229,7 +230,7 @@ foreach ($rirList as $rirId=>$rir) {
 						$blockEnd = long2ip(ip2long($blockStart)+$line[4]-1);
 					} else {
 						$blockStart = $line[3];
-						$blockEnd = Apokaliz::long2ipv2(gmp_strval(gmp_sub(gmp_strval(gmp_add(Apokaliz::ip2longv2($blockStart), Apokaliz::cidrToHostsV6($line[4]))), 1)));
+						$blockEnd = GeoIP::long2ipv2(gmp_strval(gmp_sub(gmp_strval(gmp_add(GeoIP::ip2longv2($blockStart), GeoIP::cidrToHostsV6($line[4]))), 1)));
 					}
 					
 					if (!isset($line[7])) {
@@ -242,7 +243,7 @@ foreach ($rirList as $rirId=>$rir) {
 						$asn = 0;
 					}
 					
-					$cidr = $line[2] == "ipv4" ? Apokaliz::ipRangeToCidr($blockStart, $blockEnd) : $line[4];
+					$cidr = $line[2] == "ipv4" ? GeoIP::ipRangeToCidr($blockStart, $blockEnd) : $line[4];
 					
 					
 					$query = $db->prepare("INSERT INTO dump_blocks_$table(version, block, block_start, block_end, country, lir, created, rir) VALUES(:version, :block, :block_start, :block_end, :country, :lir, :created, :rir);");
@@ -261,7 +262,7 @@ foreach ($rirList as $rirId=>$rir) {
 	}
 	
 	fclose($fp);
-	unlink("$tempDir/apokaliz-$rir");
+	unlink("$tempDir/GeoIP-$rir");
 }
 
 unset($fp, $rirId, $rir, $line, $blockStart, $blockEnd, $cidr, $id, $query, $rirHash);
@@ -313,16 +314,16 @@ for ($i = 1; $i <= 2; $i++) {
 	$ipVersion = $i == 1 ? 4 : 6;
 	
 	logs("-> RIPE's IPv$ipVersion routes");
-	download("https://ftp.ripe.net/ripe/dbase/split/ripe.db.route".($ipVersion == 6 ? 6 : "").".gz", "$tempDir/apokaliz-routes$ipVersion.gz");
+	download("https://ftp.ripe.net/ripe/dbase/split/ripe.db.route".($ipVersion == 6 ? 6 : "").".gz", "$tempDir/GeoIP-routes$ipVersion.gz");
 
 	logs("Uncompressing");
-	shell_exec("gzip -f -d $tempDir/apokaliz-routes$ipVersion.gz");
+	shell_exec("gzip -f -d $tempDir/GeoIP-routes$ipVersion.gz");
 	
 	logs("Parsing");
 	
 	$lastIp = "";
 	
-	$fp = fopen("$tempDir/apokaliz-routes$ipVersion", "r");
+	$fp = fopen("$tempDir/GeoIP-routes$ipVersion", "r");
 	while (($line = fgets($fp))) {
 		$data = explode(": ", trim($line), 2);
 		$data = array_map("trim", $data);
@@ -343,14 +344,14 @@ for ($i = 1; $i <= 2; $i++) {
 				// INSERTION
 				
 				if ($ipVersion == 4) {
-					$blockData = Apokaliz::cidrToRange($lastIp);
+					$blockData = GeoIP::cidrToRange($lastIp);
 					$blockStart = $blockData[0];
 					$blockEnd = $blockData[1];
 				} else {
 					$block = explode("/", $lastIp);
 					$blockStart = $block[0];
 					if ($block[1] != 128) {
-						$blockEnd = Apokaliz::long2ipv2(gmp_strval(gmp_sub(gmp_strval(gmp_add(Apokaliz::ip2longv2($blockStart), Apokaliz::cidrToHostsV6($block[1]))), 1)));
+						$blockEnd = GeoIP::long2ipv2(gmp_strval(gmp_sub(gmp_strval(gmp_add(GeoIP::ip2longv2($blockStart), GeoIP::cidrToHostsV6($block[1]))), 1)));
 					} else {
 						$blockEnd = $blockStart;
 					}
@@ -378,7 +379,7 @@ for ($i = 1; $i <= 2; $i++) {
 	
 	fclose($fp);
 	
-	unlink("$tempDir/apokaliz-routes$ipVersion");
+	unlink("$tempDir/GeoIP-routes$ipVersion");
 }
 
 unset($i, $ipVersion, $lastIp, $fp, $line, $data, $result, $blockData, $blockStart, $blockEnd, $block, $query);
@@ -390,17 +391,17 @@ logs("--------------------");
  organisationS RIPE
  **********/
 logs("-> RIPE organisations");
-download("https://ftp.ripe.net/ripe/dbase/split/ripe.db.organisation.gz", "$tempDir/apokaliz-org.gz");
+download("https://ftp.ripe.net/ripe/dbase/split/ripe.db.organisation.gz", "$tempDir/GeoIP-org.gz");
 
 logs("Uncompressing");
-shell_exec("gzip -f -d $tempDir/apokaliz-org.gz");
+shell_exec("gzip -f -d $tempDir/GeoIP-org.gz");
 
 logs("Parsing");
 
 $orgStarted = false;
 $lastOrg = "";
 
-$fp = fopen("$tempDir/apokaliz-org", "r");
+$fp = fopen("$tempDir/GeoIP-org", "r");
 while (($line = fgets($fp))) {
 	$data = explode(": ", trim($line), 2);
 	$data = array_map("trim", $data);
@@ -448,7 +449,7 @@ while (($line = fgets($fp))) {
 	}
 }
 fclose($fp);
-unlink("$tempDir/apokaliz-org");
+unlink("$tempDir/GeoIP-org");
 unset($orgStarted, $lastOrg, $fp, $line, $data, $org, $result, $query);
 logs("--------------------");
 
@@ -464,17 +465,17 @@ for ($i = 1; $i <= 2; $i++) {
 	
 	logs("-> Downloading $filename");
 	
-	download("https://ftp.ripe.net/ripe/dbase/split/ripe.db.$filename.gz", "$tempDir/apokaliz-$filename.gz");
+	download("https://ftp.ripe.net/ripe/dbase/split/ripe.db.$filename.gz", "$tempDir/GeoIP-$filename.gz");
 	
 	logs("Uncompressing");
-	shell_exec("gzip -f -d $tempDir/apokaliz-$filename.gz");
+	shell_exec("gzip -f -d $tempDir/GeoIP-$filename.gz");
 	
 	logs("Parsing");
 
 	$blockStarted = false;
 	$lastBlock = "";
 
-	$fp = fopen("$tempDir/apokaliz-$filename", "r");
+	$fp = fopen("$tempDir/GeoIP-$filename", "r");
 	while (($line = fgets($fp))) {
 		$data = explode(": ", trim($line), 2);
 		$data = array_map("trim", $data);
@@ -489,7 +490,7 @@ for ($i = 1; $i <= 2; $i++) {
 					continue;
 				}
 
-				$block = "{$data2[0]}/".Apokaliz::ipRangeToCidr($data2[0], $data2[1]);
+				$block = "{$data2[0]}/".GeoIP::ipRangeToCidr($data2[0], $data2[1]);
 				$blockStart = $data2[0];
 				$blockEnd = long2ip(ip2long($blockStart)+(ip2long($data2[1])-ip2long($blockStart)));
 			} else {
@@ -498,7 +499,7 @@ for ($i = 1; $i <= 2; $i++) {
 				$block = $data[1];
 				$blockStart = $data2[0];
 				if ($data2[1] != 128) {
-					$blockEnd = Apokaliz::long2ipv2(gmp_strval(gmp_sub(gmp_strval(gmp_add(Apokaliz::ip2longv2($blockStart), Apokaliz::cidrToHostsV6($data2[1]))), 1)));
+					$blockEnd = GeoIP::long2ipv2(gmp_strval(gmp_sub(gmp_strval(gmp_add(GeoIP::ip2longv2($blockStart), GeoIP::cidrToHostsV6($data2[1]))), 1)));
 				} else {
 					$blockEnd = $blockStart;
 				}
@@ -562,8 +563,8 @@ for ($i = 1; $i <= 2; $i++) {
 	fclose($fp);
 }
 
-unlink("$tempDir/apokaliz-inetnum");
-unlink("$tempDir/apokaliz-inet6num");
+unlink("$tempDir/GeoIP-inetnum");
+unlink("$tempDir/GeoIP-inet6num");
 
 
 

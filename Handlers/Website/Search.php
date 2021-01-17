@@ -7,6 +7,13 @@ if (GeoIP::validateIp($match[0])) {
 	exit;
 }
 
-$data = GeoIP::search($match[0]);
+if (!Cache::exists("search-{$match[0]}")) {
+	$data = GeoIP::search($match[0]);
+	Cache::write("search-{$match[0]}", json_encode($data));
+} else {
+	$data = json_decode(Cache::read("search-{$match[0]}"), true);
+}
+$pageTitle = "Recherche";
+$pageDescription = "Résultats de la recherche pour '{$match[0]}'.";
 
 require "Pages/Website/Search.php";
