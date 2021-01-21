@@ -58,5 +58,9 @@ $routes = [
 	
 	"#^\/proxys$#" => [
 		"handler" => "Website/Proxys.php"
+	],
+	
+	"#^\/proxys\?raw$#" => [
+		"handler" => "Website/Proxys.php"
 	]
 ];
