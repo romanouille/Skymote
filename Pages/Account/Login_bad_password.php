@@ -4,8 +4,8 @@ require "Pages/Account/Layout/Start.php";
 <form class="bg-white p-6 mx-auto border bd-default win-shadow">
     <h2 class="text-light">Connexion</h2>
 
-    <div class="bg-green fg-white p-3">
-        Vous êtes authentifié sous le compte <?=$_SERVER["PHP_AUTH_USER"]?>.
+    <div class="bg-red fg-white p-3">
+        Le mot de passe que vous avez spécifié est incorrect.
     </div>
 	<br>
 	

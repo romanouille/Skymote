@@ -201,7 +201,7 @@ if (!empty($data["routes"])) {
 ?>
 			<tr>
 				<td><?=$value["version"]?>
-				<td><?=$value["block"]?> (<a href="/ip/<?=$value["block_start"]?>" title="<?=$value["block_start"]?>"><?=$value["block_start"]?></a> - <a href="/ip/<?=$value["block_end"]?>" title="<?=$value["block_end"]?>"><?=$value["block_end"]?></a>
+				<td><?=$value["block"]?> (<a href="/ip/<?=$value["block_start"]?>" title="<?=$value["block_start"]?>"><?=$value["block_start"]?></a> - <a href="/ip/<?=$value["block_end"]?>" title="<?=$value["block_end"]?>"><?=$value["block_end"]?></a>)
 				<td><pre><?=htmlspecialchars($value["description"])?></pre>
 				<td>AS<?=$value["origin"]?>
 				<td><?=date("d/m/Y H:i:s", $value["created"])?>

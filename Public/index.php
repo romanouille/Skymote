@@ -1,9 +1,9 @@
 <?php
 ini_set("memory_limit", -1);
 
-$devMode = !isset($_SERVER["REMOTE_ADDR"]) || in_array($_SERVER["REMOTE_ADDR"], ["127.0.0.1", "192.168.2.25", "193.251.51.117"]);
+$dev = !isset($_SERVER["REMOTE_ADDR"]) || in_array($_SERVER["REMOTE_ADDR"], ["127.0.0.1", "192.168.2.25", "193.251.51.117"]);
 
-if ($devMode) {
+if ($dev) {
 	error_reporting(-1);
 	ini_set("display_errors", true);
 } else {
@@ -20,6 +20,7 @@ chdir("../");
 require "Core/Cache.class.php";
 require "Core/Functions.php";
 require "Core/Routes.php";
+require "Core/User.class.php";
 
 // Recherche de la route
 foreach ($routes as $route=>$routeData) {

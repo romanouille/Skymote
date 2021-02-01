@@ -31,7 +31,8 @@ class Paypal {
 	 *
 	 * @return array Formulaire de paiement
 	 */
-	public function createPayment(float $price, string $url) : array {
+	public function createPayment(float $price) : array {
+		$url = ($this->dev ? "http://127.0.0.1" : "https://skymote.net")."/account/buy/post";
 		$post = '{"intent":"sale","payer":{"payment_method":"paypal"},"transactions":[{"amount":{"total":'.$price.',"currency":"EUR"}}],"redirect_urls":{"return_url":"'.$url.'","cancel_url":"'.$url.'"}}';
 
 		curl_setopt($this->curl, CURLOPT_URL, "https://api.".($this->dev ? "sandbox." : "")."paypal.com/v1/payments/payment");
