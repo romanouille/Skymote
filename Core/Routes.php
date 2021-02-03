@@ -68,10 +68,6 @@ $routes = [
 		"handler" => "Website/Vps.php"
 	],
 	
-	"#^\/account\/vps\/buy\/windows$#" => [
-		"handler" => "Website/Vps_buy_windows.php"
-	],
-	
 	"#^\/account\/buy\/post\?paymentId=(.+)&token=(.+)&PayerID=(.+)$#" => [
 		"handler" => "Website/Post_payment.php"
 	],

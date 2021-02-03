@@ -15,6 +15,22 @@ class Server {
 		return $data["expiration"];
 	}
 	
+	public function load() : array {
+		global $db;
+		
+		$query = $db->prepare("SELECT password, type, expiration, hypervisor, hypervisor_password FROM servers WHERE ip = :ip");
+		$query->bindValue(":ip", $this->ip, PDO::PARAM_STR);
+		$query->execute();
+		$data = $query->fetch();
+		if (empty($data)) {
+			return [];
+		}
+		
+		$data = array_map("trim", $data);
+		
+		return $data;
+	}
+	
 	public static function isAvailable(int $type) : bool {
 		global $db;
 		
