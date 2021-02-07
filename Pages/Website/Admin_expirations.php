@@ -7,13 +7,13 @@ require "Pages/Website/Layout/Start.php";
 		<li class="page-item"><a href="#" class="page-link"><?=$pageTitle?></a>
 	</ul>
 	
-	<h1>Mes VPS</h1>
+	<h1>Serveurs proches de l'expiration</h1>
 	<table class="table striped">
 		<thead>
 			<tr>
 				<th>IP
-				<th>Offre
 				<th>Expiration
+				<th>Actions
 		</thead>
 		
 		<tbody>
@@ -21,18 +21,9 @@ require "Pages/Website/Layout/Start.php";
 foreach ($data as $value) {
 ?>
 			<tr>
-				<td><a href="/account/vps/<?=$value["ip"]?>/" title="<?=$value["ip"]?>"><?=$value["ip"]?></a>
-				<td>
-<?php
-	if ($value["type"] == 1) {
-		echo "Debian-1";
-	} elseif ($value["type"] == 2) {
-		echo "Debian-2";
-	} elseif ($value["type"] == 3) {
-		echo "Debian-3";
-	}
-?>
+				<td><?=$value["ip"]?>
 				<td><?=date("d/m/Y H:i:s", $value["expiration"])?>
+				<td><a href="/account/admin/servers/expirations/mail?ip=<?=$value["ip"]?>&mode=1" title="Mail rappel" class="button primary">Mail rappel</a>&nbsp;<a href="/account/admin/servers/expirations/mail?ip=<?=$value["ip"]?>&mode=2" title="Mail expiration" class="button primary">Mail expiration</a>
 <?php
 }
 ?>

@@ -98,5 +98,29 @@ $routes = [
 	
 	"#^\/account\/vps\/(.+)\/$#" => [
 		"handler" => "Website/Vps_data.php"
+	],
+	
+	"#^\/account\/admin\/login$#" => [
+		"handler" => "Website/Admin_login.php"
+	],
+	
+	"#^\/account\/admin$#" => [
+		"handler" => "Website/Admin.php"
+	],
+	
+	"#^\/account\/admin\/servers\/expirations$#" => [
+		"handler" => "Website/Admin_expirations.php"
+	],
+	
+	"#^\/account\/admin\/servers\/expirations\/mail\?ip=(.+)&mode=([0-9]+)$#" => [
+		"handler" => "Website/Admin_expirations_mail.php"
+	],
+	
+	"#^\/account\/admin\/requisition$#" => [
+		"handler" => "Website/Admin_requisition.php"
+	],
+	
+	"#^\/account\/admin\/invoices$#" => [
+		"handler" => "Website/Admin_invoices.php"
 	]
 ];

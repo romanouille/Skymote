@@ -67,7 +67,7 @@ if ($paypal->validatePayment($match[0], $match[2])) {
 		$user->extendVpsExpiration($paymentData["service"], $expiration);
 	} elseif ($paymentData["product"] == 3) {
 		// VPS Debian-2
-		$invoice = $user->createInvoice([["VPS Debian KVM", "Du ".date("d/m/Y")." au ".date("d/m/Y", strtotime("+1 month"))."\n4 coeurs CPU\n16 Go RAM\n50 Go SSD\n1Gbps", 1, 0, 34.99, 0, 34.99]]);
+		$invoice = $user->createInvoice([["VPS Debian KVM", "Du ".date("d/m/Y")." au ".date("d/m/Y", strtotime("+1 month"))."\n4 coeurs CPU\n16 Go RAM\n50 Go SSD\n500Mbps", 1, 0, 34.99, 0, 34.99]]);
 		$user->allocateServer(2);
 	} elseif ($paymentData["product"] == 4) {
 		// VPS Debian-2 renouvellement
@@ -75,20 +75,20 @@ if ($paypal->validatePayment($match[0], $match[2])) {
 		$initialExpiration = $server->getExpiration();
 		$expiration = strtotime("+1 month", $initialExpiration);
 		
-		$invoice = $user->createInvoice([["VPS Debian KVM", "Du ".date("d/m/Y", $initialExpiration)." au ".date("d/m/Y", $expiration)."\n4 coeurs CPU\n16 Go RAM\n50 Go SSD\n1Gbps", 1, 0, 34.99, 0, 34.99]]);
+		$invoice = $user->createInvoice([["VPS Debian KVM", "Du ".date("d/m/Y", $initialExpiration)." au ".date("d/m/Y", $expiration)."\n4 coeurs CPU\n16 Go RAM\n50 Go SSD\n500Mbps", 1, 0, 34.99, 0, 34.99]]);
 		
 		$user->extendVpsExpiration($paymentData["service"], $expiration);
 	} elseif ($paymentData["product"] == 5) {
 		// VPS Debian-3
-		$invoice = $user->createInvoice([["VPS Debian KVM", "Du ".date("d/m/Y")." au ".date("d/m/Y", strtotime("+1 month"))."\n8 coeurs CPU\n32 Go RAM\n100 Go SSD\n1Gbps", 1, 0, 54.99, 0, 54.99]]);
+		$invoice = $user->createInvoice([["VPS Debian KVM", "Du ".date("d/m/Y")." au ".date("d/m/Y", strtotime("+1 month"))."\n8 coeurs CPU\n32 Go RAM\n100 Go SSD\n500Mbps", 1, 0, 54.99, 0, 54.99]]);
 		$user->allocateServer(3);
 	} elseif ($paymentData["product"] == 6) {
-		// VPS Debian-4 renouvellement
+		// VPS Debian-3 renouvellement
 		$server = new Server($paymentData["service"]);
 		$initialExpiration = $server->getExpiration();
 		$expiration = strtotime("+1 month", $initialExpiration);
 		
-		$invoice = $user->createInvoice([["VPS Debian KVM", "Du ".date("d/m/Y", $initialExpiration)." au ".date("d/m/Y", $expiration)."\n8 coeurs CPU\n32 Go RAM\n100 Go SSD\n1Gbps", 1, 0, 54.99, 0, 54.99]]);
+		$invoice = $user->createInvoice([["VPS Debian KVM", "Du ".date("d/m/Y", $initialExpiration)." au ".date("d/m/Y", $expiration)."\n8 coeurs CPU\n32 Go RAM\n100 Go SSD\n500Mbps", 1, 0, 54.99, 0, 54.99]]);
 		
 		$user->extendVpsExpiration($paymentData["service"], $expiration);
 	}

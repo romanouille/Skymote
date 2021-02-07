@@ -4,9 +4,11 @@ if (!$userLogged) {
 	require "Handlers/Error.php";
 }
 
-if (!$user->hasInvoice($match[0])) {
-	http_response_code(404);
-	require "Handlers/Website/Error.php";
+if (!$admin) {
+	if (!$user->hasInvoice($match[0])) {
+		http_response_code(404);
+		require "Handlers/Website/Error.php";
+	}
 }
 
 $invoiceData = $user->loadInvoice($match[0]);

@@ -33,6 +33,42 @@ class User {
 		return $db->lastInsertId();
 	}
 	
+	public function load() : array {
+		global $db;
+		
+		$query = $db->prepare("SELECT firstname, lastname, company, address, postalcode, city, country FROM users WHERE email = :email");
+		$query->bindValue(":email", $this->email, PDO::PARAM_STR);
+		$query->execute();
+		$data = array_map("trim", $query->fetch());
+		$result = [
+			"firstname" => (string)$data["firstname"],
+			"lastname" => (string)$data["lastname"],
+			"company" => (string)$data["company"],
+			"address" => (string)$data["address"],
+			"postalcode" => (string)$data["postalcode"],
+			"city" => (string)$data["city"],
+			"country" => (string)$data["country"],
+			"ip" => []
+		];
+		
+		$query = $db->prepare("SELECT ip, port, timestamp FROM users_ips WHERE email = :email ORDER BY timestamp DESC");
+		$query->bindValue(":email", $this->email, PDO::PARAM_STR);
+		$query->execute();
+		$data = $query->fetchAll();
+		
+		foreach ($data as $value) {
+			$value = array_map("trim", $value);
+			
+			$result["ip"][] = [
+				"ip" => (string)$value["ip"],
+				"port" => (int)$value["port"],
+				"timestamp" => (int)$value["timestamp"]
+			];
+		}
+		
+		return $result;
+	}
+	
 	public static function checkPassword(string $email, string $password) {
 		global $db;
 		
@@ -94,22 +130,6 @@ class User {
 		$query->bindValue(":payment_id", $paymentId, PDO::PARAM_STR);
 		
 		return $query->execute();
-	}
-	
-	public function load() : array {
-		global $db;
-		
-		$query = $db->prepare("SELECT firstname, lastname, address, postalcode, city, country, company FROM users WHERE email = :email");
-		$query->bindValue(":email", $this->email, PDO::PARAM_STR);
-		$query->execute();
-		$data = $query->fetch();
-		if (empty($data)) {
-			return [];
-		}
-		
-		$data = array_map("trim", $data);
-		
-		return $data;
 	}
 	
 	public function createInvoice(array $products) : int {
@@ -182,7 +202,7 @@ class User {
 			return 0;
 		}
 		
-		$query = $db->prepare("SELECT id FROM servers WHERE owner = '' AND type = :type ORDER BY id ASC");
+		$query = $db->prepare("SELECT id, ip FROM servers WHERE owner = '' AND type = :type ORDER BY id ASC");
 		$query->bindValue(":type", $type, PDO::PARAM_INT);
 		$query->execute();
 		$data = $query->fetch();
@@ -194,13 +214,18 @@ class User {
 		$query->bindValue(":id", $serverId, PDO::PARAM_INT);
 		$query->execute();
 		
+		$query = $db->prepare("INSERT INTO ip_logs(ip, owner, timestamp_start, timestamp_end) VALUES(:ip, :owner, ".time().", ".strtotime("+1 month").")");
+		$query->bindValue(":ip", $data["ip"], PDO::PARAM_STR);
+		$query->bindValue(":owner", $this->email, PDO::PARAM_STR);
+		$query->execute();
+		
 		return $serverId;
 	}
 	
 	public function getVpsList() : array {
 		global $db;
 		
-		$query = $db->prepare("SELECT ip, password, type, expiration FROM servers WHERE owner = :owner");
+		$query = $db->prepare("SELECT ip, password, type, expiration FROM servers WHERE owner = :owner ORDER BY expiration DESC");
 		$query->bindValue(":owner", $this->email, PDO::PARAM_STR);
 		$query->execute();
 		$data = $query->fetchAll();
@@ -233,6 +258,18 @@ class User {
 		$query = $db->prepare("UPDATE servers SET expiration = :expiration WHERE ip = :ip");
 		$query->bindValue(":expiration", $expiration, PDO::PARAM_INT);
 		$query->bindValue(":ip", $server, PDO::PARAM_STR);
-		return $query->execute();
+		$query->execute();
+		
+		$query = $db->prepare("SELECT id FROM ip_logs WHERE ip = :ip ORDER BY timestamp_start DESC LIMIT 1");
+		$query->bindValue(":ip", $server, PDO::PARAM_STR);
+		$query->execute();
+		$data = $query->fetch();
+		
+		$query = $db->prepare("UPDATE ip_logs SET timestamp_end = :timestamp_end WHERE id = :id");
+		$query->bindValue(":timestamp_end", $expiration, PDO::PARAM_INT);
+		$query->bindValue(":id", $data["id"], PDO::PARAM_INT);
+		$query->execute();
+		
+		return true;
 	}
 }
