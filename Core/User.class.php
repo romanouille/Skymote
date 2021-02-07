@@ -182,7 +182,7 @@ class User {
 			return 0;
 		}
 		
-		$query = $db->prepare("SELECT id FROM servers WHERE owner = '' AND type = :type");
+		$query = $db->prepare("SELECT id FROM servers WHERE owner = '' AND type = :type ORDER BY id ASC");
 		$query->bindValue(":type", $type, PDO::PARAM_INT);
 		$query->execute();
 		$data = $query->fetch();

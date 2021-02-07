@@ -4,6 +4,15 @@ class Server {
 		$this->ip = $ip;
 	}
 	
+	public function exists() : bool {
+		global $db;
+		
+		$query = $db->prepare("SELECT COUNT(*) AS nb FROM servers WHERE ip = :ip");
+		$query->bindValue(":ip", $this->ip, PDO::PARAM_STR);
+		$query->execute();
+		return $query->fetch()["nb"];
+	}
+	
 	public function getExpiration() : int {
 		global $db;
 		

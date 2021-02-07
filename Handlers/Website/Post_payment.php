@@ -13,10 +13,38 @@ if (empty($paymentData)) {
 	require "Handlers/Website/Error.php";
 }
 
-if ($paymentData["product"] == 1) {
-	if (!Server::isAvailable(1)) {
-		http_response_code(503);
-		require "Handlers/Website/Error.php";
+if ($paymentData["product"] == 1 && !Server::isAvailable(1)) {
+	// VPS Debian-1
+	http_response_code(503);
+	require "Handlers/Error.php";
+} elseif ($paymentData["product"] == 2) {
+	// VPS Debian-1 renouvellement
+	$server = new Server($paymentData["service"]);
+	if (!$server->exists()) {
+		http_response_code(404);
+		require "Handlers/Error.php";
+	}
+} elseif ($paymentData["product"] == 3 && !Server::isAvailable(2)) {
+	// VPS Debian-2
+	http_response_code(503);
+	require "Handlers/Error.php";
+} elseif ($paymentData["product"] == 4) {
+	// VPS Debian-2 renouvellement
+	$server = new Server($paymentData["service"]);
+	if (!$server->exists()) {
+		http_response_code(404);
+		require "Handlers/Error.php";
+	}
+} elseif ($paymentData["product"] == 5 && !Server::isAvailable(3)) {
+	// VPS Debian-3
+	http_response_code(503);
+	require "Handlers/Error.php";
+} elseif ($paymentData["product"] == 6) {
+	// VPS Debian-3 renouvellement
+	$server = new Server($paymentData["service"]);
+	if (!$server->exists()) {
+		http_response_code(404);
+		require "Handlers/Error.php";
 	}
 }
 
@@ -25,17 +53,46 @@ if ($paypal->validatePayment($match[0], $match[2])) {
 	$user->setPaymentAsPaid($match[0]);
 	
 	if ($paymentData["product"] == 1) {
-		$invoice = $user->createInvoice([["VPS Windows 10", "Du ".date("d/m/Y")." au ".date("d/m/Y", strtotime("+1 month"))."\n8 coeurs CPU\n30 Go RAM\n480 Go HDD\n1Gbps", 1, 0, 39.99, 0, 39.99]]);
+		// VPS Debian-1
+		$invoice = $user->createInvoice([["VPS Debian LXC", "Du ".date("d/m/Y")." au ".date("d/m/Y", strtotime("+1 month"))."\n1 coeur CPU\n500 Mo RAM\n2 Go SSD\n8Mbps", 1, 0, 0.99, 0, 1.49]]);
 		$user->allocateServer(1);
 	} elseif ($paymentData["product"] == 2) {
+		// VPS Debian-1 renouvellement
 		$server = new Server($paymentData["service"]);
 		$initialExpiration = $server->getExpiration();
 		$expiration = strtotime("+1 month", $initialExpiration);
 		
-		$invoice = $user->createInvoice([["VPS Windows 10", "Du ".date("d/m/Y", $initialExpiration)." au ".date("d/m/Y", $expiration)."\n8 coeurs CPU\n30 Go RAM\n480 Go HDD\n1Gbps", 1, 0, 39.99, 0, 39.99]]);
+		$invoice = $user->createInvoice([["VPS Debian LXC", "Du ".date("d/m/Y", $initialExpiration)." au ".date("d/m/Y", $expiration)."\n1 coeur CPU\n500 Mo RAM\n2 Go SSD\n8Mbps", 1, 0, 0.99, 0, 1.49]]);
+		
+		$user->extendVpsExpiration($paymentData["service"], $expiration);
+	} elseif ($paymentData["product"] == 3) {
+		// VPS Debian-2
+		$invoice = $user->createInvoice([["VPS Debian KVM", "Du ".date("d/m/Y")." au ".date("d/m/Y", strtotime("+1 month"))."\n4 coeurs CPU\n16 Go RAM\n50 Go SSD\n1Gbps", 1, 0, 34.99, 0, 34.99]]);
+		$user->allocateServer(2);
+	} elseif ($paymentData["product"] == 4) {
+		// VPS Debian-2 renouvellement
+		$server = new Server($paymentData["service"]);
+		$initialExpiration = $server->getExpiration();
+		$expiration = strtotime("+1 month", $initialExpiration);
+		
+		$invoice = $user->createInvoice([["VPS Debian KVM", "Du ".date("d/m/Y", $initialExpiration)." au ".date("d/m/Y", $expiration)."\n4 coeurs CPU\n16 Go RAM\n50 Go SSD\n1Gbps", 1, 0, 34.99, 0, 34.99]]);
+		
+		$user->extendVpsExpiration($paymentData["service"], $expiration);
+	} elseif ($paymentData["product"] == 5) {
+		// VPS Debian-3
+		$invoice = $user->createInvoice([["VPS Debian KVM", "Du ".date("d/m/Y")." au ".date("d/m/Y", strtotime("+1 month"))."\n8 coeurs CPU\n32 Go RAM\n100 Go SSD\n1Gbps", 1, 0, 54.99, 0, 54.99]]);
+		$user->allocateServer(3);
+	} elseif ($paymentData["product"] == 6) {
+		// VPS Debian-4 renouvellement
+		$server = new Server($paymentData["service"]);
+		$initialExpiration = $server->getExpiration();
+		$expiration = strtotime("+1 month", $initialExpiration);
+		
+		$invoice = $user->createInvoice([["VPS Debian KVM", "Du ".date("d/m/Y", $initialExpiration)." au ".date("d/m/Y", $expiration)."\n8 coeurs CPU\n32 Go RAM\n100 Go SSD\n1Gbps", 1, 0, 54.99, 0, 54.99]]);
 		
 		$user->extendVpsExpiration($paymentData["service"], $expiration);
 	}
+
 	
 	$pageTitle = "Paiement #{$match[0]}";
 	$pageDescription = "Paiement #{$match[0]}";

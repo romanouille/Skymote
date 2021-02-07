@@ -12,14 +12,12 @@ if (isset($match[1]) && !$user->hasServer($match[1])) {
 }
 
 $products = [
-	1 => 39.99, // Windows 10
-	2 => 39.99, // Windows 10 renouvellement
-	3 => 0.99, // Debian-1
-	4 => 0.99, // Debian-1 renouvellement
-	5 => 34.99, // Debian-2
-	6 => 34.99, // Debian-2 renouvellement
-	7 => 54.99, // Debian-3
-	8 => 54.99, // Debian-3 renouvellement
+	1 => 1.49, // Debian-1
+	2 => 1.49, // Debian-1 renouvellement
+	3 => 34.99, // Debian-2
+	4 => 34.99, // Debian-2 renouvellement
+	5 => 54.99, // Debian-3
+	6 => 54.99, // Debian-3 renouvellement
 ];
 
 if (!isset($products[$match[0]])) {

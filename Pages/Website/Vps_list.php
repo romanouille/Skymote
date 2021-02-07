@@ -21,11 +21,15 @@ require "Pages/Website/Layout/Start.php";
 foreach ($data as $value) {
 ?>
 			<tr>
-				<td><a href="/account/vps/<?=$value["ip"]?>" title="<?=$value["ip"]?>/"><?=$value["ip"]?></a>
+				<td><a href="/account/vps/<?=$value["ip"]?>/" title="<?=$value["ip"]?>/"><?=$value["ip"]?></a>
 				<td>
 <?php
 	if ($value["type"] == 1) {
-		echo "Windows 10";
+		echo "Debian-1";
+	} elseif ($value["type"] == 2) {
+		echo "Debian-2";
+	} elseif ($value["type"] == 3) {
+		echo "Debian-3";
 	}
 ?>
 				<td><?=date("d/m/Y H:i:s", $value["expiration"])?>
