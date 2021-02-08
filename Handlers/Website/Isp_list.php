@@ -4,7 +4,7 @@ require "Core/GeoIP.class.php";
 if (isset($match[0])) {
 	if (!in_array($match[0], $countries)) {
 		http_response_code(404);
-		require "Handlers/Error.php";
+		require "Handlers/Website/Error.php";
 	}
 	
 	if (!Cache::exists("isp-list-{$match[0]}")) {

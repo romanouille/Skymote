@@ -12,7 +12,7 @@ if (!Cache::exists("isp-$ispId")) {
 }
 if (empty($data)) {
 	http_response_code(404);
-	require "Handlers/Error.php";
+	require "Handlers/Website/Error.php";
 }
 
 $slugTest = slug($data["name"]);

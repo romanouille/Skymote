@@ -4,7 +4,7 @@ require "Core/Server.class.php";
 
 if (!$userLogged) {
 	http_response_code(401);
-	require "Handlers/Error.php";
+	require "Handlers/Website/Error.php";
 }
 
 $paymentData = $user->loadPaypalPayment($match[0]);

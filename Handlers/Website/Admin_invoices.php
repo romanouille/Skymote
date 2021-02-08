@@ -1,7 +1,7 @@
 <?php
 if (!$userLogged || !$admin) {
 	http_response_code(401);
-	require "Handlers/Error.php";
+	require "Handlers/Website/Error.php";
 }
 
 require "Core/Admin.class.php";
