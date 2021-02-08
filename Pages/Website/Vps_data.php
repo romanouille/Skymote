@@ -24,15 +24,15 @@ require "Pages/Website/Layout/Start.php";
 if (!empty($data["hypervisor_password"])) {
 ?>
 		<tr>
-			<td>URL vers l'hyperviseur
-			<td><a href="https://<?=$data["hypervisor"]?>:8006" title="Hyperviseur">https://<?=$data["hypervisor"]?>:8006</a>
+			<td>URL de l'hyperviseur
+			<td><a href="https://<?=$data["hypervisor"]?>.skymote.net:8006" title="Hyperviseur" target="_blank">https://<?=$data["hypervisor"]?>.skymote.net:8006</a>
 		
 		<tr>
-			<td>Identifiant vers l'hyperviseur
+			<td>Identifiant de l'hyperviseur
 			<td><?=$match[0]?>
 			
 		<tr>
-			<td>Mot de passe vers l'hyperviseur
+			<td>Mot de passe de l'hyperviseur
 			<td><?=$data["hypervisor_password"]?>
 <?php
 }

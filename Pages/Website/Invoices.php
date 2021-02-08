@@ -7,16 +7,17 @@ require "Pages/Website/Layout/Start.php";
 		<li class="page-item"><a href="#" class="page-link"><?=$pageTitle?></a>
 	</ul>
 	
-	<h1>Mes VPS</h1>
+	<h1>Factures</h1>
+	
 <?php
 if (!empty($data)) {
 ?>
 	<table class="table striped">
 		<thead>
 			<tr>
-				<th>IP
-				<th>Offre
-				<th>Expiration
+				<th>ID
+				<th>Horodatage
+				<th>Actions
 		</thead>
 		
 		<tbody>
@@ -24,18 +25,9 @@ if (!empty($data)) {
 	foreach ($data as $value) {
 ?>
 			<tr>
-				<td><a href="/account/vps/<?=$value["ip"]?>/" title="<?=$value["ip"]?>"><?=$value["ip"]?></a>
-				<td>
-<?php
-		if ($value["type"] == 1) {
-			echo "Debian-1";
-		} elseif ($value["type"] == 2) {
-			echo "Debian-2";
-		} elseif ($value["type"] == 3) {
-			echo "Debian-3";
-		}
-?>
-				<td><?=date("d/m/Y H:i:s", $value["expiration"])?>
+				<td><?=$value["id"]?>
+				<td><?=date("d/m/Y H:i:s", $value["timestamp"])?>
+				<td><a href="/account/invoice?id=<?=$value["id"]?>" title="Accéder à la facture" class="button primary">Accéder à la facture</a>
 <?php
 	}
 ?>
@@ -45,7 +37,7 @@ if (!empty($data)) {
 } else {
 ?>
 	<div class="remark warning">
-		Vous ne possédez aucun VPS.
+		Vous ne possédez aucune facture.
 	</div>
 <?php
 }

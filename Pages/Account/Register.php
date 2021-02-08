@@ -7,14 +7,15 @@ require "Pages/Account/Layout/Start.php";
 <?php
 if (isset($messages)) {
 ?>
-    <div class="bg-red fg-white p-3">
+    <div class="bg-blue fg-white p-3">
         <?php foreach ($messages as $id=>$message) { if ($id > 0) echo "<br>"; echo $message; }?>
     </div>
     <br>
 <?php
 }
-?>
 
+if (!$success) {
+?>
     <div class="form-group">
         <input type="text" name="email" data-role="input" data-prepend="<span class='mif-user'>" placeholder="Adresse e-mail" value="<?=isset($_POST["email"]) && is_string($_POST["email"]) ? htmlspecialchars($_POST["email"]) : ""?>" maxlength="100" required>
     </div>
@@ -28,7 +29,7 @@ if (isset($messages)) {
     </div>
 	
     <div class="form-group">
-        <input type="text" name="company" data-role="input" data-prepend="<span class='mif-user'>" placeholder="Entreprise" value="<?=isset($_POST["company"]) && is_string($_POST["company"]) ? htmlspecialchars($_POST["company"]) : ""?>" maxlength="100" required>
+        <input type="text" name="company" data-role="input" data-prepend="<span class='mif-user'>" placeholder="Entreprise" value="<?=isset($_POST["company"]) && is_string($_POST["company"]) ? htmlspecialchars($_POST["company"]) : ""?>" maxlength="100">
     </div>
 	
     <div class="form-group">
@@ -63,6 +64,13 @@ if (isset($messages)) {
         <input type="submit" class="button success" title="Valider" value="Valider">
         <a href="/account/login" class="button secondary place-right" title="J'ai déjà un compte">J'ai déjà un compte</a>
     </div>
+<?php
+} else {
+?>
+	<a href="/account/login" title="Connexion">Connexion</a>
+<?php
+}
+?>
 </form>
 <?php
 require "Pages/Account/Layout/End.php";

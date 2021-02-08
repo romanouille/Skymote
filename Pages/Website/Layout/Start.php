@@ -106,6 +106,10 @@ header #right {
 	margin-top:50px;
 	font-size:10px
 }
+
+.center {
+	text-align:center
+}
 		</style>
 		
 		<script src="https://www.google.com/recaptcha/api.js" async defer></script>
@@ -120,9 +124,9 @@ header #right {
 							<h2>Skymote</h2>
 						</div>
 						
-						<!--<div class="cell" id="right">
-							<a href="#" title="Espace client">Espace client</a>
-						</div>-->
+						<div class="cell" id="right">
+							<a href="/account/" title="Espace client">Espace client</a>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -134,8 +138,7 @@ header #right {
 						<li><a href="/isp-list" title="Liste des FAI par pays">Liste des FAI par pays</a>
 						<li><a href="/recent-allocations" title="Récentes allocations">Récentes allocations</a>
 						<li><a href="/proxys" title="Proxys Socks5">Proxys Socks5</a>
-						<li><a href="/tools/ping" title="Ping">Ping</a>
-						<li><a href="/tools/traceroute" title="Traceroute">Traceroute</a>
+						<li><a href="/vps" title="VPS">VPS</a>
 					</ul>
 				</div>
 			</div>

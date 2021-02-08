@@ -9,7 +9,7 @@ require "Pages/Account/Layout/Start.php";
     </div>
 	<br>
 	
-	<a href="/" title="Retour au site">Retour au site</a>
+	<a href="/account/" title="Accéder à l'espace client">Accéder à l'espace client</a>
 </form>
 <?php
 require "Pages/Account/Layout/End.php";

@@ -58,10 +58,10 @@ require "Pages/Website/Layout/Start.php";
 		
 		➡️ <b>Configurations des serveurs hôtes</b>
 		<ul>
-			<li>Intel 2x Xeon E5-2630v3 - 16c/ 32t - 2.4GHz/ 3.2GHz
-			<li>128 Go DDR4 ECC 1866MHz
-			<li>2x 480 Go SSD RAID 1
-			<li>500Mbps (débit mutualisé entre les VPS)
+			<li>Processeurs Intel Xeon
+			<li>128 Go RAM DDR4 au minimum
+			<li>Disques SSD
+			<li>500Mbps par hôte (débit mutualisé entre les VPS)
 			<li>Localisés en France
 		</ul>
 		<br>

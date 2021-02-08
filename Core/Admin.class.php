@@ -1,5 +1,10 @@
 <?php
 class Admin {
+	/**
+	 * Récupère la liste de toutes les factures créées sur le site
+	 *
+	 * @return array Factures
+	 */
 	public static function getAllInvoices() : array {
 		global $db;
 		

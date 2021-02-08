@@ -100,6 +100,14 @@ $routes = [
 		"handler" => "Website/Vps_data.php"
 	],
 	
+	"#^\/account\/invoices$#" => [
+		"handler" => "Website/Invoices.php"
+	],
+	
+	"#^\/legal$#" => [
+		"handler" => "Website/Legal.php"
+	],
+	
 	"#^\/account\/admin\/login$#" => [
 		"handler" => "Website/Admin_login.php"
 	],

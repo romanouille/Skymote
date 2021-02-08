@@ -1,9 +1,19 @@
 <?php
 class Server {
+	/**
+	 * Constructeur
+	 *
+	 * @param string $ip Adresse IP du serveur
+	 */
 	public function __construct(string $ip) {
 		$this->ip = $ip;
 	}
 	
+	/**
+	 * Vérifie si le serveur existe
+	 *
+	 * @return bool Résultat
+	 */
 	public function exists() : bool {
 		global $db;
 		
@@ -13,6 +23,11 @@ class Server {
 		return $query->fetch()["nb"];
 	}
 	
+	/**
+	 * Récupère l'horodatage de l'expiration du serveur
+	 *
+	 * @return int Horodatage de l'expiration
+	 */
 	public function getExpiration() : int {
 		global $db;
 		
@@ -24,6 +39,11 @@ class Server {
 		return $data["expiration"];
 	}
 	
+	/**
+	 * Charge les données sur le serveur
+	 *
+	 * @return array Résultat
+	 */
 	public function load() : array {
 		global $db;
 		
@@ -40,6 +60,13 @@ class Server {
 		return $data;
 	}
 	
+	/**
+	 * Vérifie si un type de serveur est disponible à la location
+	 *
+	 * @param int $type Type de serveur
+	 *
+	 * @return bool Résultat
+	 */
 	public static function isAvailable(int $type) : bool {
 		global $db;
 		
@@ -51,6 +78,11 @@ class Server {
 		return $data["nb"] > 0;
 	}
 	
+	/**
+	 * Récupère les serveurs qui expirent prochainement
+	 *
+	 * @return array Résultat
+	 */
 	public static function getExpirations() : array {
 		global $db;
 		
@@ -69,6 +101,13 @@ class Server {
 		return $result;
 	}
 	
+	/**
+	 * Récupère le propriétaire du serveur
+	 *
+	 * @param int $timestamp Horodatage
+	 *
+	 * @return string Résultat
+	 */
 	public function getOwner(int $timestamp) : string {
 		global $db;
 		

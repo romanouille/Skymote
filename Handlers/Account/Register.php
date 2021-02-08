@@ -1,6 +1,7 @@
 <?php
 require "Core/Captcha.class.php";
 
+$success = false;
 if (count($_POST) > 0) {
 	$messages = [];
 	
@@ -60,7 +61,8 @@ if (count($_POST) > 0) {
 	
 	if (empty($messages)) {
 		$userId = User::create($_POST["email"], $_POST["password"], $_POST["firstname"], $_POST["lastname"], $_POST["address"], $_POST["postalcode"], $_POST["city"], $_POST["country"], $_POST["company"]);
-		$messages[] = "User ID : $userId";
+		$messages[] = "Votre compte a été créé, vous pouvez maintenant vous connecter.";
+		$success = true;
 	}
 }
 

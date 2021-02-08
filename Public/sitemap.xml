@@ -17,9 +17,6 @@
 		<loc>https://skymote.net/proxys</loc>
 	</url>
 	<url>
-		<loc>https://skymote.net/tools/ping</loc>
-	</url>
-	<url>
-		<loc>https://skymote.net/tools/traceroute</loc>
+		<loc>https://skymote.net/vps</loc>
 	</url>
 </urlset>

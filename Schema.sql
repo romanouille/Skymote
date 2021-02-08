@@ -392,3 +392,120 @@ ALTER TABLE "podi_regions" ADD CONSTRAINT "podi_regions_id" PRIMARY KEY ("id");
 
 /* proxys */
 ALTER TABLE "proxys" ADD CONSTRAINT "proxys_id" PRIMARY KEY ("id");
+
+
+
+-- Adminer 4.7.8 PostgreSQL dump
+
+DROP TABLE IF EXISTS "invoices";
+DROP SEQUENCE IF EXISTS invoices_id_seq;
+CREATE SEQUENCE invoices_id_seq INCREMENT 1 MINVALUE 1 MAXVALUE 2147483647 START 1 CACHE 1;
+
+CREATE TABLE "public"."invoices" (
+    "id" integer DEFAULT nextval('invoices_id_seq') NOT NULL,
+    "recipient" text NOT NULL,
+    "products" text NOT NULL,
+    "user_email" character(100) NOT NULL,
+    "timestamp" bigint NOT NULL,
+    CONSTRAINT "invoices_id" PRIMARY KEY ("id")
+) WITH (oids = false);
+
+CREATE INDEX "invoices_user_email" ON "public"."invoices" USING btree ("user_email");
+
+
+DROP TABLE IF EXISTS "ip_logs";
+DROP SEQUENCE IF EXISTS ip_logs_id_seq;
+CREATE SEQUENCE ip_logs_id_seq INCREMENT 1 MINVALUE 1 MAXVALUE 2147483647 START 1 CACHE 1;
+
+CREATE TABLE "public"."ip_logs" (
+    "id" integer DEFAULT nextval('ip_logs_id_seq') NOT NULL,
+    "ip" inet NOT NULL,
+    "owner" character(100) NOT NULL,
+    "timestamp_start" bigint NOT NULL,
+    "timestamp_end" bigint NOT NULL,
+    CONSTRAINT "ip_logs_id" PRIMARY KEY ("id")
+) WITH (oids = false);
+
+CREATE INDEX "ip_logs_ip" ON "public"."ip_logs" USING btree ("ip");
+
+
+DROP TABLE IF EXISTS "paypal";
+DROP SEQUENCE IF EXISTS paypal_id_seq;
+CREATE SEQUENCE paypal_id_seq INCREMENT 1 MINVALUE 1 MAXVALUE 2147483647 START 1 CACHE 1;
+
+CREATE TABLE "public"."paypal" (
+    "id" integer DEFAULT nextval('paypal_id_seq') NOT NULL,
+    "payment_id" character(30) NOT NULL,
+    "price" numeric NOT NULL,
+    "user_email" character(100) NOT NULL,
+    "product" smallint NOT NULL,
+    "paid" smallint DEFAULT '0' NOT NULL,
+    "service" inet NOT NULL,
+    CONSTRAINT "paypal_id" PRIMARY KEY ("id")
+) WITH (oids = false);
+
+CREATE INDEX "paypal_paid" ON "public"."paypal" USING btree ("paid");
+
+CREATE INDEX "paypal_payment_id" ON "public"."paypal" USING btree ("payment_id");
+
+
+DROP TABLE IF EXISTS "servers";
+DROP SEQUENCE IF EXISTS servers_id_seq;
+CREATE SEQUENCE servers_id_seq INCREMENT 1 MINVALUE 1 MAXVALUE 2147483647 START 1 CACHE 1;
+
+CREATE TABLE "public"."servers" (
+    "id" integer DEFAULT nextval('servers_id_seq') NOT NULL,
+    "ip" inet NOT NULL,
+    "password" character(32) NOT NULL,
+    "owner" character(100) DEFAULT '' NOT NULL,
+    "type" smallint NOT NULL,
+    "expiration" bigint DEFAULT '0' NOT NULL,
+    "hypervisor" character(50) NOT NULL,
+    "hypervisor_password" character(32) DEFAULT '' NOT NULL,
+    CONSTRAINT "servers_id" PRIMARY KEY ("id")
+) WITH (oids = false);
+
+CREATE INDEX "servers_expiration" ON "public"."servers" USING btree ("expiration");
+
+CREATE INDEX "servers_owner" ON "public"."servers" USING btree ("owner");
+
+CREATE INDEX "servers_type" ON "public"."servers" USING btree ("type");
+
+
+DROP TABLE IF EXISTS "users";
+DROP SEQUENCE IF EXISTS users_id_seq;
+CREATE SEQUENCE users_id_seq INCREMENT 1 MINVALUE 1 MAXVALUE 2147483647 START 1 CACHE 1;
+
+CREATE TABLE "public"."users" (
+    "id" integer DEFAULT nextval('users_id_seq') NOT NULL,
+    "email" character(100) NOT NULL,
+    "password" character(255) NOT NULL,
+    "firstname" character(100) NOT NULL,
+    "lastname" character(100) NOT NULL,
+    "address" character(100) NOT NULL,
+    "postalcode" character(100) NOT NULL,
+    "city" character(100) NOT NULL,
+    "country" character(100) NOT NULL,
+    "company" character(100) DEFAULT '' NOT NULL,
+    CONSTRAINT "users_id" PRIMARY KEY ("id")
+) WITH (oids = false);
+
+CREATE INDEX "users_email" ON "public"."users" USING btree ("email");
+
+
+DROP TABLE IF EXISTS "users_ips";
+DROP SEQUENCE IF EXISTS users_ips_id_seq;
+CREATE SEQUENCE users_ips_id_seq INCREMENT 1 MINVALUE 1 MAXVALUE 2147483647 START 1 CACHE 1;
+
+CREATE TABLE "public"."users_ips" (
+    "id" integer DEFAULT nextval('users_ips_id_seq') NOT NULL,
+    "email" character(100) NOT NULL,
+    "ip" inet NOT NULL,
+    "port" integer NOT NULL,
+    "timestamp" bigint NOT NULL,
+    CONSTRAINT "users_ips_id" PRIMARY KEY ("id")
+) WITH (oids = false);
+
+CREATE INDEX "users_ips_email" ON "public"."users_ips" USING btree ("email");
+
+CREATE INDEX "users_ips_timestamp" ON "public"."users_ips" USING btree ("timestamp");

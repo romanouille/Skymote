@@ -1,7 +1,7 @@
 <?php
 if (!$userLogged) {
-	http_response_code(401);
-	require "Handlers/Error.php";
+	header("Location: /account/login");
+	exit;
 }
 
 $pageTitle = "Mon compte";

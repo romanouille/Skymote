@@ -20,7 +20,7 @@ if ($paymentData["product"] == 1 && !Server::isAvailable(1)) {
 } elseif ($paymentData["product"] == 2) {
 	// VPS Debian-1 renouvellement
 	$server = new Server($paymentData["service"]);
-	if (!$server->exists()) {
+	if (!$server->exists() || !$user->hasServer($paymentData["service"])) {
 		http_response_code(404);
 		require "Handlers/Error.php";
 	}
@@ -31,7 +31,7 @@ if ($paymentData["product"] == 1 && !Server::isAvailable(1)) {
 } elseif ($paymentData["product"] == 4) {
 	// VPS Debian-2 renouvellement
 	$server = new Server($paymentData["service"]);
-	if (!$server->exists()) {
+	if (!$server->exists() || !$user->hasServer($paymentData["service"])) {
 		http_response_code(404);
 		require "Handlers/Error.php";
 	}
@@ -42,7 +42,7 @@ if ($paymentData["product"] == 1 && !Server::isAvailable(1)) {
 } elseif ($paymentData["product"] == 6) {
 	// VPS Debian-3 renouvellement
 	$server = new Server($paymentData["service"]);
-	if (!$server->exists()) {
+	if (!$server->exists() || !$user->hasServer($paymentData["service"])) {
 		http_response_code(404);
 		require "Handlers/Error.php";
 	}
@@ -54,7 +54,7 @@ if ($paypal->validatePayment($match[0], $match[2])) {
 	
 	if ($paymentData["product"] == 1) {
 		// VPS Debian-1
-		$invoice = $user->createInvoice([["VPS Debian LXC", "Du ".date("d/m/Y")." au ".date("d/m/Y", strtotime("+1 month"))."\n1 coeur CPU\n500 Mo RAM\n2 Go SSD\n8Mbps", 1, 0, 0.99, 0, 1.49]]);
+		$invoice = $user->createInvoice([["VPS Debian LXC", "Du ".date("d/m/Y")." au ".date("d/m/Y", strtotime("+1 month"))."\n1 coeur CPU\n500 Mo RAM\n2 Go SSD\n8Mbps", 1, 0, 1.49, 0, 1.49]]);
 		$user->allocateServer(1);
 	} elseif ($paymentData["product"] == 2) {
 		// VPS Debian-1 renouvellement
@@ -62,7 +62,7 @@ if ($paypal->validatePayment($match[0], $match[2])) {
 		$initialExpiration = $server->getExpiration();
 		$expiration = strtotime("+1 month", $initialExpiration);
 		
-		$invoice = $user->createInvoice([["VPS Debian LXC", "Du ".date("d/m/Y", $initialExpiration)." au ".date("d/m/Y", $expiration)."\n1 coeur CPU\n500 Mo RAM\n2 Go SSD\n8Mbps", 1, 0, 0.99, 0, 1.49]]);
+		$invoice = $user->createInvoice([["VPS Debian LXC", "Du ".date("d/m/Y", $initialExpiration)." au ".date("d/m/Y", $expiration)."\n1 coeur CPU\n500 Mo RAM\n2 Go SSD\n8Mbps", 1, 0, 1.49, 0, 1.49]]);
 		
 		$user->extendVpsExpiration($paymentData["service"], $expiration);
 	} elseif ($paymentData["product"] == 3) {

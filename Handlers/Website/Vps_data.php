@@ -1,12 +1,12 @@
 <?php
 if (!$userLogged) {
 	http_response_code(401);
-	require "Handlers/Error.php";
+	require "Handlers/Website/Error.php";
 }
 
 if (!$user->hasServer($match[0])) {
 	http_response_code(404);
-	require "Handlers/Error.php";
+	require "Handlers/Website/Error.php";
 }
 
 require "Core/Server.class.php";

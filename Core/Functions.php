@@ -1,4 +1,7 @@
 <?php
+/**
+ * Effectue le rendu de la page
+ */
 function renderPage() {
 	$data = ob_get_contents();
 	ob_end_clean();

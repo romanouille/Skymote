@@ -1,7 +1,7 @@
 <?php
 if (!$userLogged) {
-	http_response_code(401);
-	require "Handlers/Website/Error.php";
+	header("Location: /account/login");
+	exit;
 }
 
 require "Core/Paypal.class.php";

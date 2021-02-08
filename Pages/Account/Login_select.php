@@ -12,7 +12,7 @@ require "Pages/Account/Layout/Start.php";
     <br>
 
     <div class="form-group">
-        <a href="/account/register" class="button secondary place-right" title="Inscription">Inscription</a>
+        <a href="/account/register" title="Créer un compte">Créer un compte</a>
     </div>
 
     <div class="form-group">

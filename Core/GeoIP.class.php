@@ -1,5 +1,12 @@
 <?php
-class GeoIP {		
+class GeoIP {
+	/**
+	 * Vérifie si une chaîne est une adresse IP
+	 *
+	 * @param string $ip Chaîne
+	 *
+	 * @return bool Résultat
+	 */
 	public static function validateIp(string $ip) : bool {
 		if (!inet_pton($ip)) {
 			return false;
@@ -52,10 +59,6 @@ class GeoIP {
 		return strstr($ip, ":") ? self::long2ipv2(gmp_strval(gmp_add(self::ip2longv2($ip), 1)), 1) : long2ip(ip2long($ip)+1);
 	}
 	
-	public static function reduceIpv6(string $ip) : string {
-		return self::precedentIp(self::nextIp($ip));
-	}
-	
 	/**
 	 * Converti une IPv6 en valeur décimale
 	 *
@@ -102,6 +105,13 @@ class GeoIP {
 		return inet_ntop($packed);
 	}
 	
+	/**
+	 * Réduit une IP
+	 *
+	 * @param string $ip IP à réduire
+	 *
+	 * @return string IP réduite
+	 */
 	public static function reduceIp(string $ip) : string {
 		return self::precedentIp(self::nextIp($ip));
 	}
@@ -432,7 +442,12 @@ class GeoIP {
 		
 		return $result;
 	}
-
+	
+	/**
+	 * Récupère la table actuelle
+	 *
+	 * @return int Table
+	 */
 	public static function getTable() : int {
 		global $db;
 
@@ -442,7 +457,14 @@ class GeoIP {
 
 		return (int)$data["value"];
 	}
-
+	
+	/**
+	 * Récupère des informations sur une IP
+	 *
+	 * @param string $ip Adresse IP
+	 *
+	 * @return array Données
+	 */
 	public static function getIpData(string $ip) : array {
 		global $db;
 		
@@ -523,6 +545,13 @@ class GeoIP {
 		return $result;
 	}
 	
+	/**
+	 * Effectue une recherche
+	 *
+	 * @param string $text Texte à rechercher
+	 *
+	 * @return array Résultat
+	 */
 	public static function search(string $text) : array {
 		global $db, $table;
 		
@@ -626,6 +655,13 @@ class GeoIP {
 		return $result;
 	}
 	
+	/**
+	 * Récupère des informations sur une organisation
+	 *
+	 * @param string $org Organisation
+	 *
+	 * @return array Résultat
+	 */
 	public static function getOrgData(string $org) : array {
 		global $db;
 		
@@ -672,6 +708,11 @@ class GeoIP {
 		return $result;
 	}
 	
+	/**
+	 * Récupère les récentes allocations RIPE
+	 *
+	 * @return array Résultat
+	 */
 	public static function getRecentsAllocations() : array {
 		global $db;
 		
@@ -790,6 +831,13 @@ class GeoIP {
 		return $result;
 	}
 	
+	/**
+	 * Récupère la liste des FAI d'un pays
+	 *
+	 * @param string $countryCode Code ISO du pays
+	 *
+	 * @return array Résultat
+	 */
 	public static function getIspList(string $countryCode) : array {
 		global $db;
 		
@@ -810,6 +858,11 @@ class GeoIP {
 		return $result;
 	}
 	
+	/**
+	 * Récupère la liste des proxys
+	 *
+	 * @return array Résultat
+	 */
 	public static function getProxysList() : array {
 		global $db;
 		
@@ -837,6 +890,13 @@ class GeoIP {
 		return $result;
 	}
 	
+	/**
+	 * Récupère des informations sur un FAI
+	 *
+	 * @param int $id ID du FAI
+	 *
+	 * @return array Résultat
+	 */
 	public static function getIspData(int $id) : array {
 		global $db;
 		
