@@ -1,6 +1,6 @@
 <?php
 if (!$userLogged) {
-	header("Location: /account/login");
+	header("Location: /account/register");
 	exit;
 }
 
@@ -12,12 +12,8 @@ if (isset($match[1]) && !$user->hasServer($match[1])) {
 }
 
 $products = [
-	1 => 1.49, // Debian-1
-	2 => 1.49, // Debian-1 renouvellement
-	3 => 34.99, // Debian-2
-	4 => 34.99, // Debian-2 renouvellement
-	5 => 54.99, // Debian-3
-	6 => 54.99, // Debian-3 renouvellement
+	1 => 19.99,
+	2 => 19.99,
 ];
 
 if (!isset($products[$match[0]])) {

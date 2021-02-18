@@ -68,6 +68,14 @@ $routes = [
 		"handler" => "Website/Vps.php"
 	],
 	
+	"#^\/vps(.+)$#" => [
+		"handler" => "Website/Vps.php"
+	],
+	
+	"#^\/scans$#" => [
+		"handler" => "Website/Scans.php"
+	],
+	
 	"#^\/account\/buy\/post\?paymentId=(.+)&token=(.+)&PayerID=(.+)$#" => [
 		"handler" => "Website/Post_payment.php"
 	],
@@ -130,5 +138,9 @@ $routes = [
 	
 	"#^\/account\/admin\/invoices$#" => [
 		"handler" => "Website/Admin_invoices.php"
+	],
+	
+	"#^\/dl\/rdp\?ip=(.+)$#" => [
+		"handler" => "Website/Rdp_profile_download.php"
 	]
 ];

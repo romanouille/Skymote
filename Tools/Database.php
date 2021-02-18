@@ -1,6 +1,6 @@
 <?php
 ini_set("memory_limit", "128M");
-$devMode = true;
+$dev = true;
 
 set_include_path("../");
 chdir("../");

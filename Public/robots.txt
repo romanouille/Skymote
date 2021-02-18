@@ -2,3 +2,4 @@ User-agent: *
 Disallow: /tools/
 Disallow: /search
 Disallow: /account/
+Disallow: /legal

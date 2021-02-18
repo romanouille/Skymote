@@ -47,7 +47,7 @@ class Server {
 	public function load() : array {
 		global $db;
 		
-		$query = $db->prepare("SELECT password, type, expiration, owner, hypervisor, hypervisor_password FROM servers WHERE ip = :ip");
+		$query = $db->prepare("SELECT password, root_password, type, expiration, owner, hypervisor, hypervisor_password FROM servers WHERE ip = :ip");
 		$query->bindValue(":ip", $this->ip, PDO::PARAM_STR);
 		$query->execute();
 		$data = $query->fetch();

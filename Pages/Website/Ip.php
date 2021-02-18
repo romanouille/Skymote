@@ -74,8 +74,8 @@ if ($data["block"]["rir"] == 4 && !empty($data["allocations"])) {
 				<td><a href="/org/<?=$value["org"]?>" title="<?=$value["org"]?>"><?=$value["org"]?></a>
 				<td><?=Locale::getDisplayRegion("-{$value["country"]}", "fr")?> <span class="flag-icon flag-icon-<?=$value["country"]?>"></span>
 				<td><?=htmlspecialchars($value["netname"])?>
-				<td><pre><?=htmlspecialchars($value["description"])?></pre>
-				<td><pre><?=htmlspecialchars($value["remarks"])?></pre>
+				<td><pre><?=nl2br(htmlspecialchars($value["description"]))?></pre>
+				<td><pre><?=nl2br(htmlspecialchars($value["remarks"]))?></pre>
 				<td><?=$value["status"]?>
 				<td><?=date("d/m/Y H:i:s", $value["created"])?>
 				<td><?=date("d/m/Y H:i:s", $value["modified"])?>

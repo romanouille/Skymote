@@ -35,8 +35,8 @@ foreach ($data["allocations"] as $value) {
 				<td><a href="/org/<?=$value["org"]?>" title="<?=$value["org"]?>"><?=$value["org"]?></a>
 				<td><?=Locale::getDisplayRegion("-{$value["country"]}", "fr")?> <span class="flag-icon flag-icon-<?=$value["country"]?>"></span>
 				<td><?=htmlspecialchars($value["netname"])?>
-				<td><pre><?=htmlspecialchars($value["description"])?></pre>
-				<td><pre><?=htmlspecialchars($value["remarks"])?></pre>
+				<td><pre><?=nl2br(htmlspecialchars($value["description"]))?></pre>
+				<td><pre><?=nl2br(htmlspecialchars($value["remarks"]))?></pre>
 				<td><?=$value["status"]?>
 				<td><?=date("d/m/Y H:i:s", $value["created"])?>
 				<td><?=date("d/m/Y H:i:s", $value["modified"])?>
@@ -122,8 +122,8 @@ foreach ($data["ripeAs"] as $value) {
 				<td>AS<?=$value["id"]?>
 				<td><a href="/org/<?=$value["org"]?>" title="<?=$value["org"]?>"><?=$value["org"]?></a>
 				<td><a href="/org/<?=$value["sponsoring_org"]?>" title="<?=$value["sponsoring_org"]?>"><?=$value["sponsoring_org"]?></a>
-				<td><pre><?=htmlspecialchars($value["description"])?></pre>
-				<td><pre><?=htmlspecialchars($value["remarks"])?></pre>
+				<td><pre><?=nl2br(htmlspecialchars($value["description"]))?></pre>
+				<td><pre><?=nl2br(htmlspecialchars($value["remarks"]))?></pre>
 				<td><?=date("d/m/Y H:i:s", $value["created"])?>
 				<td><?=date("d/m/Y H:i:s", $value["modified"])?>
 <?php
@@ -180,7 +180,7 @@ foreach ($data["routes"] as $value) {
 			<tr>
 				<td>IPv<?=$value["version"]?>
 				<td><?=$value["block"]?> (<a href="/ip/<?=$value["block_start"]?>" title="<?=$value["block_start"]?>"><?=$value["block_start"]?></a> - <a href="/ip/<?=$value["block_end"]?>" title="<?=$value["block_end"]?>"><?=$value["block_end"]?></a>)
-				<td><pre><?=htmlspecialchars($value["description"])?></pre>
+				<td><pre><?=nl2br(htmlspecialchars($value["description"]))?></pre>
 				<td><?=$value["origin"] > 0 ? "AS{$value["origin"]}" : "*"?>
 				<td><?=date("d/m/Y H:i:s", $value["created"])?>
 				<td><?=date("d/m/Y H:i:s", $value["modified"])?>

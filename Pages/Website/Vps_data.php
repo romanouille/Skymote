@@ -10,16 +10,28 @@ require "Pages/Website/Layout/Start.php";
 	<h1>VPS <?=$match[0]?></h1>
 	<table class="table striped">
 		<tr>
-			<td>Nom d'utilisateur SSH
-			<td>user
+			<td>Identifiants utilisateur
+			<td>user / <?=$data["password"]?>
 			
 		<tr>
-			<td>Mot de passe
-			<td><?=$data["password"]?>
+			<td>Identifiants root
+			<td>root / <?=$data["root_password"]?>
 			
 		<tr>
 			<td>Expiration
 			<td><?=date("d/m/Y H:i:s", $data["expiration"])?>
+			
+		<tr>
+			<td>Adresses IPv4
+			<td>
+<?php
+$baseIp = explode(".", $match[0]);
+$baseIpEnd = $baseIp[3]+7;
+
+for ($i = $baseIp[3]; $i <= $baseIpEnd; $i++) {
+	echo "{$baseIp[0]}.{$baseIp[1]}.{$baseIp[2]}.$i<br>";
+}
+?>
 <?php
 if (!empty($data["hypervisor_password"])) {
 ?>
@@ -42,13 +54,8 @@ if (!empty($data["hypervisor_password"])) {
 <?php
 if ($data["type"] == 1) {
 	$renewProduct = 2;
-} elseif ($data["type"] == 2) {
-	$renewProduct = 4;
-} elseif ($data["type"] == 3) {
-	$renewProduct = 6;
 }
 ?>
-
 	<a href="/account/buy/init?product=<?=$renewProduct?>&service=<?=$match[0]?>" class="button primary">Renouveler le VPS pour 1 mois</a>
 
 </div>

@@ -1,6 +1,27 @@
 <!DOCTYPE html>
 <html lang="fr">
 	<head>
+<?php
+if (!$dev) {
+?>
+		<script async src="https://www.googletagmanager.com/gtag/js?id=G-YN4NKDJJJJ"></script>
+		<script>
+		  window.dataLayer = window.dataLayer || [];
+		  function gtag(){dataLayer.push(arguments);}
+		  gtag('js', new Date());
+
+		  gtag('config', 'G-YN4NKDJJJJ');
+		</script>
+		
+	<script type="text/javascript">
+	_atrk_opts = { atrk_acct:"9uS6u1hNdI20fn", domain:"skymote.net",dynamic: true};
+	(function() { var as = document.createElement('script'); as.type = 'text/javascript'; as.async = true; as.src = "https://certify-js.alexametrics.com/atrk.js"; var s = document.getElementsByTagName('script')[0];s.parentNode.insertBefore(as, s); })();
+	</script>
+	<noscript><img src="https://certify.alexametrics.com/atrk.gif?account=9uS6u1hNdI20fn" style="display:none" height="1" width="1" alt="" /></noscript>
+	  
+<?php
+}
+?>
 		<title><?=htmlspecialchars($pageTitle)?> - Skymote</title>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -138,7 +159,8 @@ header #right {
 						<li><a href="/isp-list" title="Liste des FAI par pays">Liste des FAI par pays</a>
 						<li><a href="/recent-allocations" title="Récentes allocations">Récentes allocations</a>
 						<li><a href="/proxys" title="Proxys Socks5">Proxys Socks5</a>
-						<li><a href="/vps" title="VPS">VPS</a>
+						<li><a href="/vps" title="VPS Debian">VPS Debian</a>
+						<li><a href="/scans" title="Scans">Scans</a>
 					</ul>
 				</div>
 			</div>

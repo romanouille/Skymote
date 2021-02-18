@@ -27,11 +27,13 @@ require "Pages/Website/Layout/Start.php";
 				</a>
 			</div>
 			
-			<!--<div class="cell-lg-4 cell-12">
-				<div class="tile-large bg-orange" data-role="tile" data-role-tile="true">
-					<span class="mif-http icon"></span>
-					<span class="branding-bar">Hébergement web</span>
-				</div>
+			<!--<div class="cell-lg-6 cell-12">
+				<a href="https://monespaceweb.io/" title="Hébergement web" target="_blank">
+					<div class="tile-large bg-orange" data-role="tile" data-role-tile="true">
+						<span class="mif-http icon"></span>
+						<span class="branding-bar">Hébergement web</span>
+					</div>
+				</a>
 			</div>-->
 			
 			<div class="cell-lg-6 cell-12">
