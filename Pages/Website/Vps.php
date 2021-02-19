@@ -155,9 +155,10 @@
                     <div class="col-lg-2 col-sm-3 col-5">
                         <!-- Start Logo -->
                         <div class="logo">
-                            <a href="index.html">
-                                <img src="<?=$config["common"]["static_server"]?>/assets/img/logo.png" class="main-logo" alt="">
-                                <img src="<?=$config["common"]["static_server"]?>/assets/img/sticky-logo.png" class="sticky-logo" alt="">
+                            <a href="/">
+                                <!--<img src="<?=$config["common"]["static_server"]?>/assets/img/logo.png" class="main-logo" alt="">
+                                <img src="<?=$config["common"]["static_server"]?>/assets/img/sticky-logo.png" class="sticky-logo" alt="">-->
+								Skymote
                             </a>
                         </div>
                         <!-- End of Logo -->
