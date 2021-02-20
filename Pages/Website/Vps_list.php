@@ -29,6 +29,8 @@ if (!empty($data)) {
 <?php
 		if ($value["type"] == 1) {
 			echo "Debian-1";
+		} elseif ($value["type"] == 2) {
+			echo "Debian-Free";
 		}
 ?>
 				<td><?=date("d/m/Y H:i:s", $value["expiration"])?>

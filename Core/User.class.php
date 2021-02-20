@@ -289,7 +289,7 @@ class User {
 	 *
 	 * @return int ID du serveur
 	 */
-	public function allocateServer(int $type) : int {
+	public function allocateServer(int $type, int $expiration) : int {
 		global $db;
 		
 		$query = $db->prepare("SELECT COUNT(*) AS nb FROM servers WHERE owner = '' AND type = :type");
@@ -308,7 +308,7 @@ class User {
 		
 		$query = $db->prepare("UPDATE servers SET owner = :owner, expiration = :expiration WHERE id = :id");
 		$query->bindValue(":owner", $this->email, PDO::PARAM_STR);
-		$query->bindValue(":expiration", strtotime("+1 month"), PDO::PARAM_INT);
+		$query->bindValue(":expiration", $expiration, PDO::PARAM_INT);
 		$query->bindValue(":id", $serverId, PDO::PARAM_INT);
 		$query->execute();
 		
@@ -415,5 +415,21 @@ class User {
 		}
 		
 		return $result;
+	}
+	
+	/**
+	 * Vérifie si l'utilisateur possède un serveur gratuit
+	 *
+	 * @return bool Résultat
+	 */
+	public function hasFreeServer() : bool {
+		global $db;
+		
+		$query = $db->prepare("SELECT COUNT(*) AS nb FROM servers WHERE owner = :owner AND type = 2");
+		$query->bindValue(":owner", $this->email, PDO::PARAM_STR);
+		$query->execute();
+		$data = $query->fetch();
+		
+		return $data["nb"] == 1;
 	}
 }

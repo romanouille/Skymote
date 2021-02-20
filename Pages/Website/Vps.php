@@ -541,31 +541,38 @@
             <div class="row justify-content-center">
                 <div class="col-lg-4 col-md-6">
                     <!-- Single Price -->
-                    <!--<div class="single-price">
+                    <div class="single-price active">
+                        <!--<h4 class="ribbon">Best Deal</h4>-->
                         <div class="price-head">
-                            <h4>Monthly</h4>
+                            <h4>Journalier</h4>
                             <div class="price">
-                                <span class="currency">$</span>
-                                <span class="value">3.66</span>
-                                <span class="duration">/MO</span>
+                                <span class="value">0,00</span>
+								<span class="currency">€</span>
+                                <span class="duration">/mois</span>
                             </div>
-                            <h6>Save 42%</h6>
+                            <!--<h6>Save 58%</h6>-->
                         </div>
                         <div class="price-body">
                             <ul>
-                                <li>
-                                    <del>$143.88</del>
-                                    <strong>&nbsp; &nbsp;$83.88</strong>
-                                </li>
-                                <li>build payment every years</li>
-                                <li>24/7 active support</li>
+                                <!--<li>
+                                    <del>$432.64</del>
+                                    <strong>&nbsp; &nbsp;$143.65</strong>
+                                </li>-->
+                                <li>1 coeur CPU @ 2.4GHz
+								<li>512 Mo RAM DDR4 ECC
+								<li>5 Go SSD NVMe
+								<li>8Mbps best-effort
+								<li>0x IPv4, 1x IPv6
+								<li>Virtualisation LXC
+								<li>Debian
+								<li>Incompatible avec Docker, Pterodactyl
                             </ul>
                             <div class="btn-wrap">
                                 <span></span>
-                                <a href="#" class="btn btn-sm">Get IT NOW</a>
+                                <a href="/account/buy/init?product=3" class="btn btn-sm">Commander</a>
                             </div>
                         </div>
-                    </div>-->
+                    </div>
                     <!-- End Single Price -->
                 </div>
                 <div class="col-lg-4 col-md-6">
@@ -594,6 +601,7 @@
 								<li>/29 (8 adresses IPv4)
 								<li>Virtualisation KVM
 								<li>Debian
+								<li>Compatible avec Docker, Pterodactyl
                             </ul>
                             <div class="btn-wrap">
                                 <span></span>
@@ -605,31 +613,38 @@
                 </div>
                 <div class="col-lg-4 col-md-6">
                     <!-- Single Price -->
-                    <!--<div class="single-price">
+                    <div class="single-price active">
+                        <!--<h4 class="ribbon">Best Deal</h4>-->
                         <div class="price-head">
-                            <h4>Monthly</h4>
+                            <h4>Mensuel</h4>
                             <div class="price">
-                                <span class="currency">$</span>
-                                <span class="value">6.66</span>
-                                <span class="duration">/MO</span>
+                                <span class="value">39,99</span>
+								<span class="currency">€</span>
+                                <span class="duration">/mois</span>
                             </div>
-                            <h6>Save 67%</h6>
+                            <!--<h6>Save 58%</h6>-->
                         </div>
                         <div class="price-body">
                             <ul>
-                                <li>
-                                    <del>$560.69</del>
-                                    <strong>&nbsp; &nbsp;$214.69</strong>
-                                </li>
-                                <li>build payment every years</li>
-                                <li>24/7 active support</li>
+                                <!--<li>
+                                    <del>$432.64</del>
+                                    <strong>&nbsp; &nbsp;$143.65</strong>
+                                </li>-->
+                                <li>16 coeurs CPU @ 2.4GHz
+								<li>64 Go RAM DDR4 ECC
+								<li>100 Go SSD NVMe
+								<li>500Mbps best-effort
+								<li>/28 (16 adresses IPv4)
+								<li>Virtualisation KVM
+								<li>Debian
+								<li>Compatible avec Docker, Pterodactyl
                             </ul>
                             <div class="btn-wrap">
                                 <span></span>
-                                <a href="#" class="btn btn-sm">Get IT NOW</a>
+                                <a href="#" class="btn btn-sm">Indisponible</a>
                             </div>
                         </div>
-                    </div>-->
+                    </div>
                     <!-- End Single Price -->
                 </div>
             </div>

@@ -28,6 +28,10 @@ switch (http_response_code()) {
 	case 404:
 		echo "Le contenu demandé est introuvable.";
 		break;
+	
+	case 410:
+		echo "Le contenu demandé n'existe plus.";
+		break;
 		
 	case 500:
 		echo "Une erreur interne est survenue, veuillez réessayer.";

@@ -9,9 +9,15 @@ require "Pages/Website/Layout/Start.php";
 	
 	<h1>VPS <?=$match[0]?></h1>
 	<table class="table striped">
+<?php
+if (!empty($data["password"])) {
+?>
 		<tr>
 			<td>Identifiants utilisateur
 			<td>user / <?=$data["password"]?>
+<?php
+}
+?>
 			
 		<tr>
 			<td>Identifiants root
@@ -20,19 +26,22 @@ require "Pages/Website/Layout/Start.php";
 		<tr>
 			<td>Expiration
 			<td><?=date("d/m/Y H:i:s", $data["expiration"])?>
-			
+
+<?php
+if (!empty($data["password"])) {
+?>
 		<tr>
 			<td>Adresses IPv4
 			<td>
 <?php
-$baseIp = explode(".", $match[0]);
-$baseIpEnd = $baseIp[3]+7;
+	$baseIp = explode(".", $match[0]);
+	$baseIpEnd = $baseIp[3]+7;
 
-for ($i = $baseIp[3]; $i <= $baseIpEnd; $i++) {
-	echo "{$baseIp[0]}.{$baseIp[1]}.{$baseIp[2]}.$i<br>";
+	for ($i = $baseIp[3]; $i <= $baseIpEnd; $i++) {
+		echo "{$baseIp[0]}.{$baseIp[1]}.{$baseIp[2]}.$i<br>";
+	}
 }
-?>
-<?php
+
 if (!empty($data["hypervisor_password"])) {
 ?>
 		<tr>
@@ -54,9 +63,22 @@ if (!empty($data["hypervisor_password"])) {
 <?php
 if ($data["type"] == 1) {
 	$renewProduct = 2;
+} elseif ($data["type"] == 2) {
+	$renewProduct = 4;
 }
+
+if ($data["type"] == 2) {
+	if (time() > $data["expiration"]) {
+?>
+	<a href="/account/buy/init?product=<?=$renewProduct?>&service=<?=$match[0]?>" class="button primary">Renouveler le VPS pour 1 jour</a>
+<?php
+	}
+} else {
 ?>
 	<a href="/account/buy/init?product=<?=$renewProduct?>&service=<?=$match[0]?>" class="button primary">Renouveler le VPS pour 1 mois</a>
+<?php
+}
+?>
 
 </div>
 <?php
