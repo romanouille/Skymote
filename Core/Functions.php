@@ -18,7 +18,9 @@ function renderPage() {
 		$data = str_replace($comment, "", $data);
 	}
 	
-	$data = str_replace("> <", "><", str_replace("  ", "", str_replace("\n", "", str_replace("	", "", $data))));
+	if ($_SERVER["REQUEST_URI"] != "/minecraft-setup") {
+		$data = str_replace("> <", "><", str_replace("  ", "", str_replace("\n", "", str_replace("	", "", $data))));
+	}
 	
 	echo $data;
 }

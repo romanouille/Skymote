@@ -1,4 +1,7 @@
 <?php
+http_response_code(503);
+require "Handlers/Website/Error.php";
+
 require "Core/Server.class.php";
 
 $pageTitle = "VPS Debian";

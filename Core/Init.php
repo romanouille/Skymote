@@ -11,6 +11,8 @@ if (php_sapi_name() != "cli") {
 	Cache::purge();
 }
 
+$token = isset($_SERVER["REMOTE_ADDR"]) ? sha1($_SERVER["REMOTE_ADDR"]) : microtime(1);
+
 $rirList = [
 	"AFRINIC",
 	"APNIC",

@@ -142,5 +142,13 @@ $routes = [
 	
 	"#^\/dl\/rdp\?ip=(.+)$#" => [
 		"handler" => "Website/Rdp_profile_download.php"
+	],
+	
+	"#^\/minecraft$#" => [
+		"handler" => "Website/Minecraft.php"
+	],
+	
+	"#^\/minecraft-setup$#" => [
+		"handler" => "Website/Minecraft_setup.php"
 	]
 ];

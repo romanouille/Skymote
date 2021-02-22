@@ -146,9 +146,9 @@ header #right {
 							<h2>Skymote</h2>
 						</div>
 						
-						<div class="cell" id="right">
+						<!--<div class="cell" id="right">
 							<a href="/account/" title="Espace client">Espace client</a>
-						</div>
+						</div>-->
 					</div>
 				</div>
 			</div>
@@ -160,7 +160,8 @@ header #right {
 						<li><a href="/isp-list" title="Liste des FAI par pays">Liste des FAI par pays</a>
 						<li><a href="/recent-allocations" title="Récentes allocations">Récentes allocations</a>
 						<li><a href="/proxys" title="Proxys Socks5">Proxys Socks5</a>
-						<li><a href="/vps" title="VPS Debian">VPS Debian</a>
+						<!--<li><a href="/vps" title="VPS Debian">VPS Debian</a>-->
+						<li><a href="/minecraft" title="Minecraft">Minecraft</a>
 						<li><a href="/scans" title="Scans">Scans</a>
 					</ul>
 				</div>
