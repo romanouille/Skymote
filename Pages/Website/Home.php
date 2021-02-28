@@ -37,10 +37,10 @@ require "Pages/Website/Layout/Start.php";
 			</div>-->
 			
 			<div class="cell-lg-6 cell-12">
-				<a href="/vps" title="VPS">
+				<a href="/minecraft" title="Minecraft">
 					<div class="tile-large bg-green" data-role="tile" data-role-tile="true">
 						<span class="mif-server icon"></span>
-						<span class="branding-bar">VPS</span>
+						<span class="branding-bar">Minecraft</span>
 					</div>
 				</a>
 			</div>

@@ -45,23 +45,19 @@ if (isset($messages) && !empty($messages)) {
 		<input type="hidden" name="token" value="<?=$token?>">
 		<input type="hidden" name="action" value="cmd">
 		<br>
-		<input type="text" class="metro-input" name="cmd" placeholder="Commande"><br><br>
-		<input type="submit" class="btn success" value="Envoyer">
+		<input type="text" class="metro-input" name="cmd" placeholder="Commande" required><br><br>
+		<input type="submit" class="button success" value="Envoyer">
 	</form>
 	
-<?php
-if (time() > $expiration) {
-?>	
 	<hr>
-	
 	<form method="post">
 		<input type="hidden" name="token" value="<?=$token?>">
 		<input type="hidden" name="action" value="renew">
-		<input type="submit" class="btn primary" value="Renouveler pour 24h">
+		<input type="submit" class="button primary" value="Renouveler pour 24h"<?=time() < $expiration ? " disabled" : ""?>>
 	</form>
-<?php
-}
-?>
+	<br>
+
+	<a href="/minecraft-renew" title="Renouveler pour 1 mois" class="button primary">Renouveler pour 1 mois</a>
 </div>
 <?php
 require "Pages/Website/Layout/End.php";

@@ -32,30 +32,11 @@ if (isset($match[1])) {
 		http_response_code(400);
 		require "Handlers/Website/Error.php";
 	}
-}
-
-if ($products[$match[0]] == 0) {
-	if ($match[0] == 4 && isset($match[1])) {
-		if (!$server->exists()) {
-			http_response_code(404);
-			require "Handlers/Website/Error.php";
-		}
-		
-		if (time() < $server->getExpiration()) {
-			http_response_code(403);
-			require "Handlers/Website/Error.php";
-		}
-	}
-	
-	if ($match[0] == 3 && $user->hasFreeServer()) {
-		http_response_code(410);
+} else {
+	if (!Server::isAvailable($match[0])) {
+		http_response_code(503);
 		require "Handlers/Website/Error.php";
 	}
-		
-	$paymentId = sha1(microtime(1).$_SERVER["REMOTE_ADDR"].$_SERVER["REMOTE_PORT"]);
-	$user->createPaypalPayment($paymentId, $products[$match[0]], $_SERVER["PHP_AUTH_USER"], $match[0], isset($match[1]) ? $match[1] : "0.0.0.0");
-	header("Location: /account/buy/post?paymentId=$paymentId&token=x&PayerID=x");
-	exit;
 }
 
 $paypal = new Paypal($config["paypal"]["client_id"], $config["paypal"]["secret"]);

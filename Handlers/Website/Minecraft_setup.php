@@ -29,7 +29,7 @@ if (count($_POST) > 0) {
 				}
 			} elseif ($_POST["action"] == "renew") {
 				if (time() > $expiration) {
-					$server->extendExpiration();
+					$server->extendExpiration("+1 day", "+2 days");
 					$messages[] = "Votre serveur a été renouvelé pour 24h.";
 					$expiration = $server->getExpiration();
 				} else {
@@ -41,6 +41,7 @@ if (count($_POST) > 0) {
 }
 
 $console = $server->readConsole();
+$console = str_replace("193.248.220.243", "xx.xx.xx.xx", str_replace("109.190.86.154", "xx.xx.xx.xx", $console));
 
 if (strstr($console, "No such file or directory")) {
 	$logs = "Pas de logs";

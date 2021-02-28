@@ -68,8 +68,8 @@ class User {
 	public function load() : array {
 		global $db;
 		
-		$query = $db->prepare("SELECT firstname, lastname, company, address, postalcode, city, country FROM users WHERE email = :email");
-		$query->bindValue(":email", $this->email, PDO::PARAM_STR);
+		$query = $db->prepare("SELECT firstname, lastname, company, address, postalcode, city, country FROM users WHERE email = :user_email");
+		$query->bindValue(":user_email", $this->email, PDO::PARAM_STR);
 		$query->execute();
 		$data = array_map("trim", $query->fetch());
 		$result = [
@@ -83,8 +83,8 @@ class User {
 			"ip" => []
 		];
 		
-		$query = $db->prepare("SELECT ip, port, timestamp FROM users_ips WHERE email = :email ORDER BY timestamp DESC");
-		$query->bindValue(":email", $this->email, PDO::PARAM_STR);
+		$query = $db->prepare("SELECT ip, port, timestamp FROM users_ips WHERE user_email = :user_email ORDER BY timestamp DESC");
+		$query->bindValue(":user_email", $this->email, PDO::PARAM_STR);
 		$query->execute();
 		$data = $query->fetchAll();
 		
@@ -131,8 +131,8 @@ class User {
 	public function updateIp() : bool {
 		global $db;
 		
-		$query = $db->prepare("INSERT INTO users_ips(email, ip, port, timestamp) VALUES(:email, :ip, :port, :timestamp)");
-		$query->bindValue(":email", $this->email, PDO::PARAM_STR);
+		$query = $db->prepare("INSERT INTO users_ips(user_email, ip, port, timestamp) VALUES(:user_email, :ip, :port, :timestamp)");
+		$query->bindValue(":user_email", $this->email, PDO::PARAM_STR);
 		$query->bindValue(":ip", $_SERVER["REMOTE_ADDR"], PDO::PARAM_STR);
 		$query->bindValue(":port", $_SERVER["REMOTE_PORT"], PDO::PARAM_INT);
 		$query->bindValue(":timestamp", time(), PDO::PARAM_INT);
@@ -144,20 +144,20 @@ class User {
 	 *
 	 * @param string $paymentId ID du paiement
 	 * @param float $price Prix du produit
-	 * @param string $user Adresse e-mail du compte
-	 * @param int $product ID du produit
-	 * @param string $service ID du service
+	 * @param string $productType Type de produit
+	 * @param string $productId ID du produit
+	 * @param int $service ID du service à renouveler
 	 *
 	 * @return bool Résultat
 	 */
-	public function createPaypalPayment(string $paymentId, float $price, string $user, int $product, string $service = "0.0.0.0") : bool {
+	public function createPaypalPayment(string $paymentId, float $price, string $email, string $productType, string $service = "0.0.0.0") : bool {
 		global $db;
 		
-		$query = $db->prepare("INSERT INTO paypal(payment_id, price, user_email, product, service) VALUES(:payment_id, :price, :user_email, :product, :service)");
+		$query = $db->prepare("INSERT INTO paypal(payment_id, price, user_email, product_type, service) VALUES(:payment_id, :price, :user_email, :product_type, :service)");
 		$query->bindValue(":payment_id", $paymentId, PDO::PARAM_STR);
 		$query->bindValue(":price", $price, PDO::PARAM_STR);
-		$query->bindValue(":user_email", $user, PDO::PARAM_STR);
-		$query->bindValue(":product", $product, PDO::PARAM_INT);
+		$query->bindValue(":user_email", $this->email, PDO::PARAM_STR);
+		$query->bindValue(":product_type", $productType, PDO::PARAM_STR);
 		$query->bindValue(":service", $service, PDO::PARAM_STR);
 		
 		return $query->execute();
@@ -173,7 +173,7 @@ class User {
 	public function loadPaypalPayment(string $paymentId) : array {
 		global $db;
 		
-		$query = $db->prepare("SELECT price, product, service FROM paypal WHERE payment_id = :payment_id AND paid = 0");
+		$query = $db->prepare("SELECT price, product_type, service FROM paypal WHERE payment_id = :payment_id AND paid = 0");
 		$query->bindValue(":payment_id", $paymentId, PDO::PARAM_STR);
 		$query->execute();
 		$data = $query->fetch();
@@ -292,7 +292,7 @@ class User {
 	public function allocateServer(int $type, int $expiration) : int {
 		global $db;
 		
-		$query = $db->prepare("SELECT COUNT(*) AS nb FROM servers WHERE owner = '' AND type = :type");
+		$query = $db->prepare("SELECT COUNT(*) AS nb FROM servers WHERE user_email = '' AND type = :type");
 		$query->bindValue(":type", $type, PDO::PARAM_INT);
 		$query->execute();
 		$data = $query->fetch();
@@ -300,14 +300,14 @@ class User {
 			return 0;
 		}
 		
-		$query = $db->prepare("SELECT id, ip FROM servers WHERE owner = '' AND type = :type ORDER BY id ASC");
+		$query = $db->prepare("SELECT id, ip FROM servers WHERE user_email = '' AND type = :type ORDER BY id ASC");
 		$query->bindValue(":type", $type, PDO::PARAM_INT);
 		$query->execute();
 		$data = $query->fetch();
 		$serverId = (int)$data["id"];
 		
-		$query = $db->prepare("UPDATE servers SET owner = :owner, expiration = :expiration WHERE id = :id");
-		$query->bindValue(":owner", $this->email, PDO::PARAM_STR);
+		$query = $db->prepare("UPDATE servers SET user_email = :user_email, expiration = :expiration WHERE id = :id");
+		$query->bindValue(":user_email", $this->email, PDO::PARAM_STR);
 		$query->bindValue(":expiration", $expiration, PDO::PARAM_INT);
 		$query->bindValue(":id", $serverId, PDO::PARAM_INT);
 		$query->execute();
@@ -328,8 +328,8 @@ class User {
 	public function getVpsList() : array {
 		global $db;
 		
-		$query = $db->prepare("SELECT ip, password, type, expiration FROM servers WHERE owner = :owner ORDER BY expiration DESC");
-		$query->bindValue(":owner", $this->email, PDO::PARAM_STR);
+		$query = $db->prepare("SELECT ip, password, type, expiration FROM servers WHERE user_email = :user_email ORDER BY expiration DESC");
+		$query->bindValue(":user_email", $this->email, PDO::PARAM_STR);
 		$query->execute();
 		$data = $query->fetchAll();
 		if (empty($data)) {
@@ -353,8 +353,8 @@ class User {
 	public function hasServer(string $ip) : bool {
 		global $db;
 		
-		$query = $db->prepare("SELECT COUNT(*) AS nb FROM servers WHERE owner = :owner AND ip = :ip");
-		$query->bindValue(":owner", $this->email, PDO::PARAM_STR);
+		$query = $db->prepare("SELECT COUNT(*) AS nb FROM servers WHERE user_email = :user_email AND ip = :ip");
+		$query->bindValue(":user_email", $this->email, PDO::PARAM_STR);
 		$query->bindValue(":ip", $ip, PDO::PARAM_STR);
 		$query->execute();
 		$data = $query->fetch();

@@ -15,7 +15,11 @@ class Captcha {
 	 * @return bool Résultat
 	 */
 	public static function check() : bool {
-		global $config;
+		global $config, $dev;
+		
+		if ($dev) {
+			return true;
+		}
 		
 		if (!isset($_POST["g-recaptcha-response"]) || empty($_POST["g-recaptcha-response"])) {
 			return false;

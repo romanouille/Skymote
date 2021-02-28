@@ -65,10 +65,30 @@ class MinecraftServer {
 	 *
 	 * @return bool Résultat
 	 */
-	public function extendExpiration() : bool {
+	public function extendExpiration($firstExpiration, $finalExpiration) : bool {
 		global $db;
 		
-		$query = $db->prepare("UPDATE minecraft_sessions SET expiration = ".strtotime("+1 day").", final_expiration = ".strtotime("+2 days"));
+		$query = $db->prepare("UPDATE minecraft_sessions SET expiration = ".strtotime($firstExpiration).", final_expiration = ".strtotime($finalExpiration)." WHERE server_port = :server_port");
+		$query->bindValue(":server_port", $this->port, PDO::PARAM_INT);
+		
+		return $query->execute();
+	}
+	
+	/**
+	* Étend la date d'expiration du serveur pour 1 mois
+	*
+	* @return bool Résultat
+	*/
+	public function extendExpirationForOneMonth() : bool {
+		global $db;
+		
+		$query = $db->prepare("SELECT expiration FROM minecraft_sessions WHERE server_port = :server_port");
+		$query->bindValue(":server_port", $this->port, PDO::PARAM_INT);
+		$query->execute();
+		$data = $query->fetch();
+		
+		$query = $db->prepare("UPDATE minecraft_sessions SET expiration = ".strtotime("+1 month", $data["expiration"]).", final_expiration = ".strtotime("+1 month +1 day", $data["expiration"])." WHERE server_port = :server_port");
+		$query->bindValue(":server_port", $this->port, PDO::PARAM_INT);
 		
 		return $query->execute();
 	}
@@ -155,6 +175,13 @@ class MinecraftServer {
 		
 		$query = $db->prepare("UPDATE minecraft_servers SET owner = :owner WHERE server_port = :server_port");
 		$query->bindValue(":owner", $session, PDO::PARAM_STR);
+		$query->bindValue(":server_port", $server, PDO::PARAM_INT);
+		$query->execute();
+		
+		$query = $db->prepare("INSERT INTO minecraft_logs(session, source_ip, source_port, server_port, timestamp) VALUES(:session, :source_ip, :source_port, :server_port, ".time().")");
+		$query->bindValue(":session", $session, PDO::PARAM_STR);
+		$query->bindValue(":source_ip", $_SERVER["REMOTE_ADDR"], PDO::PARAM_STR);
+		$query->bindValue(":source_port", $_SERVER["REMOTE_PORT"], PDO::PARAM_INT);
 		$query->bindValue(":server_port", $server, PDO::PARAM_INT);
 		$query->execute();
 		

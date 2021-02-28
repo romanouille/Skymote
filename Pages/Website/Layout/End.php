@@ -1,6 +1,6 @@
 
 		<footer class="footer">
-			En naviguant sur ce site, vous acceptez le stockage de cookies sur votre périphérique à des fins de statistiques.<br>
+			En naviguant sur ce site, vous acceptez le stockage de cookies sur votre périphérique à des fins de statistiques et de session.<br>
 			<a href="/legal" title="Mentions légales">Mentions légales</a><br><br>
 			
 			<a href="https://www.abuseipdb.com/user/11790" title="AbuseIPDB is an IP address blacklist for webmasters and sysadmins to report IP addresses engaging in abusive behavior on their networks" alt="AbuseIPDB Contributor Badge">

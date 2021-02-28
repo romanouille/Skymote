@@ -2,7 +2,13 @@
 require "Core/Captcha.class.php";
 require "Core/MinecraftServer.class.php";
 
-if (isset($_COOKIE["minecraft_session"]) && MinecraftServer::cookieExists($_COOKIE["minecraft_session"])) {
+if (isset($_COOKIE["minecraft_session"])) {
+	if (!MinecraftServer::cookieExists($_COOKIE["minecraft_session"])) {
+		setcookie("minecraft_session", "", -86400, "/", $_SERVER["HTTP_HOST"], $_SERVER["SERVER_PORT"] == 443, true);
+		header("Location: /minecraft");
+		exit;
+	}
+	
 	header("Location: /minecraft-setup");
 	exit;
 }
@@ -18,7 +24,7 @@ if (count($_POST) > 0) {
 		$session = MinecraftServer::createSession();
 		
 		if (!empty($session)) {
-			setcookie("minecraft_session", $session, 0, "/", $_SERVER["HTTP_HOST"], $_SERVER["SERVER_PORT"] == 443, true);
+			setcookie("minecraft_session", $session, time()+(86400*365), "/", $_SERVER["HTTP_HOST"], $_SERVER["SERVER_PORT"] == 443, true);
 			header("Location: /minecraft-setup");
 			exit;
 		} else {

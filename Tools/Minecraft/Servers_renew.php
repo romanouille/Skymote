@@ -33,7 +33,7 @@ foreach ($data as $value) {
 	$ssh->exec("rm -R /opt/minecraft/s{$value["server_port"]}/");
 	$ssh->exec("cp -R /opt/minecraft/default/ /opt/minecraft/s{$value["server_port"]}");
 
-	$config = "spawn-protection=16
+	$serverConfig = "spawn-protection=16
 max-tick-time=60000
 query.port=QUERY_PORT
 generator-settings=
@@ -90,16 +90,16 @@ enable-rcon=true
 	$query->execute();
 	$data2 = array_map("trim", $query->fetch());
 
-	$config = str_replace("SERVER_PORT", $value["server_port"], $config);
-	$config = str_replace("RCON_PORT", $data2["rcon_port"], $config);
-	$config = str_replace("QUERY_PORT", $value["server_port"], $config);
-	$config = str_replace("RCON_PASSWORD", $data2["rcon_password"], $config);
+	$serverConfig = str_replace("SERVER_PORT", $value["server_port"], $serverConfig);
+	$serverConfig = str_replace("RCON_PORT", $data2["rcon_port"], $serverConfig);
+	$serverConfig = str_replace("QUERY_PORT", $value["server_port"], $serverConfig);
+	$serverConfig = str_replace("RCON_PASSWORD", $data2["rcon_password"], $serverConfig);
 	
-	$config = explode("\n", $config);
+	$serverConfig = explode("\n", $serverConfig);
 	
 	$ssh->exec("rm /opt/minecraft/s{$value["server_port"]}/server.properties");
 	
-	foreach ($config as $line) {
+	foreach ($serverConfig as $line) {
 		$ssh->exec("echo $line >> /opt/minecraft/s{$value["server_port"]}/server.properties");
 	}
 	

@@ -150,5 +150,21 @@ $routes = [
 	
 	"#^\/minecraft-setup$#" => [
 		"handler" => "Website/Minecraft_setup.php"
+	],
+	
+	"#^\/minecraft-renew$#" => [
+		"handler" => "Website/Minecraft_renew.php"
+	],
+	
+	"#^\/minecraft-renew-access$#" => [
+		"handler" => "Website/Minecraft_renew_access.php"
+	],
+	
+	"#^\/minecraft-renew-err\?(.+)$#" => [
+		"handler" => "Website/Minecraft_renew_err.php"
+	],
+	
+	"#^\/minecraft\?(.+)$#" => [
+		"handler" => "Website/Minecraft.php"
 	]
 ];

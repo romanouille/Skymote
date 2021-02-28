@@ -21,6 +21,7 @@ require "Core/Cache.class.php";
 require "Core/Functions.php";
 require "Core/Routes.php";
 require "Core/User.class.php";
+require "Core/Vultr.class.php";
 require "vendor/autoload.php";
 
 ob_start();

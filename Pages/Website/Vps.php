@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 
 <head>
     <!-- Page Title -->
@@ -172,7 +172,7 @@
 								<li><a href="/isp-list" title="Liste des FAI par pays">Liste des FAI par pays</a></li>
 								<li><a href="/recent-allocations" title="Récentes allocations">Récentes allocations</a></li>
 								<li><a href="/proxys" title="Proxys Socks5">Proxys Socks5</a></li>
-								<li><a href="/vps" title="VPS Debian">VPS Debian</a></li>
+								<li><a href="/minecraft" title="Minecraft">Minecraft</a></li>
 								<li><a href="/scans" title="Scans">Scans</a></li>
                             </ul>
                             <!-- End Nav -->
@@ -260,8 +260,8 @@
                 <div class="col-lg-7">
                     <!-- Banner Content -->
                     <div class="banner-content">
-                        <h1>VPS Debian</h1>
-                        <p>Un VPS est la meilleure transition entre un hébergement mutualisé et un serveur dédié.</p>
+                        <h1>Serveurs privés virtuels</h1>
+                        <p>Votre VPS KVM hébergé sur des processeurs hautes fréquences et connecté à un réseau 10Gbps.</p>
 
                         <div class="banner-btn-group">
                             <div class="btn-wrap">
@@ -318,8 +318,8 @@
                             <img src="<?=$config["common"]["static_server"]?>/assets/img/icons/easy_download_icon.png" alt="">
                         </div>
                         <div class="feature-content">
-                            <h3>Débit Internet 500Mbps mutualisé</h3>
-                            <p>Chaque hyperviseur partage 500Mbps de débit Internet entre ses VPS.</p>
+                            <h3>Débit Internet 10Gbps mutualisé</h3>
+                            <p>Chaque hyperviseur partage 10Gbps de débit entre ses VPS.</p>
                         </div>
                     </div>
                     <!-- End Single Feature -->
@@ -331,8 +331,8 @@
                             <img src="<?=$config["common"]["static_server"]?>/assets/img/icons/instant_setup_icon.png" alt="">
                         </div>
                         <div class="feature-content">
-                            <h3>Activation immédiate</h3>
-                            <p>Une fois le paiement effectué, le VPS est utilisable immédiatement.</p>
+                            <h3>CPU @ +3GHz</h3>
+                            <p>Les processeurs utilisés pour les VPS sont cadencés à 3GHz minimum.</p>
                         </div>
                     </div>
                     <!-- End Single Feature -->
@@ -344,8 +344,8 @@
                             <img src="<?=$config["common"]["static_server"]?>/assets/img/icons/enjoy_wordwide_icon.png" alt="">
                         </div>
                         <div class="feature-content">
-                            <h3>Bloc IPv4</h3>
-                            <p>Un bloc IPv4 /29 (8 adresses) est fourni avec chaque VPS.</p>
+                            <h3>Disques SSD NVMe</h3>
+                            <p>Nous utilisons uniquement des disques SSD NVMe, plus rapides que des SSD traditionnels.</p>
                         </div>
                     </div>
                     <!-- End Single Feature -->
@@ -354,8 +354,6 @@
         </div>
     </section>
     <!-- End Feature -->
-<?php
-/*
     <!-- Solutions -->
     <section class="solution layer section-bg pt-120 pb-120" data-bg-img="<?=$config["common"]["static_server"]?>/assets/img/media/solution-bg.png">
         <div class="container">
@@ -374,10 +372,8 @@
                     <div class="solution-content">
                         <!-- Section Title -->
                         <div class="section-title style--two text-left title-shape">
-                            <h2>Yours simple solutions <br>online privacy.</h2>
-                            <p>These speeds are its excellent. It’s rare that a "dvpn" fast connection
-                                speeds across its network. Private Internet its Access is the leadings
-                                provide service provider.</p>
+                            <h2>Choisissez entre <b>17 localisations</b> différentes</h2>
+                            <p>Hébergez votre VPS au plus proche de vos clients et améliorez la latence entre vous et vos applications.</p>
                         </div>
                         <!-- End Section Title -->
 
@@ -387,8 +383,8 @@
                                 <img src="<?=$config["common"]["static_server"]?>/assets/img/icons/editor.png" alt="">
                             </div> 
                             <div class="content media-body"> 
-                                <h3>Government User</h3>
-                                <p>Security providing you safety on the internet trice worldwide access in 47+ countries.</p> 
+                                <h3>Multiples distributions</h3>
+                                <p>Nous fournissons de multiples distributions Linux/Windows telles que CentOS, Debian, Fedora, FreeBSD, OpenBSD, Ubuntu, Windows Server...</p> 
                             </div> 
                         </div>
                         <!-- End Single Solution -->
@@ -399,9 +395,8 @@
                                 <img src="<?=$config["common"]["static_server"]?>/assets/img/icons/eye.png" alt="">
                             </div> 
                             <div class="content media-body"> 
-                                <h3>Hidden Hackers</h3>
-                                <p>Vecurity providing you safety on the internet trice
-                                    worldwide access in 36+ countries.</p> 
+                                <h3>Évolutivité</h3>
+                                <p>Vous pouvez à tout moment passer à une offre supérieure si nécessaire.</p> 
                             </div> 
                         </div>
                         <!-- End Single Solution -->
@@ -419,9 +414,8 @@
                 <div class="col-12">
                     <!-- Section Title -->
                     <div class="section-title title-shape text-center">
-                        <h2>Valuable Service</h2>
-                        <p>These speeds are excellent. It’s rare that a fast connection safety <br />
-                            Internet leading speeds across its network.</p>
+                        <h2>Options complémentaires</h2>
+                        <p>Nous fournissons en option des solutions complémentaires pour vos VPS.</p>
                     </div>
                     <!-- End Section Title -->
                 </div>
@@ -436,9 +430,9 @@
                         </div>
 
                         <div class="service-content">
-                            <a href="service-details.html"><h3>Free Services</h3></a>
-                            <p>Private Internet the leading create <br>the security providing safety.</p>
-                            <a class="btn-link" href="service-details.html">READ MORE <img src="<?=$config["common"]["static_server"]?>/assets/img/icons/right-arrow.svg" alt="" class="svg"></a>
+                            <a href="service-details.html"><h3>Sauvegardes</h3></a>
+                            <p>Bénéficiez de sauvegardes automatiques de vos VPS.</p>
+                            <!--<a class="btn-link" href="service-details.html">READ MORE <img src="<?=$config["common"]["static_server"]?>/assets/img/icons/right-arrow.svg" alt="" class="svg"></a>-->
                         </div>
                     </div>
                     <!-- End Single Service -->
@@ -451,9 +445,9 @@
                         </div>
 
                         <div class="service-content">
-                            <a href="service-details.html"><h3>Premium Services</h3></a>
-                            <p>Private Internet the leading create <br>the security providing safety.</p>
-                            <a class="btn-link" href="service-details.html">READ MORE <img src="<?=$config["common"]["static_server"]?>/assets/img/icons/right-arrow.svg" alt="" class="svg"></a>
+                            <a href="service-details.html"><h3>Snapshots</h3></a>
+                            <p>Créez des instantanés de vos VPS, revenez en arrière à tout moment.</p>
+                            <!--<a class="btn-link" href="service-details.html">READ MORE <img src="<?=$config["common"]["static_server"]?>/assets/img/icons/right-arrow.svg" alt="" class="svg"></a>-->
                         </div>
                     </div>
                     <!-- End Single Service -->
@@ -466,9 +460,9 @@
                         </div>
 
                         <div class="service-content">
-                            <a href="service-details.html"><h3>Gigabit Service</h3></a>
-                            <p>Private Internet the leading create <br>the security providing safety.</p>
-                            <a class="btn-link" href="service-details.html">READ MORE <img src="<?=$config["common"]["static_server"]?>/assets/img/icons/right-arrow.svg" alt="" class="svg"></a>
+                            <a href="service-details.html"><h3>Pare-feu</h3></a>
+                            <p>Créez des règles firewall directement en amont de vos VPS.</p>
+                            <!--<a class="btn-link" href="service-details.html">READ MORE <img src="<?=$config["common"]["static_server"]?>/assets/img/icons/right-arrow.svg" alt="" class="svg"></a>-->
                         </div>
                     </div>
                     <!-- End Single Service -->
@@ -481,9 +475,9 @@
                         </div>
 
                         <div class="service-content">
-                            <a href="service-details.html"><h3>Instant Setups</h3></a>
-                            <p>Private Internet the leading create <br>the security providing safety.</p>
-                            <a class="btn-link" href="service-details.html">READ MORE <img src="<?=$config["common"]["static_server"]?>/assets/img/icons/right-arrow.svg" alt="" class="svg"></a>
+                            <a href="service-details.html"><h3>IPv4 supplémentaires</h3></a>
+                            <p>Ajoutez jusqu'à 2 IPv4 supplémentaires par VPS.</p>
+                            <!--<a class="btn-link" href="service-details.html">READ MORE <img src="<?=$config["common"]["static_server"]?>/assets/img/icons/right-arrow.svg" alt="" class="svg"></a>-->
                         </div>
                     </div>
                     <!-- End Single Service -->
@@ -496,9 +490,9 @@
                         </div>
 
                         <div class="service-content">
-                            <a href="service-details.html"><h3>No Traffic Logs</h3></a>
-                            <p>Private Internet the leading create <br>the security providing safety.</p>
-                            <a class="btn-link" href="service-details.html">READ MORE <img src="<?=$config["common"]["static_server"]?>/assets/img/icons/right-arrow.svg" alt="" class="svg"></a>
+                            <a href="service-details.html"><h3>Anti-DDoS</h3></a>
+                            <p>Disposez d'un anti-DDoS additionnel de 10Gbps.</p>
+                            <!--<a class="btn-link" href="service-details.html">READ MORE <img src="<?=$config["common"]["static_server"]?>/assets/img/icons/right-arrow.svg" alt="" class="svg"></a>-->
                         </div>
                     </div>
                     <!-- End Single Service -->
@@ -511,9 +505,9 @@
                         </div>
 
                         <div class="service-content">
-                            <a href="service-details.html"><h3>No Hidden Price</h3></a>
-                            <p>Private Internet the leading create <br>the security providing safety.</p>
-                            <a class="btn-link" href="service-details.html">READ MORE <img src="<?=$config["common"]["static_server"]?>/assets/img/icons/right-arrow.svg" alt="" class="svg"></a>
+                            <a href="service-details.html"><h3>Réseaux privés</h3></a>
+                            <p>Créez des réseaux privés entre vos VPS.</p>
+                            <!--<a class="btn-link" href="service-details.html">READ MORE <img src="<?=$config["common"]["static_server"]?>/assets/img/icons/right-arrow.svg" alt="" class="svg"></a>-->
                         </div>
                     </div>
                     <!-- End Single Service -->
@@ -522,8 +516,7 @@
         </div>
     </section>
     <!-- End Service -->
-*/
-?>
+	
     <!-- Pricing -->
     <section class="pricing gradient-bg position-relative pt-120 pb-90" id="prices">
         <img src="<?=$config["common"]["static_server"]?>/assets/img/media/price-bg.png" alt="" class="section-pattern-img">
@@ -569,7 +562,7 @@
                             </ul>
                             <div class="btn-wrap">
                                 <span></span>
-                                <a href="/account/buy/init?product=3" class="btn btn-sm">Commander</a>
+                                <a href="#" class="btn btn-sm">Indisponible</a>
                             </div>
                         </div>
                     </div>
@@ -595,17 +588,17 @@
                                     <strong>&nbsp; &nbsp;$143.65</strong>
                                 </li>-->
                                 <li>8 coeurs CPU @ 2.4GHz
-								<li>32 Go RAM DDR4 ECC
-								<li>50 Go SSD NVMe
+								<li>16 Go RAM DDR4 ECC
+								<li>100 Go SSD NVMe
 								<li>500Mbps best-effort
-								<li>/29 (8 adresses IPv4)
+								<li>/30 (4 adresses IPv4)
 								<li>Virtualisation KVM
 								<li>Debian
 								<li>Compatible avec Docker, Pterodactyl
                             </ul>
                             <div class="btn-wrap">
                                 <span></span>
-                                <a href="/account/buy/init?product=1" class="btn btn-sm">Commander</a>
+                                <a href="#" class="btn btn-sm">Indisponible</a>
                             </div>
                         </div>
                     </div>
@@ -631,10 +624,10 @@
                                     <strong>&nbsp; &nbsp;$143.65</strong>
                                 </li>-->
                                 <li>16 coeurs CPU @ 2.4GHz
-								<li>64 Go RAM DDR4 ECC
-								<li>100 Go SSD NVMe
+								<li>32 Go RAM DDR4 ECC
+								<li>200 Go SSD NVMe
 								<li>500Mbps best-effort
-								<li>/28 (16 adresses IPv4)
+								<li>/29 (8 adresses IPv4)
 								<li>Virtualisation KVM
 								<li>Debian
 								<li>Compatible avec Docker, Pterodactyl
@@ -1127,7 +1120,7 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="footer-bottom-text text-center">
-							En naviguant sur ce site, vous acceptez le stockage de cookies sur votre périphérique à des fins de statistiques.<br>
+							En naviguant sur ce site, vous acceptez le stockage de cookies sur votre périphérique à des fins de statistiques et de session.<br>
 							<a href="/legal" title="Mentions légales">Mentions légales</a><br><br>
 							
 							<a href="https://www.abuseipdb.com/user/11790" title="AbuseIPDB is an IP address blacklist for webmasters and sysadmins to report IP addresses engaging in abusive behavior on their networks" alt="AbuseIPDB Contributor Badge">

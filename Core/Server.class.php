@@ -47,7 +47,7 @@ class Server {
 	public function load() : array {
 		global $db;
 		
-		$query = $db->prepare("SELECT password, root_password, type, expiration, owner, hypervisor, hypervisor_password FROM servers WHERE ip = :ip");
+		$query = $db->prepare("SELECT user_email, password, hostname, expiration, type FROM servers WHERE ip = :ip");
 		$query->bindValue(":ip", $this->ip, PDO::PARAM_STR);
 		$query->execute();
 		$data = $query->fetch();
@@ -70,7 +70,7 @@ class Server {
 	public static function isAvailable(int $type) : bool {
 		global $db;
 		
-		$query = $db->prepare("SELECT COUNT(*) AS nb FROM servers WHERE type = :type AND owner = ''");
+		$query = $db->prepare("SELECT COUNT(*) AS nb FROM servers WHERE type = :type AND user_email = ''");
 		$query->bindValue(":type", $type, PDO::PARAM_INT);
 		$query->execute();
 		$data = $query->fetch();
@@ -86,7 +86,7 @@ class Server {
 	public static function getExpirations() : array {
 		global $db;
 		
-		$query = $db->prepare("SELECT ip, expiration FROM servers WHERE owner != '' ORDER BY expiration DESC");
+		$query = $db->prepare("SELECT ip, expiration FROM servers WHERE user_email != '' ORDER BY expiration DESC");
 		$query->execute();
 		$data = $query->fetchAll();
 		$result = [];
@@ -108,10 +108,10 @@ class Server {
 	 *
 	 * @return string Résultat
 	 */
-	public function getOwner(int $timestamp) : string {
+	public function geEmail(int $timestamp) : string {
 		global $db;
 		
-		$query = $db->prepare("SELECT owner FROM ip_logs WHERE ip = :ip AND $timestamp > timestamp_start AND $timestamp < timestamp_end");
+		$query = $db->prepare("SELECT user_email FROM ip_logs WHERE ip = :ip AND $timestamp > timestamp_start AND $timestamp < timestamp_end");
 		$query->bindValue(":ip", $this->ip, PDO::PARAM_STR);
 		$query->execute();
 		$data = $query->fetch();
@@ -119,6 +119,6 @@ class Server {
 			return "";
 		}
 		
-		return $data["owner"];
+		return $data["user_email"];
 	}
 }

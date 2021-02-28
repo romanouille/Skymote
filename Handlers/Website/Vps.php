@@ -1,9 +1,4 @@
 <?php
-http_response_code(503);
-require "Handlers/Website/Error.php";
-
-require "Core/Server.class.php";
-
 $pageTitle = "VPS Debian";
 $pageDescription = "Découvrez les offres VPS Debian de Skymote, à partir de 19,99€/mois.";
 
