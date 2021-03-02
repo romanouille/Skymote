@@ -13,10 +13,8 @@ if (isset($match[1]) && !$user->hasServer($match[1])) {
 }
 
 $products = [
-	1 => 19.99,
-	2 => 19.99,
-	3 => 0.00,
-	4 => 0.00
+	1 => 9.99,
+	2 => 9.99
 ];
 
 if (!isset($products[$match[0]])) {

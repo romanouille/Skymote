@@ -1,6 +1,46 @@
 <!DOCTYPE html>
 <html lang="fr">
 	<head>
+		<!-- Page Title -->
+		<title>VPS - Skymote</title>
+		<!-- Meta Data -->
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta http-equiv="content-type" content="text/html; charset=utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="description" content="<?=$pageDescription?>">
+		<!-- Favicon -->
+		<link rel="shortcut icon" href="favicon.png">
+		<!-- Web Fonts -->
+		<link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700;800;900&family=Rubik:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+		<!-- ======= Bootstrap CSS ======= -->
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+		<!-- ======= Font Awesome CSS ======= -->
+		<link rel="stylesheet" href="<?=$config["common"]["static_server"]?>/assets/css/font-awesome.min.css">
+		<!-- ======= Magnific Popup CSS ======= -->
+		<link rel="stylesheet" href="<?=$config["common"]["static_server"]?>/assets/plugins/magnific-popup/magnific-popup.css">
+		<!-- ======= Owl Carousel CSS ======= -->
+		<link rel="stylesheet" href="<?=$config["common"]["static_server"]?>/assets/plugins/owlcarousel/owl.carousel.min.css">
+		<!-- ======= Main Stylesheet ======= -->
+		<link rel="stylesheet" href="<?=$config["common"]["static_server"]?>/assets/css/style.css">
+		<!-- ======= Custom Stylesheet ======= -->
+		<link rel="stylesheet" href="<?=$config["common"]["static_server"]?>/assets/css/custom.css">
+		<meta property="og:type" content="website">
+		<meta property="og:url" content="https://skymote.net<?=$_SERVER["REQUEST_URI"]?>">
+		<meta property="og:title" content="<?=htmlspecialchars($pageTitle)?> - Skymote">
+		<meta property="og:description" content="<?=htmlspecialchars($pageDescription)?>">
+		<meta property="og:image" content="https://skymote.net/logo.png">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css" integrity="sha512-Cv93isQdFwaKBV+Z4X8kaVBYWHST58Xb/jVOcV9aRsGSArZsgAnFIhMpDoMDcFNoUtday1hdjn0nGp3+KZyyFw==" crossorigin="anonymous">
+
+		<style>
+			.header-main ul li a {
+				text-transform:inherit
+			}
+			
+			p, a, th {
+				color:#182E56
+			}
+		</style>
+		
 <?php
 if (!$dev) {
 ?>
@@ -13,157 +53,65 @@ if (!$dev) {
 		  gtag('config', 'G-YN4NKDJJJJ');
 		</script>
 		
-	<script type="text/javascript">
-	_atrk_opts = { atrk_acct:"9uS6u1hNdI20fn", domain:"skymote.net",dynamic: true};
-	(function() { var as = document.createElement('script'); as.type = 'text/javascript'; as.async = true; as.src = "https://certify-js.alexametrics.com/atrk.js"; var s = document.getElementsByTagName('script')[0];s.parentNode.insertBefore(as, s); })();
-	</script>
-	<noscript><img src="https://certify.alexametrics.com/atrk.gif?account=9uS6u1hNdI20fn" style="display:none" height="1" width="1" alt="" /></noscript>
-	  
+		<script type="text/javascript">
+		_atrk_opts = { atrk_acct:"9uS6u1hNdI20fn", domain:"skymote.net",dynamic: true};
+		(function() { var as = document.createElement('script'); as.type = 'text/javascript'; as.async = true; as.src = "https://certify-js.alexametrics.com/atrk.js"; var s = document.getElementsByTagName('script')[0];s.parentNode.insertBefore(as, s); })();
+		</script>
+		<noscript><img src="https://certify.alexametrics.com/atrk.gif?account=9uS6u1hNdI20fn" style="display:none" height="1" width="1" alt="" /></noscript>
 <?php
 }
 ?>
-		<title><?=htmlspecialchars($pageTitle)?> - Skymote</title>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-		<meta name="description" content="<?=htmlspecialchars($pageDescription)?>">
-		<meta property="og:type" content="website">
-		<meta property="og:url" content="https://skymote.net<?=$_SERVER["REQUEST_URI"]?>">
-		<meta property="og:title" content="<?=htmlspecialchars($pageTitle)?> - Skymote">
-		<meta property="og:description" content="<?=htmlspecialchars($pageDescription)?>">
-		<meta property="og:image" content="https://skymote.net/logo.png">
-		<link rel="stylesheet" href="https://cdn.metroui.org.ua/v4/css/metro-all.min.css">
-		<link rel="preconnect" href="https://fonts.gstatic.com">
-		<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400&display=swap" rel="stylesheet">
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css" integrity="sha512-Cv93isQdFwaKBV+Z4X8kaVBYWHST58Xb/jVOcV9aRsGSArZsgAnFIhMpDoMDcFNoUtday1hdjn0nGp3+KZyyFw==" crossorigin="anonymous">
-		<style>
-* {
-	font-family:"Open Sans", sans-serif
-}
-
-.put-left {
-    left: 0;
-    right: auto;
-}
-
-.put-right {
-    left: auto;
-    right: 0;
-}
-
-.app-bar {
-	background-color:inherit
-}
-
-.app-bar-wrapper {
-	background:rgba(9,80,132,1);
-	color:#fff
-}
-
-header #right {
-	margin-top:10px
-}
-
-.home {
-	padding:50px 0 200px;
-	background:linear-gradient(180deg, rgba(9,80,132,1) 0%, rgba(0,164,150,1) 67%);
-	text-align:center;
-	color:#fff
-}
-
-.home h1 {
-	font-size:70px
-}
-
-.home h2 {
-	margin-bottom:50px
-}
-
-.home .buttons {
-	margin-top:100px
-}
-
-.card {
-	text-align:center
-}
-
-.card-header {
-	color:#fff;
-	text-transform:uppercase;
-	font-size:30px
-}
-
-.card-content {
-	font-size:20px;
-	padding:10px
-}
-
-.home .grid .cell-12 {
-	margin-bottom:20px;
-	margin-left:auto;
-	margin-right:auto;
-	flex:inherit;
-	width:auto
-}
-
-.footer {
-	background:#1e2226;
-	background:linear-gradient(180deg, #1e2226 0%, black 67%);
-	margin-top:50px;
-	padding:10px;
-	color:#838592;
-	text-align:center
-}
-
-.footer .grid {
-	margin-bottom:0
-}
-
-.page {
-	min-height:800px;
-	margin-top:20px
-}
-
-.isp-list {
-	margin-top:50px;
-	font-size:10px
-}
-
-.center {
-	text-align:center
-}
-		</style>
-		
 		<script src="https://www.google.com/recaptcha/api.js" async defer></script>
-		<script data-ad-client="ca-pub-8794433849695433" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 	</head>
-	
 	<body>
-		<header>
-			<div class="container">
-				<div class="grid">
-					<div class="row">
-						<div class="cell-10">
-							<h2>Skymote</h2>
+		<!-- Preloader -->
+		<div class="preloader">
+			<div class="box"></div>
+			<div class="box"></div>
+			<div class="box"></div>
+			<div class="box"></div>
+			<div class="box"></div>
+			<div class="box"></div>
+		</div>
+		<!-- End Preloader -->
+		<!-- OffCanvas Menu -->
+		<!-- Header -->
+		<header class="header fixed-top">
+			<!-- Header Main -->
+			<div class="header-main love-sticky">
+				<div class="container">
+					<div class="row align-items-center position-relative">
+						<div class="col-lg-2 col-sm-3 col-5">
+							<!-- Start Logo -->
+							<div class="logo">
+								<a href="/">
+									<img src="<?=$config["common"]["static_server"]?>/assets/img/logo.png" class="main-logo" alt="" style="height:50px">
+										<img src="<?=$config["common"]["static_server"]?>/assets/img/sticky-logo.png" class="sticky-logo" alt="" style="height:50px">
+								</a>
+							</div>
+							<!-- End of Logo -->
 						</div>
-						
-						<!--<div class="cell" id="right">
-							<a href="/account/" title="Espace client">Espace client</a>
-						</div>-->
+						<div class="col-lg-10 col-sm-9 col-7 d-flex align-items-center justify-content-end position-static">
+							<div class="nav-wrapper">
+								<!-- Nav -->
+								<ul class="nav">
+									<li><a href="/" title="Accueil">Accueil</a></li>
+									<li><a href="/isp-list" title="Liste des FAI par pays">Liste des FAI par pays</a></li>
+									<li><a href="/recent-allocations" title="Récentes allocations">Récentes allocations</a></li>
+									<li><a href="/proxys" title="Proxys Socks5">Proxys Socks5</a></li>
+									<li><a href="/scans" title="Scans">Scans</a></li>
+									<li><a href="/vps" title="VPS">VPS</a></li>
+									<li><a href="/account/" title="Espace client">Espace client</a>
+								</ul>
+								<!-- End Nav -->
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
-			
-			<div class="app-bar-wrapper">
-				<div class="container pos-relative app-bar" data-role="appbar" data-expand-point="sm">
-					<ul class="app-bar-menu">
-						<li><a href="/" title="Accueil">Accueil</a>
-						<li><a href="/isp-list" title="Liste des FAI par pays">Liste des FAI par pays</a>
-						<li><a href="/recent-allocations" title="Récentes allocations">Récentes allocations</a>
-						<li><a href="/proxys" title="Proxys Socks5">Proxys Socks5</a>
-						<!--<li><a href="/vps" title="VPS Debian">VPS Debian</a>-->
-						<li><a href="/minecraft" title="Minecraft">Minecraft</a>
-						<li><a href="/scans" title="Scans">Scans</a>
-					</ul>
-				</div>
-			</div>
+			<!-- End Header Main -->
 		</header>
+		<!-- End Header -->
+		<div class="banner layer">
+			<div class="container">
+				<div class="banner-content">

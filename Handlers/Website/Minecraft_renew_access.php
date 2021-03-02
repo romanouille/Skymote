@@ -1,4 +1,7 @@
 <?php
+http_response_code(503);
+require "Handlers/Website/Error.php";
+
 require "Core/MinecraftServer.class.php";
 
 if (!isset($_COOKIE["minecraft_session"]) || !MinecraftServer::cookieExists($_COOKIE["minecraft_session"])) {

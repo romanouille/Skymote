@@ -47,7 +47,7 @@ class Server {
 	public function load() : array {
 		global $db;
 		
-		$query = $db->prepare("SELECT user_email, password, hostname, expiration, type FROM servers WHERE ip = :ip");
+		$query = $db->prepare("SELECT user_email, password, expiration, type, hypervisor_id, proxmox_id FROM servers WHERE ip = :ip");
 		$query->bindValue(":ip", $this->ip, PDO::PARAM_STR);
 		$query->execute();
 		$data = $query->fetch();
@@ -120,5 +120,19 @@ class Server {
 		}
 		
 		return $data["user_email"];
+	}
+	
+	public function getOwner(int $timestamp) : string {
+		global $db;
+
+		$query = $db->prepare("SELECT owner FROM ip_logs WHERE ip = :ip AND $timestamp > timestamp_start AND $timestamp < timestamp_end");
+		$query->bindValue(":ip", $this->ip, PDO::PARAM_STR);
+		$query->execute();
+		$data = $query->fetch();
+		if (empty($data)) {
+			return "";
+		}
+
+		return $data["owner"];
 	}
 }

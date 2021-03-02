@@ -117,7 +117,7 @@ class User {
 		$query->execute();
 		$data = $query->fetch();
 		if (empty($data)) {
-			return [];
+			return false;
 		}
 		
 		return password_verify($password, trim($data["password"]));
@@ -415,21 +415,5 @@ class User {
 		}
 		
 		return $result;
-	}
-	
-	/**
-	 * Vérifie si l'utilisateur possède un serveur gratuit
-	 *
-	 * @return bool Résultat
-	 */
-	public function hasFreeServer() : bool {
-		global $db;
-		
-		$query = $db->prepare("SELECT COUNT(*) AS nb FROM servers WHERE owner = :owner AND type = 2");
-		$query->bindValue(":owner", $this->email, PDO::PARAM_STR);
-		$query->execute();
-		$data = $query->fetch();
-		
-		return $data["nb"] == 1;
 	}
 }

@@ -18,7 +18,7 @@ function renderPage() {
 		$data = str_replace($comment, "", $data);
 	}
 	
-	if ($_SERVER["REQUEST_URI"] != "/minecraft-setup") {
+	if ($_SERVER["REQUEST_URI"] != "/minecraft-setup" && !strstr($_SERVER["REQUEST_URI"], "/admin/")) {
 		$data = str_replace("> <", "><", str_replace("  ", "", str_replace("\n", "", str_replace("	", "", $data))));
 	}
 	

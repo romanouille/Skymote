@@ -39,6 +39,7 @@ class Paypal {
 		curl_setopt($this->curl, CURLOPT_POSTFIELDS, $post);
 		$page = json_decode(curl_exec($this->curl), true);
 		if (empty($page) || !isset($page["links"][1]["href"])) {
+			print_r($page);
 			trigger_error("Paypal : Un probleme est survenu pendant la creation du paiement.", E_USER_ERROR);
 		}
 

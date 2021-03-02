@@ -1,16 +1,10 @@
 <?php
 require "Pages/Website/Layout/Start.php";
 ?>
-<div class="container page">
-	<ul class="breadcrumbs">
-		<li class="page-item"><a href="#" class="page-link">Skymote</a>
-		<li class="page-item"><a href="#" class="page-link">Erreur <?=http_response_code()?></a>
-	</ul>
+<div class="center">
+	<h2>ERREUR</h2>
+	<h1><?=http_response_code()?></h1>
 	
-	<div class="center">
-		<h2>ERREUR</h2>
-		<h1><?=http_response_code()?></h1>
-		
 <?php
 switch (http_response_code()) {
 	case 400:
@@ -34,7 +28,7 @@ switch (http_response_code()) {
 		break;
 		
 	case 500:
-		echo "Une erreur interne est survenue, veuillez réessayer.";
+		echo "Une erreur interne est survenue, veuillez réessayer.<br>Si vous venez d'effectuer un paiement, celui-ci ne sera pas pris en compte.";
 		break;
 	
 	case 503:
@@ -42,7 +36,6 @@ switch (http_response_code()) {
 		break;
 }
 ?>
-	</div>
 </div>
 <?php
 require "Pages/Website/Layout/End.php";

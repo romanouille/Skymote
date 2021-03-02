@@ -1,7 +1,7 @@
 <?php
 ini_set("memory_limit", -1);
 
-$dev = !isset($_SERVER["REMOTE_ADDR"]) || in_array($_SERVER["REMOTE_ADDR"], ["127.0.0.1", "135.125.102.48"]);
+$dev = !isset($_SERVER["REMOTE_ADDR"]) || in_array($_SERVER["REMOTE_ADDR"], ["127.0.0.1", "135.125.102.48", "5.196.158.16"]);
 
 if ($dev) {
 	error_reporting(-1);
