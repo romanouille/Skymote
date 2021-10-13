@@ -1,6 +1,0 @@
-{
-    "require": {
-        "thedudeguy/rcon": "^1.0",
-        "phpseclib/phpseclib": "^3.0"
-    }
-}

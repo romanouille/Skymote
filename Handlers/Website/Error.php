@@ -1,7 +1,7 @@
 <?php
-$pageTitle = "Erreur ".http_response_code();
-$pageDescription = "Erreur ".http_response_code();
+$pageTitle = "Error ".http_response_code();
+$pageDescription = "Error ".http_response_code();
 
-require "Pages/Website/Error.php";
+require "Pages/$version/Error.php";
 
 exit;

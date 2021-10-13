@@ -455,7 +455,7 @@ class GeoIP {
 		$query->execute();
 		$data = $query->fetch();
 
-		return (int)$data["value"];
+		return isset($data["value"]) ? (int)$data["value"] : 0;
 	}
 	
 	/**
@@ -536,6 +536,29 @@ class GeoIP {
 					"description" => (string)$value["description"],
 					"remarks" => (string)$value["remarks"],
 					"status" => (string)$value["status"],
+					"created" => (int)$value["created"],
+					"modified" => (int)$value["modified"]
+				];
+			}
+			
+			
+			$result["routes"] = [];
+			
+			$query = $db->prepare("SELECT version, block, block_start, block_end, description, origin, created, modified FROM dump_ripe_routes_$table WHERE :ip << block");
+			$query->bindValue(":ip", $ip, PDO::PARAM_STR);
+			$query->execute();
+			$data = $query->fetchAll();
+			
+			foreach ($data as $value) {
+				$value = array_map("trim", $value);
+				
+				$result["routes"][] = [
+					"version" => (int)$value["version"],
+					"block" => (string)$value["block"],
+					"block_start" => (string)$value["block_start"],
+					"block_end" => (string)$value["block_end"],
+					"description" => (string)$value["description"],
+					"origin" => (int)$value["origin"],
 					"created" => (int)$value["created"],
 					"modified" => (int)$value["modified"]
 				];

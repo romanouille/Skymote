@@ -1,5 +1,5 @@
 <?php
-$pageTitle = "Mentions légales";
-$pageDescription = "Mentions légales de Skymote";
+$pageTitle = "Legal notice";
+$pageDescription = "Legal notice";
 
-require "Pages/Website/Legal.php";
+require "Pages/$version/Legal.php";

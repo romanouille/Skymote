@@ -1,4 +1,4 @@
 <?php
-$pageTitle = "Accueil";
-$pageDescription = "Accédez aux informations sur une adresse IP grâce à Skymote.";
-require "Pages/Website/Home.php";
+$pageTitle = "Home";
+$pageDescription = "Access information about an IP address with Skymote.";
+require "Pages/$version/Home.php";

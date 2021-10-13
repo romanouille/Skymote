@@ -3,26 +3,40 @@
  * Effectue le rendu de la page
  */
 function renderPage() {
-	$data = ob_get_contents();
-	ob_end_clean();
+	global $data;
 	
-	if (strstr($_SERVER["REQUEST_URI"], "/invoice")) {
-		echo $data;
+	$error = error_get_last();
+	if (isset($error["message"]) && strstr($error["message"], "Maximum execution time of")) {
+		header("Content-Type: text/plain;charset=utf-8");
+		exit("Votre recherche a générée trop de résultats. Veuillez réessayer avec des termes plus stricts.");
+	}
+
+	$page = ob_get_contents();
+	ob_end_clean();
+
+	if (isset($_SERVER["HTTP_ACCEPT"]) && $_SERVER["HTTP_ACCEPT"] == "application/json") {
+		header("Content-Type: application/json");
+		echo json_encode($data);
 		exit;
 	}
 	
-	preg_match_all("`<!--(.+)-->`isU", $data, $comments);
+	if (strstr($_SERVER["REQUEST_URI"], "/invoice")) {
+		echo $page;
+		exit;
+	}
+	
+	preg_match_all("`<!--(.+)-->`isU", $page, $comments);
 	$comments = $comments[0];
 	
 	foreach ($comments as $comment) {
-		$data = str_replace($comment, "", $data);
+		$page = str_replace($comment, "", $page);
 	}
 	
 	if ($_SERVER["REQUEST_URI"] != "/minecraft-setup" && !strstr($_SERVER["REQUEST_URI"], "/admin/")) {
-		$data = str_replace("> <", "><", str_replace("  ", "", str_replace("\n", "", str_replace("	", "", $data))));
+		$page = str_replace("> <", "><", str_replace("  ", "", str_replace("\n", "", str_replace("	", "", $page))));
 	}
 	
-	echo $data;
+	echo $page;
 }
 
 /**

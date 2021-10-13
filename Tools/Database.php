@@ -41,6 +41,15 @@ $db->exec("ALTER SEQUENCE dump_ripe_as_peers_{$table}_id_seq RESTART WITH 1");
 $db->exec("ALTER SEQUENCE dump_ripe_organisations_{$table}_id_seq RESTART WITH 1");
 $db->exec("ALTER SEQUENCE dump_ripe_routes_{$table}_id_seq RESTART WITH 1");
 
+$db->exec("TRUNCATE dump_as_{$table}");
+$db->exec("TRUNCATE dump_blocks_{$table}");
+$db->exec("TRUNCATE dump_lir_{$table}");
+$db->exec("TRUNCATE dump_ripe_allocations_{$table}");
+$db->exec("TRUNCATE dump_ripe_as_{$table}");
+$db->exec("TRUNCATE dump_ripe_as_peers_{$table}");
+$db->exec("TRUNCATE dump_ripe_organisations_{$table}");
+$db->exec("TRUNCATE dump_ripe_routes_{$table}");
+
 
 /**********
  AS
@@ -584,9 +593,6 @@ $query = $db->prepare("VACUUM \"dump_lir_$table\"");
 $query->execute();
 
 $query = $db->prepare("VACUUM \"dump_ripe_organisations_$table\"");
-$query->execute();
-
-$query = $db->prepare("VACUUM \"proxys\"");
 $query->execute();
 
 $query = $db->prepare("VACUUM \"dump_ripe_routes_$table\"");

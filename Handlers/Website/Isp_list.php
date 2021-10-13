@@ -14,11 +14,17 @@ if (isset($match[0])) {
 		$data = json_decode(Cache::read("isp-list-{$match[0]}"), true);
 	}
 	
-	$pageTitle = "Liste des fournisseurs d'accès Internet";
-	$pageDescription = "Liste des fournisseurs d'accès Internet dans la région '".Locale::getDisplayRegion("-{$match[0]}", "fr")."'.";
+	$pageTitle = "List of Internet Service Providers";
+	$pageDescription = "List of Internet service providers in the region '".Locale::getDisplayRegion("-{$match[0]}", "en")."'.";
 } else {
-	$pageTitle = "Liste des fournisseurs d'accès Internet";
-	$pageDescription = "Liste des fournisseurs d'accès Internet dans un pays spécifique.";
+	$pageTitle = "List of Internet Service Providers";
+	$pageDescription = "List of Internet service providers in a specific country.";
 }
 
-require "Pages/Website/Isp_list.php";
+$countriesName = [];
+foreach ($countries as $countryCode) {
+	$countriesName[$countryCode] = Locale::getDisplayRegion("-$countryCode", "en");
+}
+asort($countriesName);
+
+require "Pages/$version/Isp_list.php";

@@ -23,7 +23,7 @@ if ($oldIp != $ip) {
 	exit;
 }
 
-$pageTitle = "Adresse IPv{$data["block"]["version"]} $ip";
-$pageDescription = "L'adresse IPv{$data["block"]["version"]} est localisée dans la région '".Locale::getDisplayRegion("-".(isset($data["lir"]["country"]) && $data["lir"]["country"] != "ZZ" ? $data["lir"]["country"] : $data["block"]["country"]))."', son fournisseur d'accès Internet est ".(isset($data["lir"]["name"]) && !empty($data["lir"]["name"]) && $data["lir"]["name"] != "*" ? "'{$data["lir"]["name"]}'" : "inconnu").".";
+$pageTitle = "IPv{$data["block"]["version"]} address $ip";
+$pageDescription = "The IPv{$data["block"]["version"]} address is located in '".Locale::getDisplayRegion("-".(isset($data["lir"]["country"]) && $data["lir"]["country"] != "ZZ" ? $data["lir"]["country"] : $data["block"]["country"]), "en")."', his Internet service provider is ".(isset($data["lir"]["name"]) && !empty($data["lir"]["name"]) && $data["lir"]["name"] != "*" ? "'{$data["lir"]["name"]}'" : "unknown").".";
 
-require "Pages/Website/Ip.php";
+require "Pages/$version/Ip.php";

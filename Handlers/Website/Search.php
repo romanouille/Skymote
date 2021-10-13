@@ -13,7 +13,7 @@ if (!Cache::exists("search-{$match[0]}")) {
 } else {
 	$data = json_decode(Cache::read("search-{$match[0]}"), true);
 }
-$pageTitle = "Recherche";
-$pageDescription = "Résultats de la recherche pour '{$match[0]}'.";
+$pageTitle = "Search";
+$pageDescription = "Results of search for '".htmlspecialchars($match[0])."'.";
 
-require "Pages/Website/Search.php";
+require "Pages/$version/Search.php";
