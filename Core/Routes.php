@@ -3,17 +3,45 @@ $routes = [
 	"#^\/$#" => [
 		"handler" => "Website/Home.php"
 	],
-
-	/*"#^\/legal$#" => [
-		"handler" => "Website/Legal.php"
+	
+	"#^\/ripe-ipv4-waiting-list$#" => [
+		"handler" => "Website/Ripe_ipv4_waiting_list.php"
+	],
+	
+	/*"#^\/bgp-events$#" => [
+		"handler" => "Website/Bgp_events.php"
+	],
+	
+	"#^\/stats$#" => [
+		"handler" => "Website/Stats.php"
+	],
+	
+	"#^\/minecraft$#" => [
+		"handler" => "Website/Minecraft.php"
 	],*/
+	
+	"#^\/ip\/(.+)$#" => [
+		"handler" => "Website/Ip.php"
+	],
 	
 	"#^\/search\?text=(.+)$#" => [
 		"handler" => "Website/Search.php"
 	],
 	
-	"#^\/ip\/(.+)$#" => [
-		"handler" => "Website/Ip.php"
+	"#^\/tools\/ping\?ip=(.+)&port=(.+)&protocol=(.+)$#" => [
+		"handler" => "Website/Ping.php"
+	],
+	
+	"#^\/tools\/traceroute\?ip=(.+)&port=(.+)&protocol=(.+)$#" => [
+		"handler" => "Website/Traceroute.php"
+	],
+	
+	"#^\/tools\/ping$#" => [
+		"handler" => "Website/Ping.php"
+	],
+	
+	"#^\/tools\/traceroute$#" => [
+		"handler" => "Website/Traceroute.php"
 	],
 	
 	"#^\/org\/(.*)$#" => [
@@ -36,11 +64,7 @@ $routes = [
 		"handler" => "Website/Isp.php"
 	],
 	
-	"#^\/free-vps$#" => [
-		"handler" => "Website/Free_vps.php"
-	],
-	
-	"#^\/api$#" => [
+	/*"#^\/api$#" => [
 		"handler" => "Website/Api.php"
-	]
+	]*/
 ];

@@ -14,6 +14,6 @@ if (!Cache::exists("org-{$match[0]}")) {
 }
 
 $pageTitle = $match[0];
-$pageDescription = "The RIPE organisation '{$match[0]}' is named '{$data["name"]}', it is ".($data["is_lir"] ? "LIR" : "not LIR")." and has been created the ".date("d/m/Y à H:i:s", $data["created"]).".";
+$pageDescription = "L'organisation RIPE '{$match[0]}' est nommée '{$data["name"]}', elle ".($data["is_lir"] ? "est LIR" : "n'est pas LIR")." et a été créée le ".date("d/m/Y à H:i:s", $data["created"]).".";
 
-require "Pages/$version/Org.php";
+require "Pages/Website/Org.php";

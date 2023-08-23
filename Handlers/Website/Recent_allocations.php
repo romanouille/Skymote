@@ -8,7 +8,7 @@ if (!Cache::exists("recents-allocations")) {
 	$data = json_decode(Cache::read("recents-allocations"), true);
 }
 
-$pageTitle = "Recent allocations";
-$pageDescription = "This page provides access to the list of recent allocations such as RIPE allocations, IP blocks, ASs, ...";
+$pageTitle = "Récentes allocations";
+$pageDescription = "Cette page permet d'accéder à la liste de récentes allocations telles que des allocations RIPE, des blocs IP, des AS, ...";
 
-require "Pages/$version/Recent_allocations.php";
+require "Pages/Website/Recent_allocations.php";

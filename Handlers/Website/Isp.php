@@ -23,6 +23,6 @@ if ($ispSlug != $slugTest) {
 
 $blocksCount = count($data["blocks"]);
 $pageTitle = $data["name"];
-$pageDescription = "The Internet Service Provider '{$data["name"]}' is located in '".Locale::getDisplayRegion("-{$data["country"]}", "en")."', it owns $blocksCount".($blocksCount > 1 ? "s" : "")." IP blocks.";
+$pageDescription = "Le fournisseur d'accès Internet '{$data["name"]}' est localisé dans la région '".Locale::getDisplayRegion("-{$data["country"]}", "fr")."', il possède $blocksCount bloc".($blocksCount > 1 ? "s" : "")." IP.";
 
-require "Pages/$version/Isp.php";
+require "Pages/Website/Isp.php";

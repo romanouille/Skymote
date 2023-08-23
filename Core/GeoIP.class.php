@@ -204,13 +204,12 @@ class GeoIP {
 	}
 	
 	/**
-	 * Nécessaire pour Ip::ipRangeToCidr()
+	 * Nécessaire pour ipRangeToCidr()
 	 */
 	public static function iMask($s){
 		return base_convert((pow(2, 32) - pow(2, (32-$s))), 10, 16);
 	}
 	
-
 	/**
 	 * Effectue un whois sur une adresse IP
 	 *
@@ -234,13 +233,20 @@ class GeoIP {
 	 * @return array Résultat
 	 */
 	public static function icmpPing(string $ip) : array {
-		if (PHP_OS == "WINNT") {
-			$command = shell_exec("nping $ip --icmp");
+		if (strstr($ip, ":")) {
+			$add = "-6";
 		} else {
-			$command = shell_exec("sudo nping $ip --icmp");
+			$add = "";
+		}
+		
+		if (PHP_OS == "WINNT") {
+			$command = shell_exec("nping $ip --icmp $add");
+		} else {
+			$command = shell_exec("sudo nping $ip --icmp $add");
 		}
 		
 		$data = explode("\n", $command);
+		
 		$result = [];
 		$lastTime = 0;
 		
@@ -269,7 +275,7 @@ class GeoIP {
 			}
 			
 			$result[] = [
-				"pong" => $pong,
+				"pong" => (int)$pong,
 				"sourceIp" => $sourceIp,
 				"ttl" => (int)$ttl,
 				"seq" => (int)$seq
@@ -287,13 +293,20 @@ class GeoIP {
 	 * @return array Résultat
 	 */
 	public static function tcpPing(string $ip, int $port) : array {
-		if (PHP_OS == "WINNT") {
-			$command = "nping $ip -p $port --tcp ";
+		if (strstr($ip, ":")) {
+			$add = "-6";
 		} else {
-			$command = "sudo nping $ip -p $port --tcp ";
+			$add = "";
+		}
+		
+		if (PHP_OS == "WINNT") {
+			$command = "nping $ip -p $port --tcp $add";
+		} else {
+			$command = "sudo nping $ip -p $port --tcp $add";
 		}
 		
 		$data = explode("\n", shell_exec($command));
+		
 		$result = [];
 		$lastTime = 0;
 		
@@ -318,10 +331,10 @@ class GeoIP {
 			$seq = explode("=", $value[11])[1];
 			
 			$result[] = [
-				"pong" => $pong,
+				"pong" => (int)$pong,
 				"sourceIp" => $sourceIp,
-				"ttl" => $ttl,
-				"seq" => $seq,
+				"ttl" => (int)$ttl,
+				"seq" => (int)$seq,
 			];
 		}
 		
@@ -337,10 +350,16 @@ class GeoIP {
 	 * @return array Résultat
 	 */
 	public static function udpPing(string $ip, int $port) : array {
-		if (PHP_OS == "WINNT") {
-			$command = "nping $ip -p $port --udp";
+		if (strstr($ip, ":")) {
+			$add = "-6";
 		} else {
-			$command = "sudo nping $ip -p $port --udp";
+			$add = "";
+		}
+		
+		if (PHP_OS == "WINNT") {
+			$command = "nping $ip -p $port --udp $add";
+		} else {
+			$command = "sudo nping $ip -p $port --udp $add";
 		}
 		
 		$data = explode("\n", shell_exec($command));
@@ -367,9 +386,9 @@ class GeoIP {
 			$ttl = (int)explode("=", $value[6])[1];
 			
 			$result[] = [
-				"pong" => $pong,
+				"pong" => (int)$pong,
 				"sourceIp" => $sourceIp,
-				"ttl" => $ttl,
+				"ttl" => (int)$ttl,
 			];
 		}
 		
@@ -385,23 +404,29 @@ class GeoIP {
 	 * @return array Résultat
 	 */
 	public static function traceroute(string $ip, int $port = 0, string $protocol = "icmp") : array {
+		if (strstr($ip, ":")) {
+			$add = "-6";
+		} else {
+			$add = "";
+		}
+		
 		if (PHP_OS == "WINNT") {
 			if ($protocol == "icmp") {
-				$command = "nmap -Pn -sn -n --traceroute $ip";
+				$command = "nmap -Pn -sn -n --traceroute $ip $add";
 			} elseif ($protocol == "tcp") {
-				$command = "nmap -Pn -n --traceroute -p $port $ip";
+				$command = "nmap -Pn -n --traceroute -p $port $ip $add";
 			} elseif ($protocol == "udp") {
-				$command = "nmap -sU -Pn -n --traceroute -p $port $ip";
+				$command = "nmap -sU -Pn -n --traceroute -p $port $ip $add";
 			} else {
 				return [];
 			}
 		} else {
 			if ($protocol == "icmp") {
-				$command = "sudo nmap -Pn -sn -n --traceroute $ip";
+				$command = "sudo nmap -Pn -sn -n --traceroute $ip $add";
 			} elseif ($protocol == "tcp") {
-				$command = "sudo nmap -Pn -n --traceroute -p $port $ip";
+				$command = "sudo nmap -Pn -n --traceroute -p $port $ip $add";
 			} elseif ($protocol == "udp") {
-				$command = "sudo nmap -sU -Pn -n --traceroute -p $port $ip";
+				$command = "sudo nmap -sU -Pn -n --traceroute -p $port $ip $add";
 			} else {
 				return [];
 			}
@@ -432,11 +457,11 @@ class GeoIP {
 			$ipData = self::getIpData($value[4]);
 			
 			$result[$value[0]] = [
-				"pong" => $value[2],
+				"pong" => (int)$value[2],
 				"sourceIp" => $value[4],
 				"ptr" => gethostbyaddr($value[4]),
-				"countryCode" => isset($ipData["lir"]["country"]) && $ipData["lir"]["country"] != "ZZ" ? $ipData["lir"]["country"] : (isset($ipData["block"]["country"]) ? $ipData["block"]["country"] : "*"),
-				"isp" => isset($ipData["lir"]["name"]) ? $ipData["lir"]["name"] : "*"
+				"country_code" => isset($ipData["isp"]["country"]) && $ipData["isp"]["country"] != "ZZ" ? $ipData["isp"]["country"] : (isset($ipData["block"]["country"]) ? $ipData["block"]["country"] : "*"),
+				"isp" => isset($ipData["isp"]["name"]) ? $ipData["isp"]["name"] : "*"
 			];
 		}
 		
@@ -455,7 +480,7 @@ class GeoIP {
 		$query->execute();
 		$data = $query->fetch();
 
-		return isset($data["value"]) ? (int)$data["value"] : 0;
+		return (int)$data["value"];
 	}
 	
 	/**
@@ -466,7 +491,7 @@ class GeoIP {
 	 * @return array Données
 	 */
 	public static function getIpData(string $ip) : array {
-		global $db;
+		global $db, $rirList;
 		
 		$table = self::getTable();
 
@@ -482,6 +507,11 @@ class GeoIP {
 		$result = [];
 
 		$data = array_map("trim", $data);
+		/*$lir = self::getAsFromIp($ip);
+		if ($lir == 0) {
+			$lir = $data["lir"];
+		}*/
+		$lir = $data["lir"];
 
 		$result["block"] = [
 				"version" => (int)$data["version"],
@@ -489,14 +519,14 @@ class GeoIP {
 				"block_start" => (string)$data["block_start"],
 				"block_end" => (string)$data["block_end"],
 				"country" => (string)$data["country"],
-				"lir" => (int)$data["lir"],
+				"isp" => (int)$lir,
 				"created" => (int)$data["created"],
-				"rir" => (int)$data["rir"]
+				"rir" => (string)$rirList[$data["rir"]]
 		];
 
 
 		$query = $db->prepare("SELECT name, country FROM dump_as_$table WHERE id = :id");
-		$query->bindValue(":id", (int)$data["lir"], PDO::PARAM_INT);
+		$query->bindValue(":id", $lir, PDO::PARAM_INT);
 		$query->execute();
 		$data = $query->fetch();
 		
@@ -509,12 +539,12 @@ class GeoIP {
 
 		$data = array_map("trim", $data);
 
-		$result["lir"] = [
+		$result["isp"] = [
 			"name" => (string)$data["name"],
 			"country" => (string)$data["country"]
 		];
 
-		if ($result["block"]["rir"] == 4) {
+		if ($result["block"]["rir"] == "RIPENCC") {
 			$query = $db->prepare("SELECT version, block, block_start, block_end, org, country, netname, description, remarks, status, created, modified FROM dump_ripe_allocations_$table WHERE :ip << block AND status != 'ALLOCATED UNSPECIFIED' AND org != 'org-ncc1-ripe' ORDER BY block ASC");
 			$query->bindValue(":ip", $ip, PDO::PARAM_STR);
 			$query->execute();
@@ -540,7 +570,6 @@ class GeoIP {
 					"modified" => (int)$value["modified"]
 				];
 			}
-			
 			
 			$result["routes"] = [];
 			
@@ -737,7 +766,7 @@ class GeoIP {
 	 * @return array Résultat
 	 */
 	public static function getRecentsAllocations() : array {
-		global $db;
+		global $db, $rirList;
 		
 		$result = [
 			"allocations" => [],
@@ -782,9 +811,9 @@ class GeoIP {
 				"block_start" => (string)trim($value["block_start"]),
 				"block_end" => (string)trim($value["block_end"]),
 				"country" => (string)trim($value["country"]),
-				"lir" => (int)$value["lir"],
+				"isp" => (int)$value["lir"],
 				"created" => (int)$value["created"],
-				"rir" => (int)$value["rir"]
+				"rir" => $rirList[$value["rir"]]
 			];
 		}
 		
@@ -796,7 +825,7 @@ class GeoIP {
 		foreach ($data as $value) {
 			$result["as"][] = [
 				"id" => (int)$value["id"],
-				"rir" => (int)$value["rir"],
+				"rir" => $rirList[$value["rir"]],
 				"created" => (int)$value["created"]
 			];
 		}
@@ -897,16 +926,16 @@ class GeoIP {
 		foreach ($data as $value) {
 			$ipData = self::getIpData($value["ip"]);
 			
-			if ($ipData["lir"]["country"] == "ZZ" && isset($ipData["block"]["country"])) {
-				$ipData["lir"]["country"] = $ipData["block"]["country"];
+			if ($ipData["isp"]["country"] == "ZZ" && isset($ipData["block"]["country"])) {
+				$ipData["isp"]["country"] = $ipData["block"]["country"];
 			}
 			
 			$result[] = [
 				"ip" => (string)trim($value["ip"]),
 				"port" => (int)$value["port"],
 				"timestamp" => (int)$value["timestamp"],
-				"country" => isset($ipData["lir"]["country"]) ? trim($ipData["lir"]["country"]) : "zz",
-				"isp" => isset($ipData["lir"]["name"]) ? trim($ipData["lir"]["name"]) : ""
+				"country" => isset($ipData["isp"]["country"]) ? trim($ipData["isp"]["country"]) : "zz",
+				"isp" => isset($ipData["isp"]["name"]) ? trim($ipData["isp"]["name"]) : ""
 			];
 		}
 		
@@ -920,8 +949,8 @@ class GeoIP {
 	 *
 	 * @return array Résultat
 	 */
-	public static function getIspData(int $id) : array {
-		global $db;
+	public static function getIspData(int $id, bool $light = false) : array {
+		global $db, $rirList;
 		
 		$result = [
 			"name" => "",
@@ -935,6 +964,13 @@ class GeoIP {
 		$data = $query->fetch();
 		
 		if (empty($data)) {
+			if ($light) {
+				$result["name"] = "*";
+				$result["country"] = "zz";
+				
+				return $result;
+			}
+			
 			return [];
 		}
 		
@@ -951,14 +987,194 @@ class GeoIP {
 		$data = $query->fetchAll();
 		
 		foreach ($data as $value) {
+			if ($value["rir"] == 4) {
+				$query = $db->prepare("SELECT description, remarks FROM dump_ripe_allocations_$table WHERE block = :block");
+				$query->bindValue(":block", $value["block"], PDO::PARAM_STR);
+				$query->execute();
+				$data2 = $query->fetch();
+			}
+			
 			$result["blocks"][] = [
 				"version" => (int)$value["version"],
 				"block" => (string)trim($value["block"]),
 				"block_start" => (string)trim($value["block_start"]),
 				"block_end" => (string)trim($value["block_end"]),
 				"country" => (string)trim($value["country"]),
+				"description" => isset($data2["description"]) && !empty($data2["description"]) ? (string)trim($data2["description"]) : "*",
+				"remarks" => isset($data2["remarks"]) && !empty($data2["remarks"]) ? (string)trim($data2["remarks"]) : "*",
 				"created" => (int)$value["created"],
-				"rir" => (int)$value["rir"]
+				"rir" => $rirList[$value["rir"]]
+			];
+		}
+		
+		if ($light) {
+			return $result;
+		}
+		
+		$result["bgp"] = self::getBgpRoutes($id);
+		$result["peers"] = self::getAsPeers($id);
+		
+		return $result;
+	}
+	
+	public static function getBgpRoutes(int $as) : array {
+		global $config, $db;
+		
+		return [];
+		
+		$curl = curl_init();
+		curl_setopt($curl, CURLOPT_URL, "http://{$config["common"]["bgp_router"]}/Api.php?mode=blocks&as=$as");
+		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+		$page = curl_exec($curl);
+		curl_close($curl);
+		
+		$table = self::getTable();
+		$data = json_decode($page, true)["blocks"];
+		$result = [];
+		
+		foreach ($data as $value) {
+			$query = $db->prepare("SELECT rir FROM dump_lir_$table WHERE id = :id");
+			$query->bindValue(":id", $as, PDO::PARAM_INT);
+			$query->execute();
+			$data2 = $query->fetch();
+			
+			$ipVersion = !strstr($value, ":") ? 4 : 6;
+			
+			if ($ipVersion == 4) {
+				$blockData = GeoIP::cidrToRange($value);
+				$blockStart = $blockData[0];
+				$blockEnd = $blockData[1];
+			} else {
+				$block = explode("/", $value);
+				$blockStart = $block[0];
+				if ($block[1] != 128) {
+					$blockEnd = GeoIP::long2ipv2(gmp_strval(gmp_sub(gmp_strval(gmp_add(GeoIP::ip2longv2($blockStart), GeoIP::cidrToHostsV6($block[1]))), 1)));
+				} else {
+					$blockEnd = $blockStart;
+				}
+			}
+			
+			if (!isset($data2["rir"]) || $data2["rir"] == 4) {
+				$query = $db->prepare("SELECT country, netname, description, remarks FROM dump_ripe_allocations_$table WHERE block = :block");
+				$query->bindValue(":block", $value, PDO::PARAM_STR);
+				$query->execute();
+				$data2 = $query->fetch();
+			}
+			
+			$result[] = [
+				"version" => $ipVersion,
+				"block" => $value,
+				"block_start" => $blockStart,
+				"block_end" => $blockEnd,
+				"country" => isset($data2["country"]) && !empty($data2["country"]) ? trim($data2["country"]) : "ZZ",
+				"netname" => isset($data2["netname"]) && !empty($data2["netname"]) ? trim($data2["netname"]) : "*",
+				"description" => isset($data2["description"]) && !empty($data2["description"]) ? (string)trim($data2["description"]) : "*",
+				"remarks" => isset($data2["remarks"]) && !empty($data2["remarks"]) ? (string)trim($data2["remarks"]) : "*"
+			];
+		}
+		
+		return $result;			
+	}
+	
+	public static function getAsPeers(int $as) : array {
+		global $config, $db;
+		
+		return [];
+		
+		$table = self::getTable();
+		
+		$curl = curl_init();
+		curl_setopt($curl, CURLOPT_URL, "http://{$config["common"]["bgp_router"]}/Api.php?mode=peers&as=$as");
+		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+		$page = curl_exec($curl);
+		curl_close($curl);
+		
+		$data = @json_decode($page, true)["peers"];
+		$result = [4 => [], 6 => []];
+		
+		foreach ($data as $version=>$peers) {
+			foreach ($peers as $peer) {
+				$query = $db->prepare("SELECT name, country FROM dump_as_$table WHERE id = :id");
+				$query->bindValue(":id", $peer, PDO::PARAM_INT);
+				$query->execute();
+				$data = $query->fetch();
+				
+				$result[$version][] = [
+					"as" => $peer,
+					"name" => isset($data["name"]) ? trim($data["name"]) : "*",
+					"country" => isset($data["country"]) ? trim($data["country"]) : "ZZ"
+				];
+			}
+		}
+		
+		return $result;
+	}
+	
+	public static function getAsFromIp(string $ip) : int {
+		global $config;
+		
+		return [];
+		
+		$curl = curl_init();
+		curl_setopt($curl, CURLOPT_URL, "http://{$config["common"]["bgp_router"]}/Api.php?mode=as&ip=$ip");
+		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+		$page = curl_exec($curl);
+		curl_close($curl);
+		
+		return json_decode($page, true)["as"];
+	}
+	
+	public static function getRipeIpv4WaitingList() : array {
+		global $db;
+		
+		$table = self::getTable();
+		$query = $db->prepare("SELECT block, block_start, block_end, country, lir, created FROM dump_blocks_$table WHERE rir = 4 AND version = 4 ORDER BY created DESC LIMIT 100");
+		$query->execute();
+		$data = $query->fetchAll();
+		
+		$result = [];
+		foreach ($data as $value) {
+			$result[] = [
+				"version" => 4,
+				"block" => (string)$value["block"],
+				"block_start" => (string)$value["block_start"],
+				"block_end" => (string)$value["block_end"],
+				"country" => (string)$value["country"],
+				"isp" => (int)$value["lir"],
+				"created" => (int)$value["created"],
+				"rir" => 4
+			];
+		}
+		
+		return $result;
+	}
+	
+	public static function getBgpEvents() : array {
+		global $db;
+		
+		$table = self::getTable();
+		$query = $db->prepare("SELECT type, version, block, block_start, block_end, before, after, timestamp FROM bgp_events WHERE block_start != block_end AND (before != 64515 AND after != 64515) AND ((SELECT COUNT(*) FROM dump_as_$table WHERE id = before) > 0 OR (SELECT COUNT(*) FROM dump_as_$table WHERE id = after) > 0) ORDER BY timestamp DESC LIMIT 500");
+		$query->execute();
+		$data = $query->fetchAll();
+		$result = [];
+		
+		foreach ($data as $value) {
+			$value = array_map("trim", $value);
+			
+			$ispBefore = $value["before"] > 0 ? self::getIspData($value["before"], true) : ["name" => "*", "country" => "zz"];
+			$ispAfter = $value["after"] > 0 ? self::getIspData($value["after"], true) : ["name" => "*", "country" => "zz"];
+			
+			$result[] = [
+				"type" => (int)$value["type"],
+				"version" => (int)$value["version"],
+				"block" => (string)$value["block"],
+				"block_start" => (string)$value["block_start"],
+				"block_end" => (string)$value["block_end"],
+				"before" => (int)$value["before"],
+				"after" => (int)$value["after"],
+				"timestamp" => (int)$value["timestamp"],
+				"ispBefore" => $ispBefore,
+				"ispAfter" => $ispAfter
 			];
 		}
 		

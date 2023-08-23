@@ -1,6 +1,8 @@
 <?php
 ini_set("memory_limit", "128M");
-$dev = true;
+$dev = false;
+error_reporting(-1);
+ini_set("display_errors", true);
 
 set_include_path("../");
 chdir("../");
@@ -84,7 +86,7 @@ while (($line = fgets($fp))) {
 	
 	$query = $db->prepare("INSERT INTO dump_as_$table(id, name, country) VALUES(:id, :name, :country)");
 	$query->bindValue(":id", $asId, PDO::PARAM_INT);
-	$query->bindValue(":name", utf8_encode($name), PDO::PARAM_STR);
+	$query->bindValue(":name", @utf8_encode($name), PDO::PARAM_STR);
 	$query->bindValue(":country", $asCountry, PDO::PARAM_STR);
 	$query->execute();
 }
@@ -146,8 +148,8 @@ while ($line = fgets($fp)) {
 				$query->bindValue(":id", $lastAS, PDO::PARAM_INT);
 				$query->bindValue(":org", $result["org"], PDO::PARAM_STR);
 				$query->bindValue(":sponsoring_org", $result["sponsoring-org"], PDO::PARAM_STR);
-				$query->bindValue(":description", utf8_encode($result["descr"]), PDO::PARAM_STR);
-				$query->bindValue(":remarks", utf8_encode($result["remarks"]), PDO::PARAM_STR);
+				$query->bindValue(":description", @utf8_encode($result["descr"]), PDO::PARAM_STR);
+				$query->bindValue(":remarks", @utf8_encode($result["remarks"]), PDO::PARAM_STR);
 				$query->bindValue(":created", $result["created"], PDO::PARAM_INT);
 				$query->bindValue(":modified", $result["modified"], PDO::PARAM_INT);
 				$query->execute();
@@ -293,7 +295,7 @@ foreach ($lirId as $lir) {
 		$country = "ZZ";
 	} else {
 		$asn = $lir["as"];
-		//$lirName = trim(utf8_encode($as[$lir["as"]]["name"]));
+		//$lirName = trim(@utf8_encode($as[$lir["as"]]["name"]));
 		$country = trim($as[$lir["as"]]["country"]);
 	}
 	
@@ -371,7 +373,7 @@ for ($i = 1; $i <= 2; $i++) {
 				$query->bindValue(":block", $lastIp, PDO::PARAM_STR);
 				$query->bindValue(":block_start", $blockStart, PDO::PARAM_STR);
 				$query->bindValue(":block_end", $blockEnd, PDO::PARAM_STR);
-				$query->bindValue(":description", utf8_encode($result["descr"]), PDO::PARAM_STR);
+				$query->bindValue(":description", @utf8_encode($result["descr"]), PDO::PARAM_STR);
 				$query->bindValue(":origin", $result["origin"], PDO::PARAM_INT);
 				$query->bindValue(":created", $result["created"], PDO::PARAM_INT);
 				$query->bindValue(":modified", $result["modified"], PDO::PARAM_INT);
@@ -443,7 +445,7 @@ while (($line = fgets($fp))) {
 				
 				$query = $db->prepare("INSERT INTO dump_ripe_organisations_$table(org, name, is_lir, created, modified) VALUES(:org, :name, :is_lir, :created, :modified)");
 				$query->bindValue(":org", $lastOrg, PDO::PARAM_STR);
-				$query->bindValue(":name", utf8_encode($result["name"]), PDO::PARAM_STR);
+				$query->bindValue(":name", @utf8_encode($result["name"]), PDO::PARAM_STR);
 				$query->bindValue(":is_lir", (int)$result["is_lir"], PDO::PARAM_INT);
 				$query->bindValue(":created", $result["created"], PDO::PARAM_INT);
 				$query->bindValue(":modified", $result["modified"], PDO::PARAM_INT);
@@ -553,9 +555,9 @@ for ($i = 1; $i <= 2; $i++) {
 					$query->bindValue(":block_end", $result["block_end"], PDO::PARAM_STR);
 					$query->bindValue(":org", $result["org"], PDO::PARAM_STR);
 					$query->bindValue(":country", $result["country"], PDO::PARAM_STR);
-					$query->bindValue(":netname", utf8_encode($result["netname"]), PDO::PARAM_STR);
-					$query->bindValue(":description", utf8_encode($result["description"]), PDO::PARAM_STR);
-					$query->bindValue(":remarks", utf8_encode($result["remarks"]), PDO::PARAM_STR);
+					$query->bindValue(":netname", @utf8_encode($result["netname"]), PDO::PARAM_STR);
+					$query->bindValue(":description", @utf8_encode($result["description"]), PDO::PARAM_STR);
+					$query->bindValue(":remarks", @utf8_encode($result["remarks"]), PDO::PARAM_STR);
 					$query->bindValue(":status", $result["status"], PDO::PARAM_STR);
 					$query->bindValue(":created", $result["created"], PDO::PARAM_INT);
 					$query->bindValue(":modified", $result["modified"], PDO::PARAM_INT);

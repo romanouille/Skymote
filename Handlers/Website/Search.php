@@ -1,4 +1,6 @@
 <?php
+$amp = false;
+
 require "Core/GeoIP.class.php";
 $match[0] = urldecode($match[0]);
 
@@ -13,7 +15,7 @@ if (!Cache::exists("search-{$match[0]}")) {
 } else {
 	$data = json_decode(Cache::read("search-{$match[0]}"), true);
 }
-$pageTitle = "Search";
-$pageDescription = "Results of search for '".htmlspecialchars($match[0])."'.";
+$pageTitle = "Recherche";
+$pageDescription = "Résultats de la recherche pour '{$match[0]}'.";
 
-require "Pages/$version/Search.php";
+require "Pages/Website/Search.php";

@@ -1,4 +1,7 @@
 <?php
+http_response_code(403);
+exit;
+
 $pageTitle = "API";
-$pageDescription = "The Skymote API makes it possible to obtain information on given IP addresses, such as their geolocation.";
-require "Pages/$version/Api.php";
+$pageDescription = "L'API bgp.skymote.net vous permet d'intégrer nos données dans vos applications, telles que des données de géolocalisation.";
+require "Pages/Website/Api.php";

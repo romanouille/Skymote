@@ -1,4 +1,6 @@
 <?php
+$amp = false;
+
 require "Core/GeoIP.class.php";
 
 if (isset($match[0])) {
@@ -14,17 +16,17 @@ if (isset($match[0])) {
 		$data = json_decode(Cache::read("isp-list-{$match[0]}"), true);
 	}
 	
-	$pageTitle = "List of Internet Service Providers";
-	$pageDescription = "List of Internet service providers in the region '".Locale::getDisplayRegion("-{$match[0]}", "en")."'.";
+	$pageTitle = "Liste des fournisseurs d'accès Internet";
+	$pageDescription = "Liste des fournisseurs d'accès Internet dans la région '".Locale::getDisplayRegion("-{$match[0]}", "fr")."'.";
 } else {
-	$pageTitle = "List of Internet Service Providers";
-	$pageDescription = "List of Internet service providers in a specific country.";
+	$pageTitle = "Liste des fournisseurs d'accès Internet";
+	$pageDescription = "Liste des fournisseurs d'accès Internet dans un pays spécifique.";
 }
 
 $countriesName = [];
 foreach ($countries as $countryCode) {
-	$countriesName[$countryCode] = Locale::getDisplayRegion("-$countryCode", "en");
+	$countriesName[$countryCode] = Locale::getDisplayRegion("-$countryCode", "fr");
 }
 asort($countriesName);
 
-require "Pages/$version/Isp_list.php";
+require "Pages/Website/Isp_list.php";
