@@ -11,7 +11,7 @@ require "Pages/Website/Layout/Start.php";
 		<option value="icmp"<?=isset($protocol) && $protocol == "icmp" ? " selected" : ""?>>ICMP</option>
 	</select>
 	<br>
-	
+    <img src="/Captcha.php" alt=""><input type="text" name="captcha" required>
 	<input type="submit"><br><br>
 </form>
 <?php

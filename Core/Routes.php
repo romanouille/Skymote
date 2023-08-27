@@ -28,6 +28,14 @@ $routes = [
 		"handler" => "Website/Search.php"
 	],
 	
+	"#^\/tools\/ping\?ip=(.+)&port=(.+)&protocol=(.+)&captcha=(.+)$#" => [
+		"handler" => "Website/Ping.php"
+	],
+	
+	"#^\/tools\/traceroute\?ip=(.+)&port=(.+)&protocol=(.+)&captcha=(.+)$#" => [
+		"handler" => "Website/Traceroute.php"
+	],
+	
 	"#^\/tools\/ping\?ip=(.+)&port=(.+)&protocol=(.+)$#" => [
 		"handler" => "Website/Ping.php"
 	],

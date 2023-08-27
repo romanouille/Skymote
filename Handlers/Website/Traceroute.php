@@ -1,12 +1,17 @@
 <?php
+session_start();
 $amp = false;
 
 require "Core/GeoIP.class.php";
 
-if (!empty($match)) {
-	$ip = $match[0];
-	$port = $match[1];
-	$protocol = $match[2];
+$ip = $match[0];
+$port = $match[1];
+$protocol = $match[2];
+$data = [];
+
+
+if (!empty($match) && isset($_SESSION["code"]) && isset($match[3]) && $_SESSION["code"] == $match[3]) {
+	$_SESSION["code"] = random_int(1000, 9999);
 
 	if (!GeoIP::validateIp($ip)) {
 		http_response_code(400);
