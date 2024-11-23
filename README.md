@@ -1,0 +1,1 @@
+Ce projet, que j'ai mené depuis ma dernière année de terminale, avait pour but de mettre en place un service similaire à MaxMind/DNSlytics, en se basant sur les documents mis en ligne par le RIPE et les autres RIR. Ce projet est désormais clôturé.
